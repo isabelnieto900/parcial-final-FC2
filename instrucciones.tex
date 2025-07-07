@@ -1,0 +1,145 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{margin=2cm}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{siunitx}
+\usepackage{physics}
+
+\title{\textbf{Examen Final de Física Computacional II}}
+\author{Profesor: John  Díaz }
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%-------------------------------------------------
+\section*{Instrucciones Generales}
+Cada \textbf{grupo de trabajo} (máximo dos personas) debe desarrollar un proyecto final compuesto por \textbf{tres partes} seleccionadas según el esquema siguiente:
+
+\begin{tcolorbox}[colback=gray!10,colframe=black!80,title=Trabajo por grupo]
+\begin{itemize}
+  \item \textbf{Un (1) problema de la Parte A} – Simulación de un sistema físico usando Programación Orientada a Objetos (POO).
+  \item \textbf{Un (1) problema de la Parte B1} – Generación y análisis de números aleatorios.
+  \item \textbf{Un (1) problema de la Parte B2} – Aplicación del método de Monte Carlo a la Física Estadística.
+\end{itemize}
+\end{tcolorbox}
+
+\noindent Para \emph{todas} las partes se exige:
+\begin{itemize}
+  \item Implementación en \textbf{C++} con POO y estructura modular: \texttt{src/}, \texttt{include/}, \texttt{results/}, \texttt{scripts/}, \texttt{documents/}, \texttt{bin/}.
+  \item Métodos numéricos apropiados (\emph{Verlet}, \emph{Euler}, \emph{RK4}, etc.).
+  \item Visualización científica (trayectorias, histogramas, energías, distribuciones).
+  \item Documentación completa en \LaTeX\ (teoría, resultados, análisis físico).
+  \item Comentarios con formato \texttt{Doxygen} y,si quiere ir más allá, un archivo \texttt{Doxyfile}.
+  \item \texttt{Makefile} funcional para compilar el proyecto, generar documentación y producir gráficos/informes.
+\end{itemize}
+
+Cada entrega debe incluir:
+\begin{enumerate}[label=\alph*)]
+  \item Código fuente y ejecutable.
+  \item Scripts de graficación (\texttt{.gp}(gnuplot), \texttt{.py}(python), \texttt{.m}(octave)).
+  \item Carpeta \texttt{results/} con datos y Figuras.
+  \item Informe principal en \LaTeX.
+  \item Si quiere: Documentación HTML/PDF generada con \texttt{doxygen}.
+  \item Carpeta comprimida con toda la estructura.
+\end{enumerate}
+
+%-------------------------------------------------
+\section{Parte A: Simulación de Sistemas Físicos con POO}
+Este problema se acompaña de objetivos, fundamento físico, requisitos técnicos, entrada/salida, visualización, documentación y criterios de evaluación.
+%------------ Problema 6 ------------------------------------------------
+\subsection{Problema 6: Movimiento Browniano en Medio Viscoso}
+
+\subsubsection*{Objetivo}
+Simular el movimiento browniano y analizar la difusión.
+
+\subsubsection*{Fundamento}
+\[
+m\frac{d\vec v}{dt}= -\gamma\vec v + \vec\eta(t),\quad
+\langle\eta_i(t)\eta_j(t')\rangle=2\gamma k_B T\,\delta_{ij}\,\delta(t-t').
+\]
+
+\subsubsection*{POO}
+Clase \texttt{ParticulaBrowniana}; método de \emph{Euler–Maruyama}.
+
+\subsubsection*{Visualización \& Documentación}
+\texttt{results/browniano.dat}; scripts \texttt{plot\_browniano.*}; informe \texttt{documents/browniano.tex}.
+
+
+\section{Parte B1: Generación de Números Aleatorios y Caminatas Aleatorias}
+
+Antes de resolver los problemas, cada grupo debe entregar un documento \texttt{documents/investigacion.tex} que explique:
+\begin{itemize}
+  \item Concepto y requisitos de los \emph{pseudonúmeros aleatorios}.
+  \item Ejemplo de generador simple en C++ y visualización de correlaciones.
+  \item Uso y precauciones de los RNG en simulaciones físicas.
+  \item Descripción del generador \texttt{MIXMAX}.
+  \item Definición de \emph{caminata aleatoria} y su relación con difusión.
+  \item Comparación de \texttt{rand()}, \texttt{drand48()}, \texttt{<random>}, etc.
+\end{itemize}
+Problema seleccionado:
+%------------ B1.2 ------------------------------------------------------
+\subsection{Problema B1.2: Caminata Aleatoria Autoevitante (SAW)}
+
+\begin{itemize}
+  \item Implementar SAW en retícula 2D; medir tiempo de CPU y máximo $N$ factible.
+  \item Investigar un algoritmo más eficiente y describirlo.
+  \item Clase sugerida: \texttt{SAWSimulador}.
+\end{itemize}
+
+
+\section{Parte B2: Aplicación del Método de Monte Carlo a la Física Estadística}
+Problema seleccionado:
+%------------ B2.4 ------------------------------------------------------
+\subsection{Problema B2.4: Integración de $e^{-x^2}$ por Muestreo Aleatorio}
+
+\begin{itemize}
+  \item Calcular $\displaystyle\int_0^1 e^{-x^2}\,dx$ con Monte Carlo.
+  \item Graficar error vs.\ número de muestras.
+  \item Clase sugerida: \texttt{IntegradorMonteCarlo}.
+\end{itemize}
+
+\section*{Investigación Final: Método de Monte Carlo y Física Estadística}
+
+Entregar \texttt{documents/montecarlo.tex} con:
+\begin{itemize}
+  \item Introducción general al método de Monte Carlo.
+  \item Tipos de integrales y problemas que resuelve.
+  \item Aplicaciones a distintos ensambles (microcanónico, canónico, gran canónico).
+  \item Propuesta e implementación de Integración de $e^{-x^2}$.
+\end{itemize}
+
+El problema debe:
+\begin{itemize}
+  \item Usar POO y modularización.
+  \item Guardar resultados en \texttt{results/}.
+  \item Incluir visualizaciones en \texttt{scripts/}.
+  \item Documentarse en el mismo archivo \LaTeX.
+\end{itemize}
+
+%-------------------------------------------------
+\section*{Entrega y Calificación}
+\begin{itemize}
+  \item \textbf{Fecha límite:9/7/23} .
+  \item Puntuación total: \textbf{100 pts}.  Cada parte vale 33.3 pts, ponderados según:
+    \begin{itemize}
+      \item Video de Sustentación  (20\%).  
+      \item Correctitud física y numérica (30\%).
+      \item Estructura de código y POO (20\%).
+      \item Visualización y análisis (20\%).
+      \item Documentación y estilo (\LaTeX\ + Doxygen) (10\%).
+    \end{itemize}
+  \item Suba un archivo \texttt{.zip} con la estructura completa al aula virtual.
+\end{itemize}
+
+\end{document}

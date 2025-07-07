@@ -1,0 +1,109 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{siunitx}
+\usepackage{physics} % Para notación física como \vb (vector bold), \expval, \pdv
+
+\title{Parte A: Simulación del Movimiento Browniano en un Medio Viscoso}
+\author{Física Computacional II - Grupo [Número/Nombre del Grupo]}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Objetivo}
+El objetivo principal de esta parte del proyecto es simular el movimiento browniano de una partícula inmersa en un medio viscoso. Se busca analizar su trayectoria y estudiar propiedades estadísticas como el desplazamiento cuadrático medio para verificar la relación de difusión de Einstein.
+
+\section{Fundamento Físico}
+El movimiento de una partícula browniana de masa $m$ puede describirse mediante la ecuación de Langevin:
+\begin{equation}
+    m\frac{d\vb{v}}{dt} = -\gamma\vb{v} + \vb{\eta}(t)
+    \label{eq:langevin}
+\end{equation}
+donde:
+\begin{itemize}
+    \item $\vb{v}$ es la velocidad de la partícula.
+    \item $-\gamma\vb{v}$ es la fuerza de arrastre viscoso, con $\gamma$ siendo el coeficiente de fricción. Para una partícula esférica de radio $R$ en un fluido de viscosidad $\eta_f$, $\gamma = 6\pi\eta_f R$.
+    \item $\vb{\eta}(t)$ es una fuerza estocástica (aleatoria) que representa las colisiones de las moléculas del fluido con la partícula. Esta fuerza tiene las siguientes propiedades estadísticas:
+    \begin{align}
+        \expval{\eta_i(t)} &= 0 \\
+        \expval{\eta_i(t)\eta_j(t')} &= 2\gamma k_B T\,\delta_{ij}\,\delta(t-t')
+        \label{eq:fuerza_estocastica}
+    \end{align}
+    donde $k_B$ es la constante de Boltzmann y $T$ es la temperatura absoluta del fluido.
+\end{itemize}
+La relación de Einstein para la difusión establece que el desplazamiento cuadrático medio $\expval{\vb{r}(t) - \vb{r}(0)}^2$ de la partícula es proporcional al tiempo para tiempos suficientemente largos:
+\begin{equation}
+    \expval{(\Delta\vb{r}(t))^2} = 2dDt
+    \label{eq:difusion_einstein}
+\end{equation}
+donde $d$ es la dimensionalidad del movimiento y $D$ es el coeficiente de difusión, dado por $D = \frac{k_B T}{\gamma}$.
+
+\section{Implementación Numérica}
+\subsection{Clase ParticulaBrowniana}
+Se implementó una clase \texttt{ParticulaBrowniana} para encapsular las propiedades y el comportamiento de la partícula. Sus miembros privados incluyen la posición $\vb{r}$, la velocidad $\vb{V}$, la masa $m$, el coeficiente de fricción $\gamma$, y el producto $k_B T$.
+
+\subsection{Método de Euler-Maruyama}
+Para integrar numéricamente la ecuación de Langevin (Ecuación \ref{eq:langevin}), que es una ecuación diferencial estocástica, se utilizó el método de Euler-Maruyama. La discretización de la ecuación es:
+\begin{align}
+    \vb{V}_{n+1} &= \vb{V}_n - \frac{\gamma}{m}\vb{V}_n \Delta t + \frac{1}{m}\sqrt{2\gamma k_B T \Delta t} \vb{N}(0,1) \\
+    \vb{r}_{n+1} &= \vb{r}_n + \vb{V}_{n+1} \Delta t
+\end{align}
+donde $\vb{N}(0,1)$ es un vector de números aleatorios independientes extraídos de una distribución normal estándar (media cero, varianza uno) y $\Delta t$ es el paso de tiempo. El término $\sqrt{\Delta t} \vb{N}(0,1)$ representa el incremento de Wiener $d\vb{W}$.
+
+\section{Resultados y Análisis}
+\subsection{Parámetros de Simulación}
+\begin{itemize}
+    \item Masa de la partícula ($m$): \SI{1e-15}{\kilo\gram}
+    \item Radio de la partícula ($R$): \SI{1}{\micro\meter}
+    \item Temperatura ($T$): \SI{300}{\kelvin}
+    \item Viscosidad del medio ($\eta_f$, agua): \SI{0.85e-3}{\pascal\second}
+    \item Coeficiente de fricción ($\gamma = 6\pi\eta_f R$): Calculado.
+    \item Paso de tiempo ($\Delta t$): \SI{0.001}{\second}
+    \item Tiempo total de simulación: \SI{10}{\second}
+\end{itemize}
+
+\subsection{Trayectoria de la Partícula}
+Se simuló la trayectoria de una partícula en 2D (o 3D proyectada).
+% Incluir figura de la trayectoria
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{../results/trayectoria_browniana.png}
+    \caption{Ejemplo de trayectoria 2D de una partícula browniana.}
+    \label{fig:trayectoria}
+\end{figure}
+
+\subsection{Desplazamiento Cuadrático Medio (MSD)}
+Se calculó el MSD promediando sobre múltiples trayectorias (o una trayectoria muy larga, asumiendo ergodicidad para ciertos regímenes).
+% Incluir figura del MSD vs. tiempo
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{../results/msd_browniano.png}
+    \caption{Desplazamiento cuadrático medio en función del tiempo. La línea recta indica el comportamiento difusivo esperado.}
+    \label{fig:msd}
+\end{figure}
+A partir de la pendiente de la gráfica MSD vs. $t$, se puede estimar el coeficiente de difusión $D$.
+
+\section{Conclusiones (Parte A)}
+Breve resumen de los hallazgos y la validación del modelo.
+
+% \section{Apéndice: Código}
+% \lstinputlisting[language=C++, caption=ParticulaBrowniana.h, basicstyle=\footnotesize\ttfamily]{../../include/ParticulaBrowniana.h}
+% \lstinputlisting[language=C++, caption=SimuladorBrowniano.cpp, basicstyle=\footnotesize\ttfamily]{../../src/SimuladorBrowniano.cpp}
+
+\end{document}

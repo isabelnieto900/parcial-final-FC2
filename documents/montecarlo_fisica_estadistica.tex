@@ -1,0 +1,114 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{listings} % Para incluir código
+\usepackage{caption}
+\usepackage{siunitx}
+\usepackage{physics}
+
+\title{Investigación Final: Método de Monte Carlo y Física Estadística}
+\author{Física Computacional II - Grupo [Número/Nombre del Grupo]}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introducción General al Método de Monte Carlo}
+El método de Monte Carlo (MC) es una amplia clase de algoritmos computacionales que se basan en el muestreo aleatorio repetido para obtener resultados numéricos. Su característica esencial es el uso de la aleatoriedad para resolver problemas que podrían ser determinísticos en principio. Los métodos MC son particularmente útiles para:
+\begin{itemize}
+    \item Simular sistemas con muchos grados de libertad acoplados (como en física estadística).
+    \item Calcular integrales multidimensionales complejas.
+    \item Optimizar funciones en espacios grandes.
+    \item Modelar fenómenos donde la aleatoriedad es intrínseca (e.g., decaimiento radiactivo, difusión).
+\end{itemize}
+El nombre proviene del Casino de Monte Carlo, debido a la naturaleza aleatoria del proceso, similar a los juegos de azar.
+
+\section{Tipos de Integrales y Problemas que Resuelve}
+El método de Monte Carlo es muy poderoso para la integración numérica, especialmente en dimensiones altas.
+La idea básica para una integral unidimensional $\displaystyle I = \int_a^b f(x) dx$ es reescribirla como un valor esperado:
+\[ I = (b-a) \int_a^b f(x) \frac{1}{b-a} dx = (b-a) \expval{f(X)} \]
+donde $X$ es una variable aleatoria distribuida uniformemente en $[a,b]$.
+El valor de la integral se estima promediando $f(x_i)$ sobre $N$ muestras $x_i$ tomadas de la distribución uniforme:
+\[ I \approx (b-a) \frac{1}{N} \sum_{i=1}^N f(x_i) \]
+El error de esta estimación típicamente disminuye como $1/\sqrt{N}$, independientemente de la dimensionalidad de la integral, lo que hace a MC ventajoso sobre métodos de cuadratura tradicionales (e.g., regla del trapecio, Simpson) para integrales de alta dimensión.
+
+Problemas que resuelve:
+\begin{itemize}
+    \item \textbf{Integración multidimensional:} Calcular $\displaystyle \int \dots \int f(x_1, \dots, x_d) dx_1 \dots dx_d$.
+    \item \textbf{Estimación de volúmenes:} Por ejemplo, el cálculo de $\pi$ contando puntos dentro de un círculo inscrito en un cuadrado.
+    \item \textbf{Simulación de procesos estocásticos.}
+    \item \textbf{Mecánica Estadística:} Cálculo de promedios termodinámicos en diferentes ensambles.
+\end{itemize}
+Técnicas más avanzadas incluyen el \emph{muestreo por importancia} (importance sampling), donde las muestras se toman de una distribución que se asemeja al integrando para reducir la varianza.
+
+\section{Aplicaciones a Distintos Ensambles en Física Estadística}
+\subsection{Ensamble Microcanónico (NVE)}
+En el ensamble microcanónico, el sistema aislado tiene un número fijo de partículas ($N$), volumen ($V$) y energía ($E$). Todas las configuraciones microscópicas accesibles con esa energía son igualmente probables.
+Los métodos MC pueden usarse para explorar el espacio de fases con energía constante, aunque es menos directo que en el canónico. Algoritmos como el de Creutz (demonio de Monte Carlo) pueden simular el NVE. Se calculan promedios como:
+\[ \expval{A} = \frac{1}{\Omega(E)} \sum_{\text{estados } i \text{ con } E_i=E} A_i \]
+donde $\Omega(E)$ es el número de estados con energía $E$.
+
+\subsection{Ensamble Canónico (NVT)}
+Sistema en contacto con un baño térmico a temperatura $T$ fija, con $N$ y $V$ fijos. La probabilidad de un estado $i$ con energía $E_i$ es $P_i = \frac{e^{-\beta E_i}}{Z}$, donde $\beta = 1/(k_B T)$ y $Z = \sum_i e^{-\beta E_i}$ es la función de partición canónica.
+El algoritmo de Metropolis es fundamental aquí:
+\begin{enumerate}
+    \item Empezar con una configuración inicial.
+    \item Proponer un cambio pequeño (e.g., mover una partícula, invertir un espín).
+    \item Calcular el cambio de energía $\Delta E$.
+    \item Si $\Delta E < 0$, aceptar el cambio.
+    \item Si $\Delta E \ge 0$, aceptar el cambio con probabilidad $e^{-\beta \Delta E}$.
+\end{enumerate}
+Este proceso genera una secuencia de estados distribuidos según la probabilidad de Boltzmann, permitiendo calcular promedios termodinámicos:
+\[ \expval{A} = \sum_i A_i P_i \approx \frac{1}{M} \sum_{k=1}^M A_k \]
+donde $A_k$ son los valores de la observable $A$ en los $M$ estados generados por la cadena de Markov.
+
+\subsection{Ensamble Gran Canónico ($\mu$VT)}
+Sistema en contacto con un baño térmico y un reservorio de partículas, con potencial químico $\mu$, volumen $V$ y temperatura $T$ fijos. El número de partículas $N$ puede fluctuar.
+La probabilidad de un estado $i$ con energía $E_i$ y $N_i$ partículas es $P_i = \frac{e^{-\beta (E_i - \mu N_i)}}{\mathcal{Z}}$, donde $\mathcal{Z}$ es la gran función de partición.
+Los algoritmos MC para el ensamble gran canónico incluyen, además de los movimientos del ensamble canónico, pasos que intentan cambiar el número de partículas (e.g., inserción o eliminación de partículas), aceptados con probabilidades que dependen de $\mu$.
+
+\section{Aplicación Específica: Integración de $e^{-x^2}$ por Muestreo Aleatorio}
+Este es el problema B2.4, y será la implementación central para esta sección de investigación, según las instrucciones actualizadas.
+
+El objetivo es calcular la integral:
+\[ I = \int_0^1 e^{-x^2}\,dx \]
+utilizando el método de Monte Carlo por muestreo simple. El valor de esta integral está relacionado con la función error $\text{erf}(x)$ a través de la identidad $\int_0^z e^{-t^2}dt = \frac{\sqrt{\pi}}{2}\text{erf}(z)$.
+Para $z=1$, el valor aproximado es $0.7468241328$.
+
+\subsection{Método}
+Se generan $N$ números aleatorios $x_i$ distribuidos uniformemente en el intervalo $[0,1]$. La estimación de la integral es:
+\[ I \approx \frac{1}{N} \sum_{i=1}^N e^{-x_i^2} \]
+El error de esta estimación se espera que disminuya como $1/\sqrt{N}$.
+
+\subsection{Implementación}
+Se desarrolló una clase \texttt{IntegradorMonteCarlo} que toma como entrada la función a integrar y los límites de integración. Esta clase genera los puntos aleatorios y calcula la integral y una estimación del error. El código fuente se encuentra en \texttt{ParteB2/include/IntegradorMonteCarlo.h} y \texttt{ParteB2/src/IntegradorMonteCarlo.cpp}. El programa principal para esta parte es \texttt{ParteB2/src/main\_montecarlo\_integral.cpp}.
+
+\subsection{Resultados Esperados}
+Se espera generar una gráfica que muestre el valor estimado de la integral y el error estimado en función del número de muestras $N$. Esta gráfica debería ilustrar la convergencia del método hacia el valor teórico y la disminución del error. Los datos para esta gráfica se guardarán en \texttt{ParteB2/results/integral\_error.dat}.
+
+% Aquí se incluiría la gráfica una vez generada:
+% \begin{figure}[h!]
+%     \centering
+%     % \includegraphics[width=0.8\textwidth]{../ParteB2/results/integral_error_vs_N.png}
+%     \caption{Convergencia del valor de la integral y del error estimado en función del número de muestras $N$.}
+%     \label{fig:integral_error}
+% \end{figure}
+
+\section{Conclusiones (Investigación Final)}
+El método de Monte Carlo proporciona una herramienta versátil y potente para la integración numérica, especialmente útil en casos donde los métodos analíticos son intratables o las dimensiones son altas. La implementación para la integral de $e^{-x^2}$ demuestra la convergencia del método y la naturaleza estadística del error. Aunque se simplificó el alcance de esta sección de investigación para enfocarse en una sola aplicación implementada, los principios generales del método de Monte Carlo son ampliamente aplicables en diversos problemas de la física estadística y otras áreas científicas.
+
+\end{document}

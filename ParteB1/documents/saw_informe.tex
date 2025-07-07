@@ -1,0 +1,110 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{siunitx}
+\usepackage{physics}
+
+\title{Informe Parte B1: Caminata Aleatoria Autoevitante (SAW)}
+\author{Física Computacional II - Grupo [Número/Nombre del Grupo]}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introducción}
+Una Caminata Aleatoria Autoevitante (Self-Avoiding Walk, SAW) es una trayectoria en una retícula que no visita el mismo sitio más de una vez. Las SAWs son modelos fundamentales en física estadística y química de polímeros, donde representan la configuración espacial de una cadena polimérica lineal en un buen solvente (donde el volumen excluido es dominante).
+
+El objetivo de esta parte del proyecto es implementar una simulación de SAW en una retícula cuadrada bidimensional, medir algunas de sus propiedades estadísticas y analizar el rendimiento del algoritmo de generación simple.
+
+La investigación teórica sobre números aleatorios, generadores y caminatas aleatorias en general se encuentra en el documento principal \texttt{../../documents/investigacion\_aleatorios.tex}.
+
+\section{Algoritmo de Generación de SAW (Simple)}
+Se implementó un algoritmo de crecimiento simple para generar las SAWs:
+\begin{enumerate}
+    \item Iniciar la caminata en el origen (0,0) de la retícula. Marcar el origen como visitado.
+    \item En cada paso, identificar todos los sitios vecinos no visitados.
+    \item Si no hay vecinos no visitados disponibles, la caminata se considera "atascada" y termina prematuramente.
+    \item Si hay uno o más vecinos no visitados disponibles, elegir uno de ellos al azar con igual probabilidad.
+    \item Moverse al sitio elegido, marcarlo como visitado y añadirlo a la trayectoria.
+    \item Repetir desde el paso 2 hasta que la caminata alcance una longitud predefinida $N_{max}$ (número de pasos) o se atasque.
+\end{enumerate}
+Este es un algoritmo de "crecimiento simple" y es conocido por ser ineficiente para generar SAWs largas, ya que la probabilidad de que la caminata se atasque aumenta rápidamente con su longitud.
+
+\subsection{Clase SAWSimulador}
+Se desarrolló la clase \texttt{SAWSimulador} para encapsular la lógica de la simulación. Utiliza una estructura \texttt{Point2D} para las coordenadas de la retícula, un \texttt{std::vector<Point2D>} para almacenar la trayectoria y un \texttt{std::set<Point2D>} para un seguimiento eficiente de los sitios visitados. La aleatoriedad se introduce mediante \texttt{std::mt19937} y \texttt{std::uniform\_int\_distribution}.
+
+\section{Resultados y Análisis}
+\subsection{Parámetros de Simulación}
+Se realizaron simulaciones variando la longitud objetivo de la caminata ($N_{max\_pasos}$) y el número de intentos de generación ($N_{simulaciones}$).
+\begin{itemize}
+    \item $N_{max\_pasos}$: (e.g., 10, 20, 50, 100, ...)
+    \item $N_{simulaciones}$: (e.g., 10000, 100000, ...)
+    \item Semilla del generador aleatorio: (especificar)
+\end{itemize}
+
+\subsection{Ejemplo de Trayectoria}
+Una trayectoria de ejemplo para $N_{max\_pasos} = 50$ se muestra en la Figura \ref{fig:saw_trayectoria}.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../results/saw_plot_N50_trayectoria.png} % Ajustar nombre de archivo
+    \caption{Ejemplo de una Caminata Aleatoria Autoevitante (SAW) de hasta 50 pasos en una retícula 2D.}
+    \label{fig:saw_trayectoria}
+\end{figure}
+
+\subsection{Fracción de Caminatas Exitosas y Longitud Media}
+No todas las caminatas alcanzan la longitud $N_{max\_pasos}$ debido al atrapamiento. Se midió la fracción de caminatas "exitosas" (aquellas que alcanzan $N_{max\_pasos}$).
+% Incluir tabla o gráfica de fracción de éxito vs N_max_pasos.
+% Incluir tabla o gráfica de longitud media alcanzada vs N_max_pasos.
+
+\subsection{Desplazamiento Cuadrático Medio ($R^2$)}
+Para las caminatas que alcanzan la longitud $N$, el desplazamiento cuadrático medio entre los extremos de la caminata, $\expval{R_N^2}$, es una cantidad de interés. Se espera que escale como:
+\begin{equation}
+    \expval{R_N^2} \sim A N^{2\nu}
+\end{equation}
+donde $\nu$ es el exponente de Flory. Para SAWs en 2D, el valor teórico es $\nu = 3/4$, por lo que $\expval{R_N^2} \sim A N^{3/2}$.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{../results/saw_plot_N50_R2_vs_N.png} % Ajustar nombre de archivo
+    \caption{Gráfica de $R^2$ versus la longitud real $N$ para las caminatas exitosas (hasta $N_{max\_pasos}=50$). Se podría intentar un ajuste de potencia para estimar $\nu$.}
+    \label{fig:saw_r2_vs_n}
+\end{figure}
+\textit{Análisis del ajuste y del valor de $\nu$ obtenido...}
+
+\subsection{Tiempo de CPU}
+Se midió el tiempo de CPU necesario para generar un número grande de caminatas para diferentes $N_{max\_pasos}$.
+% Incluir tabla o gráfica de tiempo de CPU vs N_max_pasos o vs N_simulaciones.
+\textit{Discusión sobre la escalabilidad del algoritmo simple...} El máximo $N$ factible con este algoritmo simple antes de que la fracción de éxito sea demasiado baja o el tiempo de cómputo prohibitivo es...
+
+\section{Investigación de Algoritmos Más Eficientes}
+El algoritmo de crecimiento simple implementado sufre de un severo problema de \textit{atrición}, donde la mayoría de las caminatas se atascan antes de alcanzar longitudes grandes. Algoritmos más eficientes incluyen:
+\begin{itemize}
+    \item \textbf{Algoritmo de Rosenbluth y Rosenbluth (Enriquecimiento):}
+    En cada paso, en lugar de elegir una de las $k$ posibles continuaciones con probabilidad $1/k$, se elige una y se le asigna un peso $k$. La caminata se continúa, y el peso total de la caminata es el producto de los pesos de cada paso. Los promedios se calculan como $\expval{A} = (\sum_i A_i W_i) / (\sum_i W_i)$, donde $W_i$ es el peso de la i-ésima caminata. Esto evita el sesgo hacia caminatas más cortas o menos restringidas, pero las fluctuaciones en los pesos pueden ser grandes.
+    \item \textbf{Algoritmos de Pivote (Pivot Algorithms):}
+    Estos algoritmos operan sobre una SAW ya existente de $N$ pasos. Se elige un punto aleatorio ("pivote") en la caminata. La porción de la caminata desde el pivote hasta uno de los extremos se somete a una operación de simetría de la retícula (rotación, reflexión) alrededor del pivote. Si la nueva configuración sigue siendo autoevitante, se acepta; de lo contrario, se rechaza y se mantiene la configuración original. Este método es muy eficiente para generar SAWs largas y muestrear su espacio conformacional, ya que evita el problema de atrición. El algoritmo de Madras-Slade es un ejemplo canónico.
+    \item \textbf{Algoritmo de Doblado-Enriquecido (BERP - Bending-Enriched Rosenbluth Method) o Algoritmos Basados en Pruning-Enrichment (PERM):}
+    Son variantes más sofisticadas que intentan mejorar la eficiencia del muestreo y reducir las fluctuaciones de peso, a menudo usando técnicas de "poda" de ramas desfavorables de la caminata y "enriquecimiento" (replicación) de ramas prometedoras.
+\end{itemize}
+Estos algoritmos son considerablemente más complejos de implementar que el crecimiento simple, pero son esenciales para estudiar SAWs de longitudes relevantes en física de polímeros.
+
+\section{Conclusiones (Parte B1)}
+Resumen de los resultados de la simulación de SAW y la discusión sobre la eficiencia de los algoritmos.
+
+\end{document}

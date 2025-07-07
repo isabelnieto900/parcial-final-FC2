@@ -3,6 +3,7 @@
 #define VECTOR3D_H
 
 #include <iostream>
+#include <cmath> // Para std::sqrt
 
 class Vector3D {
 public:
@@ -20,6 +21,7 @@ public:
 
     // Otros métodos útiles
     double norm() const; // Magnitud del vector
+    double norm2() const; // Magnitud al cuadrado
     Vector3D normalized() const; // Vector unitario
 
     // Sobrecarga del operador de inserción para imprimir

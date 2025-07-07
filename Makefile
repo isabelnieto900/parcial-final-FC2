@@ -1,120 +1,119 @@
-# Makefile para el Proyecto Final de Física Computacional II
+# Makefile Principal del Proyecto Final de Física Computacional II
 
-# Compilador y flags
+# --- Variables ---
+# Compiladores y herramientas (pueden ser sobrescritos por Makefiles de subdirectorios si es necesario)
 CXX = g++
-CXXFLAGS_COMMON = -std=c++11 -Wall
-LDFLAGS = -lm # Enlazar librería matemática si es necesario (ej. para sqrt, exp en Vector3D o mains)
+PDFLATEX = pdflatex -interaction=nonstopmode
+DOXYGEN = doxygen
 
-# Directorios Raíz
-ROOTDIR = .
-COMMON_INCDIR = $(ROOTDIR)/common/include
-COMMON_SRCDIR = $(ROOTDIR)/common/src
-DOCDIR = $(ROOTDIR)/documents
+# Directorios de las partes
+PART_A_DIR = ParteA
+PART_B1_DIR = ParteB1
+PART_B2_DIR = ParteB2
+DOCS_DIR = documents
 
-# --- Parte A: Movimiento Browniano ---
-PART_A_DIR = $(ROOTDIR)/ParteA
-PART_A_SRCDIR = $(PART_A_DIR)/src
-PART_A_INCDIR = $(PART_A_DIR)/include
-PART_A_BINDIR = $(PART_A_DIR)/bin
-PART_A_RESULTSDIR = $(PART_A_DIR)/results
-TARGET_A = $(PART_A_BINDIR)/movimiento_browniano
-SOURCES_A_SPECIFIC = $(PART_A_SRCDIR)/main_browniano.cpp $(PART_A_SRCDIR)/ParticulaBrowniana.cpp $(PART_A_SRCDIR)/SimuladorBrowniano.cpp
-SOURCES_COMMON = $(COMMON_SRCDIR)/Vector3D.cpp
-OBJECTS_A = $(SOURCES_A_SPECIFIC:.cpp=.o) $(SOURCES_COMMON:.cpp=.o)
-CXXFLAGS_A = $(CXXFLAGS_COMMON) -I$(COMMON_INCDIR) -I$(PART_A_INCDIR)
+# --- Targets Principales ---
 
-# --- Parte B1: Caminata Aleatoria Autoevitante (SAW) ---
-PART_B1_DIR = $(ROOTDIR)/ParteB1
-PART_B1_SRCDIR = $(PART_B1_DIR)/src
-PART_B1_INCDIR = $(PART_B1_DIR)/include
-PART_B1_BINDIR = $(PART_B1_DIR)/bin
-PART_B1_RESULTSDIR = $(PART_B1_DIR)/results
-TARGET_B1 = $(PART_B1_BINDIR)/saw_simulador
-SOURCES_B1_SPECIFIC = $(PART_B1_SRCDIR)/main_saw.cpp $(PART_B1_SRCDIR)/SAWSimulador.cpp
-# Vector3D.cpp de common podría no ser necesario si Point2D es suficiente y no se usa Vector3D.h en SAWSimulador.h
-# Si SAWSimulador.h usa Vector3D.h (aunque la plantilla usa Point2D), se debe añadir COMMON_SRCDIR)/Vector3D.cpp
-# Por ahora, asumimos que no lo necesita directamente o que Point2D es suficiente.
-OBJECTS_B1 = $(SOURCES_B1_SPECIFIC:.cpp=.o)
-CXXFLAGS_B1 = $(CXXFLAGS_COMMON) -I$(COMMON_INCDIR) -I$(PART_B1_INCDIR)
+# Compilar todos los subproyectos
+all: all_parts
 
-# --- Parte B2: Integración Monte Carlo ---
-PART_B2_DIR = $(ROOTDIR)/ParteB2
-PART_B2_SRCDIR = $(PART_B2_DIR)/src
-PART_B2_INCDIR = $(PART_B2_DIR)/include
-PART_B2_BINDIR = $(PART_B2_DIR)/bin
-PART_B2_RESULTSDIR = $(PART_B2_DIR)/results
-TARGET_B2 = $(PART_B2_BINDIR)/integrador_montecarlo
-SOURCES_B2_SPECIFIC = $(PART_B2_SRCDIR)/main_montecarlo_integral.cpp $(PART_B2_SRCDIR)/IntegradorMonteCarlo.cpp
-OBJECTS_B2 = $(SOURCES_B2_SPECIFIC:.cpp=.o)
-CXXFLAGS_B2 = $(CXXFLAGS_COMMON) -I$(COMMON_INCDIR) -I$(PART_B2_INCDIR)
+all_parts: part_a part_b1 part_b2
+	@echo "Todas las partes compiladas."
 
-# Regla principal: compilar todos los ejecutables
-all: $(TARGET_A) $(TARGET_B1) $(TARGET_B2)
+part_a:
+	@echo "Compilando Parte A: Movimiento Browniano..."
+	$(MAKE) -C $(PART_A_DIR) all
 
-# Reglas para compilar cada parte
-$(TARGET_A): $(OBJECTS_A)
-	mkdir -p $(PART_A_BINDIR)
-	$(CXX) $^ -o $@ $(LDFLAGS)
+part_b1:
+	@echo "Compilando Parte B1: Caminata Aleatoria Autoevitante..."
+	$(MAKE) -C $(PART_B1_DIR) all
 
-$(TARGET_B1): $(OBJECTS_B1)
-	mkdir -p $(PART_B1_BINDIR)
-	$(CXX) $^ -o $@ $(LDFLAGS)
+part_b2:
+	@echo "Compilando Parte B2: Integración Monte Carlo..."
+	$(MAKE) -C $(PART_B2_DIR) all
 
-$(TARGET_B2): $(OBJECTS_B2)
-	mkdir -p $(PART_B2_BINDIR)
-	$(CXX) $^ -o $@ $(LDFLAGS)
+# Generar toda la documentación (LaTeX de raíz y Doxygen de cada parte)
+docs: docs_pdf_root doxygen_all
+	@echo "Documentación generada."
 
-# Reglas genéricas para compilar archivos .cpp a .o
-# Para fuentes específicas de cada parte
-$(PART_A_SRCDIR)/%.o: $(PART_A_SRCDIR)/%.cpp
-	$(CXX) $(CXXFLAGS_A) -c $< -o $@
-
-$(PART_B1_SRCDIR)/%.o: $(PART_B1_SRCDIR)/%.cpp
-	$(CXX) $(CXXFLAGS_B1) -c $< -o $@
-
-$(PART_B2_SRCDIR)/%.o: $(PART_B2_SRCDIR)/%.cpp
-	$(CXX) $(CXXFLAGS_B2) -c $< -o $@
-
-# Para fuentes comunes
-$(COMMON_SRCDIR)/%.o: $(COMMON_SRCDIR)/%.cpp
-	$(CXX) $(CXXFLAGS_COMMON) -I$(COMMON_INCDIR) -c $< -o $@
+# Generar PDFs de los documentos LaTeX en el directorio raíz 'documents'
+DOCS_TEX_ROOT = $(wildcard $(DOCS_DIR)/*.tex)
+# Excluir los .tex que están dentro de los subdirectorios de las partes
+DOCS_TEX_ROOT_FILTERED = $(filter-out $(DOCS_DIR)/reporte_principal.tex, $(DOCS_TEX_ROOT)) # Excluir reporte principal si se genera de otra forma o incluye los otros
+# Podríamos ser más específicos:
+DOC_INVESTIGACION_ALEATORIOS = $(DOCS_DIR)/investigacion_aleatorios.pdf
+DOC_MONTECARLO_FISICA = $(DOCS_DIR)/montecarlo_fisica_estadistica.pdf
+DOC_REPORTE_PRINCIPAL = $(DOCS_DIR)/reporte_principal.pdf
 
 
-# --- Documentación ---
-DOC_BROWNIANO = $(DOCDIR)/browniano.pdf
-DOC_ALEATORIOS = $(DOCDIR)/investigacion_aleatorios.pdf
-DOC_MONTECARLO_FISICA = $(DOCDIR)/montecarlo_fisica_estadistica.pdf
-DOC_PRINCIPAL = $(DOCDIR)/reporte_principal.pdf
+docs_pdf_root: $(DOC_REPORTE_PRINCIPAL) $(DOC_INVESTIGACION_ALEATORIOS) $(DOC_MONTECARLO_FISICA)
+	@echo "Documentos LaTeX raíz generados."
 
-PDFLATEX = pdflatex -interaction=nonstopmode -output-directory=$(DOCDIR)
+$(DOCS_DIR)/%.pdf: $(DOCS_DIR)/%.tex
+	$(PDFLATEX) -output-directory=$(DOCS_DIR) $<
+	$(PDFLATEX) -output-directory=$(DOCS_DIR) $< # Segunda pasada para referencias
 
-# Generar todos los PDFs de LaTeX
-docs_pdf: $(DOC_PRINCIPAL) $(DOC_BROWNIANO) $(DOC_ALEATORIOS) $(DOC_MONTECARLO_FISICA)
+# Generar documentación Doxygen para todas las partes
+doxygen_all: doxygen_part_a doxygen_part_b1 doxygen_part_b2
+	@echo "Documentación Doxygen generada para todas las partes."
 
-$(DOCDIR)/%.pdf: $(DOCDIR)/%.tex
-	$(PDFLATEX) $<
-	$(PDFLATEX) $< # Compilar dos veces para referencias
+doxygen_part_a:
+	@echo "Generando Doxygen para Parte A..."
+	(cd $(PART_A_DIR) && $(DOXYGEN) Doxyfile)
 
-# Generar documentación Doxygen
-doxygen_doc: Doxyfile
-	doxygen Doxyfile
+doxygen_part_b1:
+	@echo "Generando Doxygen para Parte B1..."
+	(cd $(PART_B1_DIR) && $(DOXYGEN) Doxyfile)
 
-docs: doxygen_doc docs_pdf
+doxygen_part_b2:
+	@echo "Generando Doxygen para Parte B2..."
+	(cd $(PART_B2_DIR) && $(DOXYGEN) Doxyfile)
 
-# --- Limpieza ---
-clean:
-	rm -f $(PART_A_SRCDIR)/*.o $(PART_A_BINDIR)/*
-	rm -f $(PART_B1_SRCDIR)/*.o $(PART_B1_BINDIR)/*
-	rm -f $(PART_B2_SRCDIR)/*.o $(PART_B2_BINDIR)/*
-	rm -f $(COMMON_SRCDIR)/*.o
-	rm -f $(PART_A_RESULTSDIR)/*.dat $(PART_A_RESULTSDIR)/*.png
-	rm -f $(PART_B1_RESULTSDIR)/*.dat $(PART_B1_RESULTSDIR)/*.png
-	rm -f $(PART_B2_RESULTSDIR)/*.dat $(PART_B2_RESULTSDIR)/*.png
-	rm -f $(DOCDIR)/*.pdf $(DOCDIR)/*.log $(DOCDIR)/*.aux $(DOCDIR)/*.toc $(DOCDIR)/*.out $(DOCDIR)/*.synctex.gz
-	rm -rf $(DOCDIR)/html $(DOCDIR)/latex # Directorios de Doxygen
 
-# Target para generar todos los informes y la documentación
-informe: docs
-	@echo "Informes y documentación generados."
+# Limpieza
+clean: clean_parts clean_docs_root
+	@echo "Limpieza completa del proyecto raíz."
 
-.PHONY: all clean docs docs_pdf doxygen_doc informe
+clean_parts:
+	@echo "Limpiando Parte A..."
+	$(MAKE) -C $(PART_A_DIR) clean
+	@echo "Limpiando Parte B1..."
+	$(MAKE) -C $(PART_B1_DIR) clean
+	@echo "Limpiando Parte B2..."
+	$(MAKE) -C $(PART_B2_DIR) clean
+
+clean_docs_root:
+	@echo "Limpiando documentos LaTeX raíz y Doxygen de partes..."
+	rm -f $(DOCS_DIR)/*.pdf $(DOCS_DIR)/*.log $(DOCS_DIR)/*.aux $(DOCS_DIR)/*.toc $(DOCS_DIR)/*.out $(DOCS_DIR)/*.synctex.gz
+	# Doxygen clean se hace dentro de cada parte si es necesario, o aquí:
+	rm -rf $(PART_A_DIR)/$(DOCS_DIR)/html_browniano $(PART_A_DIR)/$(DOCS_DIR)/latex_browniano
+	rm -rf $(PART_B1_DIR)/$(DOCS_DIR)/html_saw $(PART_B1_DIR)/$(DOCS_DIR)/latex_saw
+	rm -rf $(PART_B2_DIR)/$(DOCS_DIR)/html_integral_mc $(PART_B2_DIR)/$(DOCS_DIR)/latex_integral_mc
+	@echo "Limpieza de documentación completada."
+
+
+# Ejecutar todos los programas (ejemplo, puede necesitar ajustes)
+run_all:
+	@echo "--- Ejecutando Parte A ---"
+	$(MAKE) -C $(PART_A_DIR) run
+	@echo "--- Ejecutando Parte B1 ---"
+	$(MAKE) -C $(PART_B1_DIR) run
+	@echo "--- Ejecutando Parte B2 ---"
+	$(MAKE) -C $(PART_B2_DIR) run
+
+# Generar todas las gráficas (ejemplo)
+plot_all:
+	@echo "--- Graficando Parte A ---"
+	$(MAKE) -C $(PART_A_DIR) plot
+	@echo "--- Graficando Parte B1 ---"
+	$(MAKE) -C $(PART_B1_DIR) plot
+	@echo "--- Graficando Parte B2 ---"
+	$(MAKE) -C $(PART_B2_DIR) plot
+
+# Target para la entrega final (compilar, ejecutar, generar docs y plots)
+entrega: all_parts run_all docs plot_all
+	@echo "Proceso de 'entrega' completado (compilado, ejecutado, docs y plots generados)."
+	@echo "Revisar los directorios 'results' y 'documents' en cada parte."
+	@echo "No olvides crear el archivo ZIP/TAR.GZ para la entrega."
+
+.PHONY: all all_parts part_a part_b1 part_b2 docs docs_pdf_root doxygen_all doxygen_part_a doxygen_part_b1 doxygen_part_b2 clean clean_parts clean_docs_root run_all plot_all entrega

@@ -1,9 +1,8 @@
 // Vector3D.cpp
-#include "Vector3D.h"
-#include <cmath> // Para std::sqrt
+#include "Vector3D.h" // Asegúrate que el Makefile maneje la ruta a include/
 
 // Constructores
-Vector3D::Vector3D(double x, double y, double z) : x(x), y(y), z(z) {}
+Vector3D::Vector3D(double x_val, double y_val, double z_val) : x(x_val), y(y_val), z(z_val) {}
 
 // Sobrecarga de operadores
 Vector3D Vector3D::operator+(const Vector3D& other) const {
@@ -31,20 +30,25 @@ Vector3D Vector3D::cross(const Vector3D& other) const {
 }
 
 // Otros métodos útiles
+double Vector3D::norm2() const {
+    return x * x + y * y + z * z;
+}
+
 double Vector3D::norm() const {
-    return std::sqrt(x * x + y * y + z * z);
+    return std::sqrt(norm2());
 }
 
 Vector3D Vector3D::normalized() const {
     double n = norm();
-    if (n > 0) { // Evitar división por cero
+    if (n > 1e-9) { // Evitar división por cero con un umbral pequeño
         return Vector3D(x / n, y / n, z / n);
     }
-    return Vector3D(); // Devuelve vector cero si la norma es cero
+    return Vector3D(0,0,0); // Devuelve vector cero si la norma es (casi) cero
 }
 
 // Sobrecarga del operador de inserción para imprimir
 std::ostream& operator<<(std::ostream& os, const Vector3D& vec) {
-    os << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
+    os << vec.x << " " << vec.y << " " << vec.z; // Formato más simple para archivos de datos
+    // os << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")"; // Formato original
     return os;
 }

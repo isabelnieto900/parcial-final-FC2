@@ -1,0 +1,137 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{siunitx}
+\usepackage{physics} % Para notación física como \vb (vector bold), \expval, \pdv
+
+\title{Informe Parte A: Simulación del Movimiento Browniano}
+\author{Física Computacional II - Grupo [Número/Nombre del Grupo]}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Objetivo}
+El objetivo principal de esta parte del proyecto es simular el movimiento browniano de una partícula inmersa en un medio viscoso utilizando la programación orientada a objetos en C++. Se busca analizar su trayectoria característica y estudiar propiedades estadísticas como el desplazamiento cuadrático medio (MSD) para verificar la relación de difusión de Einstein.
+
+\section{Fundamento Físico}
+El movimiento de una partícula browniana de masa $m$ puede describirse mediante la ecuación de Langevin:
+\begin{equation}
+    m\frac{d\vb{v}}{dt} = -\gamma\vb{v} + \vb{\eta}(t)
+    \label{eq:langevin_informe}
+\end{equation}
+donde:
+\begin{itemize}
+    \item $\vb{v}$ es la velocidad de la partícula.
+    \item $-\gamma\vb{v}$ es la fuerza de arrastre viscoso, con $\gamma$ siendo el coeficiente de fricción. Para una partícula esférica de radio $R$ en un fluido de viscosidad $\eta_f$, el coeficiente de Stokes es $\gamma = 6\pi\eta_f R$.
+    \item $\vb{\eta}(t)$ es una fuerza estocástica (aleatoria) que representa las colisiones de las moléculas del fluido con la partícula. Esta fuerza tiene las siguientes propiedades estadísticas:
+    \begin{align}
+        \expval{\eta_i(t)} &= 0 \\
+        \expval{\eta_i(t)\eta_j(t')} &= 2\gamma k_B T\,\delta_{ij}\,\delta(t-t')
+        \label{eq:fuerza_estocastica_informe}
+    \end{align}
+    donde $k_B$ es la constante de Boltzmann (\SI{1.380649e-23}{\joule\per\kelvin}) y $T$ es la temperatura absoluta del fluido.
+\end{itemize}
+En el régimen donde la inercia es despreciable (sobreamortiguado, $m \frac{d\vb{v}}{dt} \approx 0$), la ecuación se simplifica a:
+\begin{equation}
+    \gamma\vb{v} \approx \vb{\eta}(t)
+\end{equation}
+La relación de Einstein para la difusión establece que el desplazamiento cuadrático medio $\expval{(\Delta\vb{r}(t))^2} = \expval{(\vb{r}(t) - \vb{r}(0))^2}$ de la partícula es proporcional al tiempo para tiempos suficientemente largos:
+\begin{equation}
+    \expval{(\Delta\vb{r}(t))^2} = 2dDt
+    \label{eq:difusion_einstein_informe}
+\end{equation}
+donde $d$ es la dimensionalidad del movimiento (e.g., 2 para 2D, 3 para 3D) y $D$ es el coeficiente de difusión, dado por la relación de Stokes-Einstein:
+\begin{equation}
+    D = \frac{k_B T}{\gamma} = \frac{k_B T}{6\pi\eta_f R}
+    \label{eq:stokes_einstein}
+\end{equation}
+
+\section{Implementación Numérica}
+\subsection{Clases Utilizadas}
+\begin{itemize}
+    \item \textbf{Vector3D:} Una clase auxiliar para manejar vectores tridimensionales (posición, velocidad, etc.) y sus operaciones básicas (suma, resta, producto escalar, etc.).
+    \item \textbf{ParticulaBrowniana:} Encapsula las propiedades (posición \texttt{r}, velocidad \texttt{V}, masa \texttt{m}, coeficiente de fricción \texttt{gamma}, $k_B T$ \texttt{kT}) y el comportamiento de una partícula browniana. Utiliza un generador de números aleatorios Mersenne Twister (\texttt{std::mt19937}) y una distribución normal (\texttt{std::normal\_distribution}) para el término estocástico.
+    \item \textbf{SimuladorBrowniano:} Gestiona la simulación. Contiene un vector de objetos \texttt{ParticulaBrowniana}, controla el tiempo de simulación, el paso de tiempo $\Delta t$, y maneja la salida de datos a un archivo.
+\end{itemize}
+
+\subsection{Método de Euler-Maruyama}
+Para integrar numéricamente la ecuación de Langevin (Ecuación \ref{eq:langevin_informe}), que es una ecuación diferencial estocástica (SDE), se utilizó el método de Euler-Maruyama. La discretización de la ecuación para la velocidad y la posición es:
+\begin{align}
+    \vb{V}_{n+1} &= \vb{V}_n - \frac{\gamma}{m}\vb{V}_n \Delta t + \frac{\sqrt{2\gamma k_B T \Delta t}}{m} \vb{N}_n(0,1) \\
+    \vb{r}_{n+1} &= \vb{r}_n + \vb{V}_{n+1} \Delta t
+\end{align}
+donde $\vb{N}_n(0,1)$ es un vector tridimensional cuyos componentes son números aleatorios independientes extraídos de una distribución normal estándar (media cero, varianza uno) en el paso $n$. El término $\sqrt{\Delta t} \vb{N}_n(0,1)$ representa el incremento de Wiener $d\vb{W}_n$.
+
+\section{Resultados y Análisis}
+\subsection{Parámetros de Simulación Utilizados}
+Se realizaron simulaciones con los siguientes parámetros (o un conjunto representativo):
+\begin{itemize}
+    \item Masa de la partícula ($m$): \SI{1e-15}{\kilo\gram}
+    \item Radio de la partícula ($R$): \SI{1}{\micro\meter}
+    \item Temperatura ($T$): \SI{300}{\kelvin}
+    \item Viscosidad del medio ($\eta_f$, agua a \SI{300}{\kelvin}): \SI{0.85e-3}{\pascal\second}
+    \item Coeficiente de fricción ($\gamma = 6\pi\eta_f R$): \SI{1.602e-8}{\kilo\gram\per\second} (calculado)
+    \item Constante de Boltzmann ($k_B$): \SI{1.380649e-23}{\joule\per\kelvin}
+    \item $k_B T$: \SI{4.1419e-21}{\joule} (calculado)
+    \item Paso de tiempo ($\Delta t$): \SI{0.001}{\second} (o variado para análisis de convergencia)
+    \item Tiempo total de simulación: \SI{10}{\second} (o más para buen muestreo de MSD)
+    \item Semilla del generador aleatorio: (especificar la usada para reproducibilidad, e.g., 12345)
+\end{itemize}
+
+\subsection{Trayectoria de la Partícula}
+Se muestra una trayectoria típica de una partícula browniana simulada en 2D (proyección XY).
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{../results/browniano_sim_trayectoria_xy.png} % Ajustar nombre de archivo
+    \caption{Ejemplo de trayectoria 2D (proyección XY) de una partícula browniana simulada.}
+    \label{fig:trayectoria_informe}
+\end{figure}
+\textit{Análisis de la trayectoria observada...}
+
+\subsection{Desplazamiento Cuadrático Medio (MSD)}
+El MSD se calcula como $\expval{(\vb{r}(t) - \vb{r}(0))^2}$. Para obtener un buen promedio estadístico, se pueden promediar los resultados de múltiples simulaciones independientes o, para una simulación suficientemente larga (si el sistema es ergódico), se puede calcular usando promedios temporales sobre diferentes puntos de inicio.
+
+Se espera que el MSD sea lineal con el tiempo para un proceso difusivo, $\text{MSD}(t) = 2dDt$, donde $d$ es la dimensionalidad.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{../results/browniano_sim_msd_vs_t.png} % Ajustar nombre de archivo
+    \caption{Desplazamiento cuadrático medio (MSD) en función del tiempo. La línea roja punteada representa un ajuste lineal esperado para el régimen difusivo.}
+    \label{fig:msd_informe}
+\end{figure}
+A partir de la pendiente de la gráfica MSD vs. $t$ en el régimen lineal, se puede estimar el coeficiente de difusión $D_{sim}$.
+Pendiente $= 2dD_{sim}$.
+El valor teórico de $D$ se calcula usando la Ecuación \ref{eq:stokes_einstein}.
+$D_{teo} = k_B T / \gamma = \SI{4.1419e-21}{\joule} / \SI{1.602e-8}{\kilo\gram\per\second} \approx \SI{2.585e-13}{\meter\squared\per\second}$.
+
+\textit{Comparación del $D_{sim}$ con $D_{teo}$ y discusión de las posibles desviaciones o concordancias...}
+
+\section{Conclusiones (Parte A)}
+Resumen de los resultados obtenidos en la simulación del movimiento Browniano. Evaluación de la efectividad del método de Euler-Maruyama y la concordancia con la teoría de la difusión de Einstein.
+
+\appendix
+\section{Listados de Código (Fragmentos)}
+% \subsection{ParticulaBrowniana.h}
+% \lstinputlisting[language=C++, caption=ParticulaBrowniana.h, basicstyle=\footnotesize\ttfamily]{../include/ParticulaBrowniana.h}
+
+% \subsection{SimuladorBrowniano.cpp (Método Simular)}
+% \lstinputlisting[language=C++, firstline=XX, lastline=YY, caption=Fragmento de SimuladorBrowniano.cpp, basicstyle=\footnotesize\ttfamily]{../src/SimuladorBrowniano.cpp}
+
+\end{document}

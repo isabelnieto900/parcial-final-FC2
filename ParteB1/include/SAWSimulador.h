@@ -2,51 +2,59 @@
 #ifndef SAW_SIMULADOR_H
 #define SAW_SIMULADOR_H
 
-#include "Vector3D.h" // Para representar posiciones en la retícula (aunque int podría ser más apropiado para índices)
 #include <vector>
 #include <string>
-#include <set> // Para mantener un registro eficiente de los sitios visitados
+#include <set>
+#include <random> // Para std::mt19937, std::uniform_int_distribution, std::random_device
 
-// Podríamos usar una estructura simple para las coordenadas de la retícula si Vector3D es demasiado pesado
+// Estructura para coordenadas 2D en la retícula
 struct Point2D {
     int x, y;
-    bool operator<(const Point2D& other) const { // Necesario para std::set
+
+    // Operador necesario para std::set y std::map
+    bool operator<(const Point2D& other) const {
         if (x != other.x) return x < other.x;
         return y < other.y;
     }
-    bool operator==(const Point2D& other) const { // Para comprobaciones
+    // Operador de igualdad para comparaciones
+    bool operator==(const Point2D& other) const {
         return x == other.x && y == other.y;
     }
 };
 
 class SAWSimulador {
 private:
-    Point2D current_position;
-    std::vector<Point2D> path; // Almacena la caminata actual
-    std::set<Point2D> visited_sites; // Para verificar auto-intersecciones rápidamente
+    Point2D current_position;          // Posición actual del extremo de la caminata
+    std::vector<Point2D> path;         // Secuencia de puntos que forman la caminata
+    std::set<Point2D> visited_sites;   // Conjunto de sitios visitados para chequeo rápido de auto-evitación
 
-    int lattice_size; // Podría ser útil si la caminata está confinada, aunque SAW es usualmente en una red infinita
-    int max_steps;    // Número máximo de pasos para una caminata
+    int max_steps;                     // Número máximo de pasos para una caminata
+    int current_steps;                 // Número actual de pasos en la caminata
 
-    // Generador de números aleatorios (se podría usar el de C++ <random>)
-    std::mt19937 gen;
-    std::uniform_int_distribution<> distrib_direccion; // Para 0, 1, 2, 3 (ej. N, E, S, O)
+    std::mt19937 gen;                  // Generador de números aleatorios Mersenne Twister
+    std::uniform_int_distribution<> distrib_direccion; // Para elegir una de las 4 direcciones
 
 public:
-    SAWSimulador(int N_max_pasos, int seed = std::random_device{}());
+    // Constructor: N_max_pasos es la longitud deseada de la caminata (número de segmentos)
+    SAWSimulador(int N_max_pasos, unsigned int semilla = std::random_device{}());
 
-    void Reset(); // Reinicia la caminata para una nueva simulación
-    bool RealizarPaso(); // Intenta realizar un paso de la SAW
+    void Reset(); // Reinicia la caminata a su estado inicial (origen, un solo punto)
 
-    // Ejecuta una simulación completa de SAW hasta max_steps o hasta que se atasque
-    // Devuelve true si la caminata alcanzó max_steps, false si se atascó
+    // Intenta realizar un paso de la caminata autoevitante.
+    // Devuelve true si el paso fue exitoso, false si la caminata se atascó.
+    bool RealizarPaso();
+
+    // Ejecuta una simulación completa de una caminata SAW.
+    // La caminata continúa hasta alcanzar `max_steps` o hasta que se atasque.
+    // Devuelve true si la caminata alcanzó `max_steps`, false si se atascó antes.
     bool SimularUnaCaminata();
 
-    // Para medir propiedades
-    double GetDistanciaExtremoAExtremoCuadrada() const; // R^2
-    int GetLongitudCamino() const;
+    // Métodos para obtener propiedades de la caminata completada
+    double GetDistanciaExtremoAExtremoCuadrada() const; // Calcula R^2 (distancia cuadrada del inicio al fin)
+    int GetLongitudRealCamino() const; // Devuelve el número de pasos realizados (puede ser < max_steps si se atascó)
 
-    // Guardar la trayectoria (opcional, para visualización)
+    // Guarda la trayectoria actual de la caminata a un archivo.
+    // Útil para visualización de ejemplos.
     void GuardarCamino(const std::string& filename) const;
 };
 

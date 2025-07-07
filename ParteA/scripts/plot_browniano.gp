@@ -1,64 +1,95 @@
 # Gnuplot script para graficar resultados del Movimiento Browniano
 
-# --- Gráfica de Trayectoria (Ejemplo 2D) ---
-set title "Movimiento Browniano - Trayectoria 2D"
-set xlabel "Posición X"
-set ylabel "Posición Y"
-set size ratio -1 # Aspect ratio 1:1 para que los ejes se vean proporcionales
+# Argumentos que se pueden pasar al script:
+# DATFILE: Nombre del archivo de datos de entrada
+# OUTFILE_BASE: Nombre base para los archivos de imagen de salida (sin extensión)
+# TITLE_SUFFIX: Un sufijo para añadir a los títulos de las gráficas (ej. "T=300K, r=1um")
+
+# Valores por defecto si no se pasan argumentos (útil para pruebas directas)
+if (!exists("DATFILE")) DATFILE = '../results/browniano.dat'
+if (!exists("OUTFILE_BASE")) OUTFILE_BASE = '../results/browniano_plot'
+if (!exists("TITLE_SUFFIX")) TITLE_SUFFIX = ''
+
+# --- Gráfica de Trayectoria 2D (X vs Y) ---
+set title "Movimiento Browniano - Trayectoria XY ".TITLE_SUFFIX
+set xlabel "Posición X (m)"
+set ylabel "Posición Y (m)"
+set size ratio -1 # Aspect ratio 1:1
 set grid
+set key top right
 
-# Definir el archivo de salida de la imagen
-# El Makefile podría pasar esto como variable o definirlo aquí directamente
-# Por ejemplo: set terminal pngcairo size 800,600 enhanced font 'Verdana,10'
-#              set output 'results/trayectoria_browniano.png'
-# Para visualización interactiva, no se necesita set terminal ni set output explícitos
-# a menos que se quiera un formato específico.
+set terminal pngcairo size 800,800 enhanced font 'Verdana,10'
+set output OUTFILE_BASE.'_trayectoria_xy.png'
 
-# Graficar la trayectoria x vs y de la primera partícula
-# Asumiendo que results/browniano.dat tiene el formato:
-# tiempo x1 y1 z1 vx1 vy1 vz1 ... (si hay más partículas, se añaden más columnas)
-# Para una sola partícula: tiempo x y z vx vy vz
+# Asumiendo que DATFILE tiene el formato:
+# tiempo x1 y1 z1 vx1 vy1 vz1 ...
 # Columna 1: tiempo
 # Columna 2: x
 # Columna 3: y
 # Columna 4: z
-# (Ajustar los 'using' según el formato exacto del archivo de datos)
+plot DATFILE using 2:3 with lines title "Trayectoria XY"
 
-plot '../results/browniano.dat' using 2:3 with lines title "Trayectoria Partícula 1"
+# --- Gráfica de Posición X vs Tiempo ---
+set title "Movimiento Browniano - Posición X vs Tiempo ".TITLE_SUFFIX
+set xlabel "Tiempo (s)"
+set ylabel "Posición X (m)"
+set size ratio 0.5
+set grid
+set key top right
 
-# Pausar para ver la gráfica si se ejecuta interactivamente
-# pause -1 "Presiona Enter para continuar..."
+set output OUTFILE_BASE.'_x_vs_t.png'
+plot DATFILE using 1:2 with lines title "X(t)"
+
+# --- Gráfica de Posición Y vs Tiempo ---
+set title "Movimiento Browniano - Posición Y vs Tiempo ".TITLE_SUFFIX
+set xlabel "Tiempo (s)"
+set ylabel "Posición Y (m)"
+# set size ratio 0.5 # ya está seteado
+set grid
+set key top right
+
+set output OUTFILE_BASE.'_y_vs_t.png'
+plot DATFILE using 1:3 with lines title "Y(t)"
+
 
 # --- Gráfica de Desplazamiento Cuadrático Medio (MSD) vs Tiempo ---
-# Esto requeriría un pre-procesamiento de los datos de browniano.dat
-# o un archivo separado con los valores de MSD calculados.
-# Suponiendo que tienes un archivo 'results/msd_browniano.dat' con formato:
-# tiempo MSD
+# Esto requiere pre-procesar el archivo DATFILE para calcular el MSD.
+# Gnuplot no es ideal para este cálculo si involucra múltiples partículas o promediado.
+# Se asume que un script externo (Python, C++, awk) genera un archivo msd.dat
+# con formato: tiempo MSD_x MSD_y MSD_z MSD_total
 
-# set title "Movimiento Browniano - Desplazamiento Cuadrático Medio"
-# set xlabel "Tiempo (s)"
-# set ylabel "MSD <(\\Delta r)^2>"
-# set grid
-# set key top left
+MSD_DATA_FILE = OUTFILE_BASE.'_msd.dat' # Nombre esperado del archivo de MSD
 
-# set terminal pngcairo size 800,600 enhanced font 'Verdana,10'
-# set output 'results/msd_browniano.png'
+# Comprobar si el archivo MSD existe antes de intentar graficarlo
+# Esto es un poco avanzado para un script simple de gnuplot, usualmente el Makefile se encarga.
+# Aquí solo se incluye la plantilla de graficación.
 
-# plot '../results/msd_browniano.dat' using 1:2 with linespoints title "MSD Simulado", \
-#      2*D*x title sprintf("Ajuste Lineal (2Dt, D=%.2e)", D) # Necesitarías definir D o ajustarlo
+set title "Movimiento Browniano - MSD vs Tiempo ".TITLE_SUFFIX
+set xlabel "Tiempo (s)"
+set ylabel "MSD <(\\Delta r)^2> (m^2)"
+set logscale xy # A menudo útil para ver la relación lineal en log-log
+set format x "10^{%L}"
+set format y "10^{%L}"
+set grid
+set key bottom right
 
-# unset output
+set output OUTFILE_BASE.'_msd_vs_t.png'
+
+# Suponiendo que MSD_DATA_FILE tiene:
+# Col 1: tiempo
+# Col 2: MSD_total (o MSD_xy si es 2D)
+# plot MSD_DATA_FILE using 1:2 with linespoints title "MSD Simulado", \
+#      x * (2*D_coeff) title sprintf("Ajuste Lineal (2Dt, D=%.2e)", D_coeff) lw 2 lc rgb "red" dt 2
+# Donde D_coeff es el coeficiente de difusión que se podría ajustar o pasar como variable.
+# Para una partícula, 2*d*D*t, donde d es la dimensionalidad. Para 2D, 4Dt. Para 3D, 6Dt.
+
+print "Script 'plot_browniano.gp' ejecutado."
+print "Se generaron (o se intentó generar):"
+print "- ".OUTFILE_BASE."_trayectoria_xy.png"
+print "- ".OUTFILE_BASE."_x_vs_t.png"
+print "- ".OUTFILE_BASE."_y_vs_t.png"
+print "Para el MSD, se necesitaría un archivo ".MSD_DATA_FILE." generado por un script de análisis."
+
+unset output
+# Para salir si se ejecuta interactivamente:
 # pause -1 "Presiona Enter para salir."
-
-# Nota: Para calcular y graficar el MSD, probablemente necesitarás:
-# 1. Ejecutar múltiples simulaciones de movimiento Browniano.
-# 2. Para cada simulación, calcular (\Delta r(t))^2 = (x(t)-x(0))^2 + (y(t)-y(0))^2 + (z(t)-z(0))^2.
-# 3. Promediar (\Delta r(t))^2 sobre todas las simulaciones para obtener MSD(t).
-# 4. Guardar estos valores de MSD(t) vs t en un archivo (e.g., msd_browniano.dat).
-# Este script de Gnuplot es solo una plantilla para graficar una vez que tengas esos datos.
-# El cálculo del MSD usualmente se hace en C++ después de las simulaciones o con un script de post-procesamiento.
-
-print "Script de Gnuplot 'plot_browniano.gp' creado."
-print "Descomenta y adapta las secciones según los datos que generes."
-print "Para la trayectoria, asegúrate que 'results/browniano.dat' existe y tiene el formato esperado."
-print "Para el MSD, necesitarás generar 'results/msd_browniano.dat' con tiempo en la primera columna y MSD en la segunda."

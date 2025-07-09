@@ -1,103 +1,127 @@
-// SAWSimulador.cpp
-#include "SAWSimulador.h" // Se espera que el Makefile configure la ruta de inclusión
-#include <vector>
-#include <fstream>   // Para std::ofstream
-#include <iostream>  // Para std::cerr
-#include <cmath>     // Para std::pow (usado en GetDistanciaExtremoAExtremoCuadrada)
-#include <algorithm> // Para std::shuffle (opcional, para aleatorizar direcciones)
+// -------------------------------------------------------------------------
+// 1. INCLUSIÓN DEL ARCHIVO DE CABECERA CORRESPONDIENTE
+// -------------------------------------------------------------------------
+// Esto le da a este archivo .cpp acceso a la declaración de la clase SAWSimulador.
+#include "SAWSimulador.h"
 
-SAWSimulador::SAWSimulador(int N_max_pasos, unsigned int semilla)
-    : max_steps(N_max_pasos), gen(semilla), distrib_direccion(0, 3), current_steps(0) {
-    Reset();
+// -------------------------------------------------------------------------
+// 2. INCLUSIONES ADICIONALES DE LIBRERÍAS ESTÁNDAR
+// -------------------------------------------------------------------------
+#include <vector>       // Aunque ya está en el .h, es buena práctica incluirlo si se usa directamente.
+#include <iostream>     // No es estrictamente necesario aquí, pero útil para depuración.
+#include <algorithm>    // Para std::shuffle, una forma de aleatorizar las direcciones.
+
+// -------------------------------------------------------------------------
+// 3. IMPLEMENTACIÓN DEL CONSTRUCTOR
+// -------------------------------------------------------------------------
+/**
+ * @brief Constructor de la clase.
+ * @details Inicializa los miembros de la clase con los valores proporcionados.
+ * Pre-reserva memoria para el vector 'path' para mejorar la eficiencia,
+ * evitando realocaciones de memoria durante la ejecución de la caminata.
+ * @param N_max_pasos Longitud máxima objetivo de la caminata.
+ * @param seed Semilla para el generador de números aleatorios.
+ */
+SAWSimulador::SAWSimulador(int N_max_pasos, unsigned int seed)
+    : max_steps(N_max_pasos), gen(seed) { // Lista de inicialización de miembros
+    path.reserve(N_max_pasos + 1); // Optimización: reservar memoria para evitar realocaciones.
+    reset(); // Llama a reset para establecer el estado inicial.
 }
 
-void SAWSimulador::Reset() {
-    current_position = {0, 0}; // Iniciar en el origen
-    path.clear();
-    visited_sites.clear();
+// -------------------------------------------------------------------------
+// 4. IMPLEMENTACIÓN DEL MÉTODO 'reset'
+// -------------------------------------------------------------------------
+/**
+ * @brief Reinicia la caminata a su estado inicial.
+ * @details Limpia todas las estructuras de datos y coloca al caminante
+ * en el origen (0,0), listo para una nueva simulación.
+ */
+void SAWSimulador::reset() {
+    current_position = {0, 0}; // La caminata siempre empieza en el origen.
+    path.clear();              // Borra la trayectoria anterior.
+    visited_sites.clear();     // Borra el conjunto de sitios visitados.
 
+    // Añade el punto de inicio a la trayectoria y al conjunto de visitados.
     path.push_back(current_position);
     visited_sites.insert(current_position);
-    current_steps = 0;
+    current_steps = 0; // El número de pasos dados es cero al inicio.
 }
 
-bool SAWSimulador::RealizarPaso() {
-    if (current_steps >= max_steps) {
-        return false; // Se alcanzó el máximo de pasos definidos para esta caminata
-    }
-
-    // Posibles movimientos (N, E, S, O) - índices 0, 1, 2, 3
-    const Point2D desplazamientos[4] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-
-    std::vector<Point2D> posibles_siguientes_posiciones;
-
-    // Intentar las 4 direcciones en orden aleatorio para evitar sesgos direccionales
-    std::vector<int> orden_direcciones = {0, 1, 2, 3};
-    std::shuffle(orden_direcciones.begin(), orden_direcciones.end(), gen);
-
-    for (int dir_idx : orden_direcciones) {
-        Point2D proxima_posicion = {current_position.x + desplazamientos[dir_idx].x,
-                                   current_position.y + desplazamientos[dir_idx].y};
-
-        // Verificar si el sitio ya ha sido visitado
-        if (visited_sites.find(proxima_posicion) == visited_sites.end()) {
-            posibles_siguientes_posiciones.push_back(proxima_posicion);
-        }
-    }
-
-    if (posibles_siguientes_posiciones.empty()) {
-        return false; // La caminata se atascó (no hay movimientos válidos)
-    }
-
-    // Elegir una de las posiciones válidas aleatoriamente
-    // Si solo hay una, distrib_pasos_validos(0,0) funcionará.
-    std::uniform_int_distribution<> distrib_pasos_validos(0, posibles_siguientes_posiciones.size() - 1);
-    current_position = posibles_siguientes_posiciones[distrib_pasos_validos(gen)];
-
-    path.push_back(current_position);
-    visited_sites.insert(current_position);
-    current_steps++;
-
-    return true;
-}
-
-bool SAWSimulador::SimularUnaCaminata() {
-    Reset(); // Asegura que cada simulación comience de nuevo
+// -------------------------------------------------------------------------
+// 5. IMPLEMENTACIÓN DEL MÉTODO PRINCIPAL 'runWalk'
+// -------------------------------------------------------------------------
+/**
+ * @brief Ejecuta una simulación completa de una caminata autoevitante.
+ * @details Este es el corazón de la simulación. El bucle se ejecuta hasta
+ * que se alcanza el número máximo de pasos o la caminata se queda atrapada.
+ * @return true si la caminata fue exitosa (alcanzó max_steps), false si no.
+ */
+bool SAWSimulador::runWalk() {
+    reset(); // Asegura que cada caminata comience desde un estado limpio.
+    
     while (current_steps < max_steps) {
-        if (!RealizarPaso()) {
-            return false; // Se atascó antes de N_max_pasos
+        // Define los 4 posibles desplazamientos desde la posición actual (Norte, Este, Sur, Oeste).
+        const Point2D desplazamientos[4] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        std::vector<Point2D> valid_moves;
+        valid_moves.reserve(4); // Pequeña optimización.
+
+        // Itera sobre los 4 posibles movimientos para encontrar los que son válidos.
+        for (const auto& d : desplazamientos) {
+            Point2D next_pos = {current_position.x + d.x, current_position.y + d.y};
+            
+            // Un movimiento es válido si el sitio de destino NO ha sido visitado.
+            // La búsqueda en std::set (find) es muy eficiente (logarítmica).
+            if (visited_sites.find(next_pos) == visited_sites.end()) {
+                valid_moves.push_back(next_pos);
+            }
         }
+
+        // Comprueba si la caminata está atrapada.
+        if (valid_moves.empty()) {
+            return false; // Atrapado. No hay movimientos válidos. Termina la caminata.
+        }
+
+        // Si hay movimientos válidos, elige uno de ellos al azar.
+        std::uniform_int_distribution<> distrib(0, valid_moves.size() - 1);
+        current_position = valid_moves[distrib(gen)];
+        
+        // Actualiza el estado de la caminata con el nuevo paso.
+        path.push_back(current_position);
+        visited_sites.insert(current_position);
+        current_steps++;
     }
-    return true; // Alcanzó N_max_pasos
+    
+    return true; // Éxito. El bucle terminó porque se alcanzó max_steps.
 }
 
-double SAWSimulador::GetDistanciaExtremoAExtremoCuadrada() const {
-    if (path.empty()) return 0.0;
-    // La distancia es entre el primer y el último punto del camino.
-    // El primer punto es siempre (0,0) por la forma en que se inicializa.
-    Point2D inicio = path.front(); // Debería ser {0,0}
-    Point2D fin = path.back(); // Es current_position al final de la caminata
+// -------------------------------------------------------------------------
+// 6. IMPLEMENTACIÓN DE LOS MÉTODOS 'GETTER'
+// -------------------------------------------------------------------------
+// Estos métodos simplemente devuelven el valor de variables privadas.
 
-    double dx = static_cast<double>(fin.x - inicio.x);
-    double dy = static_cast<double>(fin.y - inicio.y);
+/**
+ * @brief Devuelve el cuadrado de la distancia del inicio al fin.
+ */
+double SAWSimulador::getEndToEndDistanceSq() const {
+    if (path.empty()) return 0.0;
+    // El punto de inicio es siempre {0,0}, por lo que solo necesitamos las coordenadas del final.
+    const auto& end_point = path.back();
+    double dx = static_cast<double>(end_point.x);
+    double dy = static_cast<double>(end_point.y);
     return dx * dx + dy * dy;
 }
 
-int SAWSimulador::GetLongitudRealCamino() const {
-    // La longitud es el número de pasos dados, que es current_steps.
-    // O path.size() - 1, ya que path incluye el punto inicial.
+/**
+ * @brief Devuelve la longitud final de la caminata.
+ */
+int SAWSimulador::getPathLength() const {
     return current_steps;
 }
 
-void SAWSimulador::GuardarCamino(const std::string& filename) const {
-    std::ofstream outfile(filename);
-    if (!outfile.is_open()) {
-        std::cerr << "Error: No se pudo abrir el archivo para guardar el camino SAW: " << filename << std::endl;
-        return;
-    }
-    outfile << "# x y (un punto por línea)" << std::endl;
-    for (const auto& p : path) {
-        outfile << p.x << " " << p.y << std::endl;
-    }
-    outfile.close();
+/**
+ * @brief Devuelve una referencia constante a la trayectoria.
+ */
+const std::vector<Point2D>& SAWSimulador::getPath() const {
+    return path;
 }
+

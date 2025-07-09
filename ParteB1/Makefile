@@ -1,67 +1,95 @@
 # Makefile para la Parte B1: Caminata Aleatoria Autoevitante (SAW)
+# Versión mejorada y robusta
 
+# ---------------------------------------------------------------------------
+# 1. CONFIGURACIÓN DEL COMPILADOR Y DIRECTORIOS
+# ---------------------------------------------------------------------------
 # Compilador y flags
 CXX = g++
-CXXFLAGS_BASE = -std=c++11 -Wall -g
+CXXFLAGS = -std=c++11 -Wall -g -I$(INCDIR)
 LDFLAGS = -lm
 
-# Directorios relativos a este Makefile (ParteB1/)
+# Directorios del proyecto
 SRCDIR = src
 INCDIR = include
 BINDIR = bin
-# COMMON_INCDIR = ../common/include # Si Vector3D de common fuera necesario
-# COMMON_SRCDIR = ../common/src   # Si Vector3D de common fuera necesario
+RESULTSDIR = results
+SCRIPTSDIR = scripts
 
+# ---------------------------------------------------------------------------
+# 2. ARCHIVOS FUENTE Y OBJETIVO
+# ---------------------------------------------------------------------------
 # Target ejecutable
 TARGET = $(BINDIR)/saw_simulador
 
-# Fuentes específicas de ParteB1
-# Si SAWSimulador.cpp o .h usan Vector3D.h de common, añadir $(COMMON_SRCDIR)/Vector3D.cpp a SOURCES
-# y ajustar CXXFLAGS para incluir $(COMMON_INCDIR)
-SOURCES_SPECIFIC = $(SRCDIR)/main_saw.cpp $(SRCDIR)/SAWSimulador.cpp
-# SOURCES_COMMON = # Descomentar y añadir si Vector3D.cpp es necesario
-OBJECTS_SPECIFIC = $(SOURCES_SPECIFIC:.cpp=.o)
-# OBJECTS_COMMON = # Descomentar si es necesario
-OBJECTS = $(OBJECTS_SPECIFIC) # $(OBJECTS_COMMON)
+# Detección automática de todos los archivos .cpp en el directorio src
+SOURCES = $(wildcard $(SRCDIR)/*.cpp)
+# Generación automática de los nombres de los archivos objeto (.o)
+OBJECTS = $(SOURCES:.cpp=.o)
 
-# Flags de compilación específicos para esta parte
-CXXFLAGS = $(CXXFLAGS_BASE) -I$(INCDIR) # -I$(COMMON_INCDIR) si es necesario
+# ---------------------------------------------------------------------------
+# 3. PARÁMETROS DE SIMULACIÓN POR DEFECTO
+# ---------------------------------------------------------------------------
+# Se pueden sobreescribir desde la línea de comandos, ej: make run N_STEPS=100
+N_STEPS ?= 80
+N_SIMS  ?= 20000
+# Genera una semilla basada en la hora actual si no se especifica una
+SEED    ?= $(shell date +%s)
 
-# Regla principal para construir el target
+# ===========================================================================
+# REGLAS PRINCIPALES
+# ===========================================================================
+
+# La regla por defecto que se ejecuta con 'make'
 all: $(TARGET)
 
+# Regla para construir el ejecutable final a partir de los archivos objeto
 $(TARGET): $(OBJECTS)
-	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+	@echo "-> Enlazando para crear el ejecutable..."
+	# MEJORA: Crea los directorios bin y results si no existen
+	@mkdir -p $(BINDIR) $(RESULTSDIR)
+	$(CXX) $^ -o $@ $(LDFLAGS)
+	@echo "¡Compilación completada! Ejecutable en: $(TARGET)"
 
-# Regla para compilar archivos .cpp específicos de ParteB1 a .o
-$(SRCDIR)/%.o: $(SRCDIR)/%.cpp $(INCDIR)/*.h # $(COMMON_INCDIR)/*.h si es necesario
+# Regla genérica para compilar cualquier archivo .cpp de src a un .o
+$(SRCDIR)/%.o: $(SRCDIR)/%.cpp
+	@echo "-> Compilando $<..."
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# # Regla para compilar archivos .cpp comunes a .o (si se usan)
-# $(COMMON_SRCDIR)/%.o: $(COMMON_SRCDIR)/%.cpp $(COMMON_INCDIR)/*.h
-#	$(CXX) $(CXXFLAGS_BASE) -I$(COMMON_INCDIR) -c $< -o $@
+# ===========================================================================
+# REGLAS DE UTILIDAD
+# ===========================================================================
 
-# Limpieza
-clean:
-	rm -f $(SRCDIR)/*.o $(TARGET) # $(COMMON_SRCDIR)/*.o si se compilan aquí
-	rm -f $(BINDIR)/*
-	# No eliminar resultados ni scripts con 'make clean'
-
-# Para ejecutar (ejemplo con parámetros por defecto)
+# Regla para ejecutar la simulación
+# Uso: make run [N_STEPS=...] [N_SIMS=...] [SEED=...]
 run: $(TARGET)
-	./$(TARGET) 50 10000 123 # N_max_pasos, num_simulaciones, semilla
+	@echo "-> Ejecutando simulación con N=$(N_STEPS), Sims=$(N_SIMS), Seed=$(SEED)..."
+	./$(TARGET) $(N_STEPS) $(N_SIMS) $(SEED)
 
-# Para generar gráficas (ejemplo)
-# Esto asume que los datos se generaron con N_max_pasos=50 y num_simulaciones=10000
-# y que el script de gnuplot está configurado para esos nombres o los toma como argumentos
+# Regla para generar las gráficas con Gnuplot
+# Asume que los datos ya fueron generados por 'make run'
 plot:
-	@echo "Generando gráficas para SAW con N=50..."
-	@if [ -f results/saw_resultados_N50_sim10000.dat ] && [ -f results/saw_camino_ejemplo_N50.dat ]; then \
-		gnuplot -e "N_PASOS='50'; DATFILE_RESULTADOS='results/saw_resultados_N50_sim10000.dat'; DATFILE_CAMINO='results/saw_camino_ejemplo_N50.dat'; OUTFILE_BASE='results/saw_plot_N50'" scripts/plot_saw.gp; \
-		echo "Gráficas generadas en results/"; \
+	@echo "-> Generando gráficas para N=$(N_STEPS) y Sims=$(N_SIMS)..."
+	@# Verifica si el archivo de datos principal existe antes de intentar graficar
+	@if [ -f "$(RESULTSDIR)/saw_resultados_N$(N_STEPS)_sim$(N_SIMS).dat" ]; then \
+		gnuplot -e "N_PASOS='$(N_STEPS)'; NUM_SIMS='$(N_SIMS)'" $(SCRIPTSDIR)/plot_saw.gp; \
+		echo "Gráficas generadas en $(RESULTSDIR)/"; \
 	else \
-		echo "Archivos de datos no encontrados para N=50. Ejecuta la simulación primero (ej: make run)."; \
+		echo "Error: Archivo de datos no encontrado."; \
+		echo "Ejecuta 'make run N_STEPS=$(N_STEPS) N_SIMS=$(N_SIMS)' primero."; \
 	fi
 
-.PHONY: all clean run plot
+# Regla para limpiar solo los archivos generados por la compilación
+clean:
+	@echo "-> Limpiando archivos compilados (.o) y ejecutables..."
+	rm -f $(SRCDIR)/*.o
+	rm -f $(TARGET)
+
+# Regla para una limpieza total, borrando también los resultados
+distclean: clean
+	@echo "-> Limpiando todo: compilados, binarios y resultados..."
+	rm -rf $(BINDIR) $(RESULTSDIR)
+
+# Declaración de reglas que no son archivos para evitar conflictos
+.PHONY: all run plot clean distclean
+

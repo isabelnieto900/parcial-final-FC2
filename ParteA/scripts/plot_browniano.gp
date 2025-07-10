@@ -75,13 +75,9 @@ set key bottom right
 
 set output OUTFILE_BASE.'_msd_vs_t.png'
 
-# Suponiendo que MSD_DATA_FILE tiene:
-# Col 1: tiempo
-# Col 2: MSD_total (o MSD_xy si es 2D)
-# plot MSD_DATA_FILE using 1:2 with linespoints title "MSD Simulado", \
-#      x * (2*D_coeff) title sprintf("Ajuste Lineal (2Dt, D=%.2e)", D_coeff) lw 2 lc rgb "red" dt 2
-# Donde D_coeff es el coeficiente de difusión que se podría ajustar o pasar como variable.
-# Para una partícula, 2*d*D*t, donde d es la dimensionalidad. Para 2D, 4Dt. Para 3D, 6Dt.
+# Ahora sí graficar el MSD si existe el archivo
+plot MSD_DATA_FILE using 1:5 with linespoints title "MSD Simulado", \
+     x * (6*10) title "Ajuste Teórico (6Dt, D=10)" lw 2 lc rgb "red" dt 2
 
 print "Script 'plot_browniano.gp' ejecutado."
 print "Se generaron (o se intentó generar):"

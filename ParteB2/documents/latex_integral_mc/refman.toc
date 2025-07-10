@@ -1,0 +1,45 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}README.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}md Actualizado}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Parte B2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}: Integración de e$^\wedge $(-\/x$^\wedge $2) por Monte Carlo}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Descripción}{1}{subsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1.1}Clases Principales\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}:}{1}{subsubsection.1.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Estructura del Directorio $<$tt$>$\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Parte\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}B2$<$/tt$>$}{1}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}Flujo de Trabajo Recomendado}{2}{subsection.1.1.3}%
+\contentsline {subsubsection}{\numberline {1.1.3.1}1\textbackslash {}. Compilación}{2}{subsubsection.1.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.1.3.2}2\textbackslash {}. Ejecución de la Simulación}{2}{subsubsection.1.1.3.2}%
+\contentsline {subsubsection}{\numberline {1.1.3.3}3\textbackslash {}. Visualización de Resultados}{2}{subsubsection.1.1.3.3}%
+\contentsline {subsection}{\numberline {1.1.4}Opciones Avanzadas}{2}{subsection.1.1.4}%
+\contentsline {subsubsection}{\numberline {1.1.4.1}Ejecución Manual}{2}{subsubsection.1.1.4.1}%
+\contentsline {subsubsection}{\numberline {1.1.4.2}Documentación}{2}{subsubsection.1.1.4.2}%
+\contentsline {chapter}{\numberline {2}Class Index}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Class List}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}File Index}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}File List}{5}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Class Documentation}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Integrador\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Monte\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Carlo Class Reference}{7}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Detailed Description}{7}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Member Typedef Documentation}{7}{subsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.2.1}FuncionUnivariable}{7}{subsubsection.4.1.2.1}%
+\contentsline {subsection}{\numberline {4.1.3}Constructor \& Destructor Documentation}{7}{subsection.4.1.3}%
+\contentsline {subsubsection}{\numberline {4.1.3.1}IntegradorMonteCarlo()}{8}{subsubsection.4.1.3.1}%
+\contentsline {subsection}{\numberline {4.1.4}Member Function Documentation}{8}{subsection.4.1.4}%
+\contentsline {subsubsection}{\numberline {4.1.4.1}CalcularIntegralSimple()}{8}{subsubsection.4.1.4.1}%
+\contentsline {subsection}{\numberline {4.1.5}Member Data Documentation}{8}{subsection.4.1.5}%
+\contentsline {subsubsection}{\numberline {4.1.5.1}distribucion\_uniforme}{8}{subsubsection.4.1.5.1}%
+\contentsline {subsubsection}{\numberline {4.1.5.2}func\_a\_integrar}{8}{subsubsection.4.1.5.2}%
+\contentsline {subsubsection}{\numberline {4.1.5.3}gen}{8}{subsubsection.4.1.5.3}%
+\contentsline {subsubsection}{\numberline {4.1.5.4}limite\_inferior}{8}{subsubsection.4.1.5.4}%
+\contentsline {subsubsection}{\numberline {4.1.5.5}limite\_superior}{9}{subsubsection.4.1.5.5}%
+\contentsline {chapter}{\numberline {5}File Documentation}{11}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Integrador\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Monte\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Carlo.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{11}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Integrador\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Monte\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Carlo.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{12}{section.5.2}%
+\contentsline {section}{\numberline {5.3}README.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}md File Reference}{12}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Integrador\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Monte\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Carlo.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp File Reference}{12}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Integrador\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Monte\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Carlo.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{13}{section.5.5}%
+\contentsline {section}{\numberline {5.6}main\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}montecarlo\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}integral.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp File Reference}{13}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Macro Definition Documentation}{14}{subsection.5.6.1}%
+\contentsline {subsubsection}{\numberline {5.6.1.1}M\_PI}{14}{subsubsection.5.6.1.1}%
+\contentsline {subsection}{\numberline {5.6.2}Function Documentation}{14}{subsection.5.6.2}%
+\contentsline {subsubsection}{\numberline {5.6.2.1}funcion\_a\_integrar\_exp\_neg\_x\_cuadrado()}{14}{subsubsection.5.6.2.1}%
+\contentsline {subsubsection}{\numberline {5.6.2.2}main()}{14}{subsubsection.5.6.2.2}%
+\contentsline {section}{\numberline {5.7}main\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}montecarlo\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}integral.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp}{15}{section.5.7}%

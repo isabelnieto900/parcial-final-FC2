@@ -2,68 +2,85 @@
 
 # Compilador y flags
 CXX = g++
-# CXXFLAGS_BASE se define en el Makefile raíz o aquí si es independiente
-CXXFLAGS_BASE = -std=c++11 -Wall -g
-LDFLAGS = -lm # Enlazar librería matemática (para std::sqrt, M_PI, etc.)
+CXXFLAGS_BASE = -std=c++17 -Wall -g
+LDFLAGS = -lm -lstdc++fs
 
-# Directorios relativos a este Makefile (ParteA/)
+# Directorios
 SRCDIR = src
 INCDIR = include
 BINDIR = bin
-COMMON_INCDIR = ../common/include # Ruta al include común
-COMMON_SRCDIR = ../common/src   # Ruta al src común
+DOCDIR = documents
+LATEX_DIR = $(DOCDIR)/latex_browniano
 
 # Target ejecutable
 TARGET = $(BINDIR)/movimiento_browniano
 
-# Fuentes específicas de ParteA y fuentes comunes
-SOURCES_SPECIFIC = $(SRCDIR)/main_browniano.cpp $(SRCDIR)/ParticulaBrowniana.cpp $(SRCDIR)/SimuladorBrowniano.cpp
-SOURCES_COMMON = $(COMMON_SRCDIR)/Vector3D.cpp
+# Fuentes y cabeceras
+# Se asume que todos los .cpp están en src y todos los .h en include
+SOURCES = $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS = $(SOURCES:.cpp=.o)
 
-# Objetos a partir de las fuentes
-OBJECTS_SPECIFIC = $(SOURCES_SPECIFIC:.cpp=.o)
-OBJECTS_COMMON = $(SOURCES_COMMON:.cpp=.o)
-OBJECTS = $(OBJECTS_SPECIFIC) $(OBJECTS_COMMON)
+# Flags de compilación finales
+CXXFLAGS = $(CXXFLAGS_BASE) -I$(INCDIR)
 
-# Flags de compilación específicos para esta parte, incluyendo rutas de include
-CXXFLAGS = $(CXXFLAGS_BASE) -I$(INCDIR) -I$(COMMON_INCDIR)
-
-# Regla principal para construir el target
+# Regla principal
 all: $(TARGET)
 
+# Regla para enlazar el ejecutable final
 $(TARGET): $(OBJECTS)
-	@mkdir -p $(BINDIR) # Asegurar que el directorio bin exista
+	@mkdir -p $(BINDIR)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+	@echo ""
+	@echo "----------------------------------------------------"
+	@echo "¡Compilación exitosa! Ejecutable en: $(TARGET)"
+	@echo "-> 'make run' para ejecutar la simulación."
+	@echo "-> 'make plot' para generar las gráficas."
+	@echo "-> 'make doc' para generar la documentación HTML."
+	@echo "-> 'make pdf' para generar el PDF de la documentación."
+	@echo "----------------------------------------------------"
 
-# Regla para compilar archivos .cpp específicos de ParteA a .o
-# Los archivos objeto se crearán en el mismo directorio que los fuentes para simplificar.
-$(SRCDIR)/%.o: $(SRCDIR)/%.cpp $(INCDIR)/*.h $(COMMON_INCDIR)/*.h
+# Reglas de compilación de objetos
+# Esta regla genérica funciona para todos los .cpp en SRCDIR
+$(SRCDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Regla para compilar archivos .cpp comunes a .o
-$(COMMON_SRCDIR)/%.o: $(COMMON_SRCDIR)/%.cpp $(COMMON_INCDIR)/*.h
-	$(CXX) $(CXXFLAGS) -c $< -o $@ # CXXFLAGS ya incluye COMMON_INCDIR
+# --- REGLAS DE DOCUMENTACIÓN MEJORADAS ---
 
+# Genera la documentación HTML y los fuentes LaTeX
+doc:
+	@echo "Generando documentación con Doxygen..."
+	doxygen Doxyfile
+	@echo "Documentación HTML generada. Abre '$(DOCDIR)/html_browniano/index.html'."
+
+# Genera el PDF a partir de los fuentes LaTeX
+pdf: doc
+	@echo "Compilando la documentación LaTeX a PDF..."
+	$(MAKE) -C $(LATEX_DIR)
+	@echo "PDF generado en $(LATEX_DIR)/refman.pdf"
 
 # Limpieza
 clean:
-	rm -f $(SRCDIR)/*.o $(COMMON_SRCDIR)/*.o $(TARGET)
-	rm -f $(BINDIR)/* # Si los objetos se pusieran en bin/obj
-	# No eliminar resultados ni scripts con 'make clean' por defecto
-	# Se puede añadir una regla 'distclean' más agresiva si es necesario
+	@echo "Limpiando archivos compilados..."
+	rm -f $(SRCDIR)/*.o $(TARGET)
+	rm -rf $(BINDIR)
 
-# Para ejecutar (ejemplo)
+# Limpieza profunda, incluyendo la documentación generada
+distclean: clean
+	@echo "Limpiando toda la documentación generada..."
+	rm -rf $(DOCDIR)/html_browniano $(DOCDIR)/latex_browniano
+
+# Ejecutar la simulación
 run: $(TARGET)
-	./$(TARGET) 10 0.001 12345 # tiempo_total, dt, semilla
+	./$(TARGET) 100.0 0.01 12345
 
-# Para generar gráficas (ejemplo, asumiendo que los datos ya existen)
+# Generar gráficas
 plot:
-	@if [ -f results/browniano.dat ]; then \
-		gnuplot scripts/plot_browniano.gp "DATFILE='results/browniano.dat'" "OUTFILE_BASE='results/browniano_sim'"; \
-		echo "Gráficas generadas en results/"; \
+	@if [ -f results/browniano_sim.dat ]; then \
+		gnuplot -e "DATFILE='results/browniano_sim.dat'" -e "OUTFILE_BASE='results/browniano_sim_plot'" scripts/plot_browniano.gp; \
+		echo "Gráficas generadas en el directorio results/"; \
 	else \
-		echo "Archivo results/browniano.dat no encontrado. Ejecuta la simulación primero."; \
+		echo "Archivo results/browniano_sim.dat no encontrado. Ejecuta 'make run' primero."; \
 	fi
 
+.PHONY: all clean distclean run plot doc pdf
 
-.PHONY: all clean run plot

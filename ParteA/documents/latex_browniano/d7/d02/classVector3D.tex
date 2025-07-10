@@ -1,0 +1,219 @@
+\hypertarget{classVector3D}{}\doxysection{Vector3D Class Reference}
+\label{classVector3D}\index{Vector3D@{Vector3D}}
+
+
+{\ttfamily \#include $<$Vector3\+D.\+h$>$}
+
+
+
+Collaboration diagram for Vector3D\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{d3/da3/classVector3D__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classVector3D_a2a598cc23288c7cbb274de76ebd6388e}{Vector3D}} (double \mbox{\hyperlink{classVector3D_a3c086dfccfc57dd996e9b8600098a430}{x}}=0, double \mbox{\hyperlink{classVector3D_adcec384756103d26d1181e45d5a0fd78}{y}}=0, double \mbox{\hyperlink{classVector3D_a7321f3ff785f275c4d83f7d1b951752a}{z}}=0)
+\item 
+\mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classVector3D_ae5153e5e26852627ccea88d399e13c6e}{operator+}} (const \mbox{\hyperlink{classVector3D}{Vector3D}} \&other) const
+\item 
+\mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classVector3D_a2d77fde2d4f484a639cb4dfd500c3540}{operator-\/}} (const \mbox{\hyperlink{classVector3D}{Vector3D}} \&other) const
+\item 
+\mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classVector3D_af893e58e8f5c80bca3a9443210462ffe}{operator$\ast$}} (double scalar) const
+\item 
+double \mbox{\hyperlink{classVector3D_a0da987130c3ca5253ca428409798b1e6}{dot}} (const \mbox{\hyperlink{classVector3D}{Vector3D}} \&other) const
+\item 
+\mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classVector3D_af1b13ca0a65eea7431bfbcd96dcacdee}{cross}} (const \mbox{\hyperlink{classVector3D}{Vector3D}} \&other) const
+\item 
+double \mbox{\hyperlink{classVector3D_a176d25c8beea995c9cbf9fb4ad57b87a}{norm}} () const
+\item 
+double \mbox{\hyperlink{classVector3D_ab4c290772f374025a7677ee1d34ce7e2}{norm2}} () const
+\item 
+\mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classVector3D_aac87aef508e65eb8ada23346b5e552c3}{normalized}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{classVector3D_a3c086dfccfc57dd996e9b8600098a430}{x}}
+\item 
+double \mbox{\hyperlink{classVector3D_adcec384756103d26d1181e45d5a0fd78}{y}}
+\item 
+double \mbox{\hyperlink{classVector3D_a7321f3ff785f275c4d83f7d1b951752a}{z}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classVector3D_ae76c52951408b097c957839e14a9e61c}{operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{classVector3D}{Vector3D}} \&vec)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classVector3D_a2a598cc23288c7cbb274de76ebd6388e}\label{classVector3D_a2a598cc23288c7cbb274de76ebd6388e}} 
+\index{Vector3D@{Vector3D}!Vector3D@{Vector3D}}
+\index{Vector3D@{Vector3D}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{Vector3D()}{Vector3D()}}
+{\footnotesize\ttfamily Vector3\+D\+::\+Vector3D (\begin{DoxyParamCaption}\item[{double}]{x = {\ttfamily 0},  }\item[{double}]{y = {\ttfamily 0},  }\item[{double}]{z = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{d7/d02/classVector3D_a2a598cc23288c7cbb274de76ebd6388e_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classVector3D_af1b13ca0a65eea7431bfbcd96dcacdee}\label{classVector3D_af1b13ca0a65eea7431bfbcd96dcacdee}} 
+\index{Vector3D@{Vector3D}!cross@{cross}}
+\index{cross@{cross}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{cross()}{cross()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classVector3D}{Vector3D}} Vector3\+D\+::cross (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classVector3D}{Vector3D}} \&}]{other }\end{DoxyParamCaption}) const}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=319pt]{d7/d02/classVector3D_af1b13ca0a65eea7431bfbcd96dcacdee_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classVector3D_a0da987130c3ca5253ca428409798b1e6}\label{classVector3D_a0da987130c3ca5253ca428409798b1e6}} 
+\index{Vector3D@{Vector3D}!dot@{dot}}
+\index{dot@{dot}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily double Vector3\+D\+::dot (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classVector3D}{Vector3D}} \&}]{other }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classVector3D_a176d25c8beea995c9cbf9fb4ad57b87a}\label{classVector3D_a176d25c8beea995c9cbf9fb4ad57b87a}} 
+\index{Vector3D@{Vector3D}!norm@{norm}}
+\index{norm@{norm}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{norm()}{norm()}}
+{\footnotesize\ttfamily double Vector3\+D\+::norm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=306pt]{d7/d02/classVector3D_a176d25c8beea995c9cbf9fb4ad57b87a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{d7/d02/classVector3D_a176d25c8beea995c9cbf9fb4ad57b87a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classVector3D_ab4c290772f374025a7677ee1d34ce7e2}\label{classVector3D_ab4c290772f374025a7677ee1d34ce7e2}} 
+\index{Vector3D@{Vector3D}!norm2@{norm2}}
+\index{norm2@{norm2}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{norm2()}{norm2()}}
+{\footnotesize\ttfamily double Vector3\+D\+::norm2 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d7/d02/classVector3D_ab4c290772f374025a7677ee1d34ce7e2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classVector3D_aac87aef508e65eb8ada23346b5e552c3}\label{classVector3D_aac87aef508e65eb8ada23346b5e552c3}} 
+\index{Vector3D@{Vector3D}!normalized@{normalized}}
+\index{normalized@{normalized}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{normalized()}{normalized()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classVector3D}{Vector3D}} Vector3\+D\+::normalized (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d7/d02/classVector3D_aac87aef508e65eb8ada23346b5e552c3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classVector3D_af893e58e8f5c80bca3a9443210462ffe}\label{classVector3D_af893e58e8f5c80bca3a9443210462ffe}} 
+\index{Vector3D@{Vector3D}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classVector3D}{Vector3D}} Vector3\+D\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{double}]{scalar }\end{DoxyParamCaption}) const}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{d7/d02/classVector3D_af893e58e8f5c80bca3a9443210462ffe_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classVector3D_ae5153e5e26852627ccea88d399e13c6e}\label{classVector3D_ae5153e5e26852627ccea88d399e13c6e}} 
+\index{Vector3D@{Vector3D}!operator+@{operator+}}
+\index{operator+@{operator+}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classVector3D}{Vector3D}} Vector3\+D\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classVector3D}{Vector3D}} \&}]{other }\end{DoxyParamCaption}) const}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{d7/d02/classVector3D_ae5153e5e26852627ccea88d399e13c6e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classVector3D_a2d77fde2d4f484a639cb4dfd500c3540}\label{classVector3D_a2d77fde2d4f484a639cb4dfd500c3540}} 
+\index{Vector3D@{Vector3D}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classVector3D}{Vector3D}} Vector3\+D\+::operator-\/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classVector3D}{Vector3D}} \&}]{other }\end{DoxyParamCaption}) const}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{d7/d02/classVector3D_a2d77fde2d4f484a639cb4dfd500c3540_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classVector3D_ae76c52951408b097c957839e14a9e61c}\label{classVector3D_ae76c52951408b097c957839e14a9e61c}} 
+\index{Vector3D@{Vector3D}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream \& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const \mbox{\hyperlink{classVector3D}{Vector3D}} \&}]{vec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classVector3D_a3c086dfccfc57dd996e9b8600098a430}\label{classVector3D_a3c086dfccfc57dd996e9b8600098a430}} 
+\index{Vector3D@{Vector3D}!x@{x}}
+\index{x@{x}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily double Vector3\+D\+::x}
+
+\mbox{\Hypertarget{classVector3D_adcec384756103d26d1181e45d5a0fd78}\label{classVector3D_adcec384756103d26d1181e45d5a0fd78}} 
+\index{Vector3D@{Vector3D}!y@{y}}
+\index{y@{y}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily double Vector3\+D\+::y}
+
+\mbox{\Hypertarget{classVector3D_a7321f3ff785f275c4d83f7d1b951752a}\label{classVector3D_a7321f3ff785f275c4d83f7d1b951752a}} 
+\index{Vector3D@{Vector3D}!z@{z}}
+\index{z@{z}!Vector3D@{Vector3D}}
+\doxysubsubsection{\texorpdfstring{z}{z}}
+{\footnotesize\ttfamily double Vector3\+D\+::z}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{Vector3D_8h}{Vector3\+D.\+h}}\item 
+src/\mbox{\hyperlink{Vector3D_8cpp}{Vector3\+D.\+cpp}}\end{DoxyCompactItemize}

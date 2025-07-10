@@ -1,0 +1,144 @@
+\hypertarget{classIntegradorMonteCarlo}{}\doxysection{Integrador\+Monte\+Carlo Class Reference}
+\label{classIntegradorMonteCarlo}\index{IntegradorMonteCarlo@{IntegradorMonteCarlo}}
+
+
+{\ttfamily \#include $<$Integrador\+Monte\+Carlo.\+h$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}{Funcion\+Univariable}} = std\+::function$<$ double(double)$>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classIntegradorMonteCarlo_a1fd3cb493b3ea24161e8b570e4005d29}{Integrador\+Monte\+Carlo}} (\mbox{\hyperlink{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}{Funcion\+Univariable}} func, double a, double b, unsigned int semilla=std\+::random\+\_\+device\{\}())
+\item 
+double \mbox{\hyperlink{classIntegradorMonteCarlo_ac6b3498e1282c2c3eb6cafec40c5e838}{Calcular\+Integral\+Simple}} (long long numero\+\_\+muestras, double \&error\+\_\+estimado)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}{Funcion\+Univariable}} \mbox{\hyperlink{classIntegradorMonteCarlo_ad25cebb7e85db13a1e777e7355da7ac9}{func\+\_\+a\+\_\+integrar}}
+\item 
+double \mbox{\hyperlink{classIntegradorMonteCarlo_a8a3bb2c4be405faf29bacaa8dd694ed5}{limite\+\_\+inferior}}
+\item 
+double \mbox{\hyperlink{classIntegradorMonteCarlo_a72a61878bcd403b50844dd54b6c8d5e9}{limite\+\_\+superior}}
+\item 
+std\+::mt19937 \mbox{\hyperlink{classIntegradorMonteCarlo_aaf0359956c0a1cc66c5db0cde761b3a3}{gen}}
+\item 
+std\+::uniform\+\_\+real\+\_\+distribution \mbox{\hyperlink{classIntegradorMonteCarlo_a060e904b25a9e249019385f00a7e70b5}{distribucion\+\_\+uniforme}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{IntegradorMonteCarlo_8h_source_l00009}{9}} of file \mbox{\hyperlink{IntegradorMonteCarlo_8h_source}{Integrador\+Monte\+Carlo.\+h}}.
+
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}\label{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}} 
+\index{IntegradorMonteCarlo@{IntegradorMonteCarlo}!FuncionUnivariable@{FuncionUnivariable}}
+\index{FuncionUnivariable@{FuncionUnivariable}!IntegradorMonteCarlo@{IntegradorMonteCarlo}}
+\doxysubsubsection{\texorpdfstring{FuncionUnivariable}{FuncionUnivariable}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}{Integrador\+Monte\+Carlo\+::\+Funcion\+Univariable}} =  std\+::function$<$double(double)$>$}
+
+
+
+Definition at line \mbox{\hyperlink{IntegradorMonteCarlo_8h_source_l00012}{12}} of file \mbox{\hyperlink{IntegradorMonteCarlo_8h_source}{Integrador\+Monte\+Carlo.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classIntegradorMonteCarlo_a1fd3cb493b3ea24161e8b570e4005d29}\label{classIntegradorMonteCarlo_a1fd3cb493b3ea24161e8b570e4005d29}} 
+\index{IntegradorMonteCarlo@{IntegradorMonteCarlo}!IntegradorMonteCarlo@{IntegradorMonteCarlo}}
+\index{IntegradorMonteCarlo@{IntegradorMonteCarlo}!IntegradorMonteCarlo@{IntegradorMonteCarlo}}
+\doxysubsubsection{\texorpdfstring{IntegradorMonteCarlo()}{IntegradorMonteCarlo()}}
+{\footnotesize\ttfamily Integrador\+Monte\+Carlo\+::\+Integrador\+Monte\+Carlo (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}{Funcion\+Univariable}}}]{func,  }\item[{double}]{a,  }\item[{double}]{b,  }\item[{unsigned int}]{semilla = {\ttfamily std\+:\+:random\+\_\+device\{\}()} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{IntegradorMonteCarlo_8cpp_source_l00008}{8}} of file \mbox{\hyperlink{IntegradorMonteCarlo_8cpp_source}{Integrador\+Monte\+Carlo.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classIntegradorMonteCarlo_ac6b3498e1282c2c3eb6cafec40c5e838}\label{classIntegradorMonteCarlo_ac6b3498e1282c2c3eb6cafec40c5e838}} 
+\index{IntegradorMonteCarlo@{IntegradorMonteCarlo}!CalcularIntegralSimple@{CalcularIntegralSimple}}
+\index{CalcularIntegralSimple@{CalcularIntegralSimple}!IntegradorMonteCarlo@{IntegradorMonteCarlo}}
+\doxysubsubsection{\texorpdfstring{CalcularIntegralSimple()}{CalcularIntegralSimple()}}
+{\footnotesize\ttfamily double Integrador\+Monte\+Carlo\+::\+Calcular\+Integral\+Simple (\begin{DoxyParamCaption}\item[{long long}]{numero\+\_\+muestras,  }\item[{double \&}]{error\+\_\+estimado }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{IntegradorMonteCarlo_8cpp_source_l00016}{16}} of file \mbox{\hyperlink{IntegradorMonteCarlo_8cpp_source}{Integrador\+Monte\+Carlo.\+cpp}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=291pt]{d3/d43/classIntegradorMonteCarlo_ac6b3498e1282c2c3eb6cafec40c5e838_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classIntegradorMonteCarlo_a060e904b25a9e249019385f00a7e70b5}\label{classIntegradorMonteCarlo_a060e904b25a9e249019385f00a7e70b5}} 
+\index{IntegradorMonteCarlo@{IntegradorMonteCarlo}!distribucion\_uniforme@{distribucion\_uniforme}}
+\index{distribucion\_uniforme@{distribucion\_uniforme}!IntegradorMonteCarlo@{IntegradorMonteCarlo}}
+\doxysubsubsection{\texorpdfstring{distribucion\_uniforme}{distribucion\_uniforme}}
+{\footnotesize\ttfamily std\+::uniform\+\_\+real\+\_\+distribution Integrador\+Monte\+Carlo\+::distribucion\+\_\+uniforme\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{IntegradorMonteCarlo_8h_source_l00020}{20}} of file \mbox{\hyperlink{IntegradorMonteCarlo_8h_source}{Integrador\+Monte\+Carlo.\+h}}.
+
+\mbox{\Hypertarget{classIntegradorMonteCarlo_ad25cebb7e85db13a1e777e7355da7ac9}\label{classIntegradorMonteCarlo_ad25cebb7e85db13a1e777e7355da7ac9}} 
+\index{IntegradorMonteCarlo@{IntegradorMonteCarlo}!func\_a\_integrar@{func\_a\_integrar}}
+\index{func\_a\_integrar@{func\_a\_integrar}!IntegradorMonteCarlo@{IntegradorMonteCarlo}}
+\doxysubsubsection{\texorpdfstring{func\_a\_integrar}{func\_a\_integrar}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}{Funcion\+Univariable}} Integrador\+Monte\+Carlo\+::func\+\_\+a\+\_\+integrar\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{IntegradorMonteCarlo_8h_source_l00015}{15}} of file \mbox{\hyperlink{IntegradorMonteCarlo_8h_source}{Integrador\+Monte\+Carlo.\+h}}.
+
+\mbox{\Hypertarget{classIntegradorMonteCarlo_aaf0359956c0a1cc66c5db0cde761b3a3}\label{classIntegradorMonteCarlo_aaf0359956c0a1cc66c5db0cde761b3a3}} 
+\index{IntegradorMonteCarlo@{IntegradorMonteCarlo}!gen@{gen}}
+\index{gen@{gen}!IntegradorMonteCarlo@{IntegradorMonteCarlo}}
+\doxysubsubsection{\texorpdfstring{gen}{gen}}
+{\footnotesize\ttfamily std\+::mt19937 Integrador\+Monte\+Carlo\+::gen\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{IntegradorMonteCarlo_8h_source_l00019}{19}} of file \mbox{\hyperlink{IntegradorMonteCarlo_8h_source}{Integrador\+Monte\+Carlo.\+h}}.
+
+\mbox{\Hypertarget{classIntegradorMonteCarlo_a8a3bb2c4be405faf29bacaa8dd694ed5}\label{classIntegradorMonteCarlo_a8a3bb2c4be405faf29bacaa8dd694ed5}} 
+\index{IntegradorMonteCarlo@{IntegradorMonteCarlo}!limite\_inferior@{limite\_inferior}}
+\index{limite\_inferior@{limite\_inferior}!IntegradorMonteCarlo@{IntegradorMonteCarlo}}
+\doxysubsubsection{\texorpdfstring{limite\_inferior}{limite\_inferior}}
+{\footnotesize\ttfamily double Integrador\+Monte\+Carlo\+::limite\+\_\+inferior\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{IntegradorMonteCarlo_8h_source_l00016}{16}} of file \mbox{\hyperlink{IntegradorMonteCarlo_8h_source}{Integrador\+Monte\+Carlo.\+h}}.
+
+\mbox{\Hypertarget{classIntegradorMonteCarlo_a72a61878bcd403b50844dd54b6c8d5e9}\label{classIntegradorMonteCarlo_a72a61878bcd403b50844dd54b6c8d5e9}} 
+\index{IntegradorMonteCarlo@{IntegradorMonteCarlo}!limite\_superior@{limite\_superior}}
+\index{limite\_superior@{limite\_superior}!IntegradorMonteCarlo@{IntegradorMonteCarlo}}
+\doxysubsubsection{\texorpdfstring{limite\_superior}{limite\_superior}}
+{\footnotesize\ttfamily double Integrador\+Monte\+Carlo\+::limite\+\_\+superior\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{IntegradorMonteCarlo_8h_source_l00017}{17}} of file \mbox{\hyperlink{IntegradorMonteCarlo_8h_source}{Integrador\+Monte\+Carlo.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{IntegradorMonteCarlo_8h}{Integrador\+Monte\+Carlo.\+h}}\item 
+\mbox{\hyperlink{IntegradorMonteCarlo_8cpp}{Integrador\+Monte\+Carlo.\+cpp}}\end{DoxyCompactItemize}

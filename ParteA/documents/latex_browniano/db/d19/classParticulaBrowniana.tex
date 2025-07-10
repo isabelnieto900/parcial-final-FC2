@@ -1,0 +1,301 @@
+\hypertarget{classParticulaBrowniana}{}\doxysection{Particula\+Browniana Class Reference}
+\label{classParticulaBrowniana}\index{ParticulaBrowniana@{ParticulaBrowniana}}
+
+
+Representa una partícula puntual que experimenta movimiento browniano.  
+
+
+
+
+{\ttfamily \#include $<$Particula\+Browniana.\+h$>$}
+
+
+
+Collaboration diagram for Particula\+Browniana\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{d6/df6/classParticulaBrowniana__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classParticulaBrowniana_a1dcd87a5e839e87dca2c9af11c69ed65}{Particula\+Browniana}} ()
+\begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classParticulaBrowniana_a5837b78ebc1ba17268fd0f57c3fcaf18}{Inicie}} (double x0, double y0, double z0, double Vx0, double Vy0, double Vz0, double m0, double gamma0, double Temperatura\+\_\+K, unsigned int semilla=std\+::random\+\_\+device\{\}())
+\begin{DoxyCompactList}\small\item\em Inicializa el estado completo de la partícula. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classParticulaBrowniana_aaed24e5e27bf4fca0b5069c43512b24a}{Actualizar\+Posicion\+Euler\+Maruyama}} (double dt)
+\begin{DoxyCompactList}\small\item\em Avanza la simulación un paso de tiempo usando el método de Euler-\/\+Maruyama. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classParticulaBrowniana_ab66e3826ecb8cc8c06fe18aff385d339}{Get\+Posicion}} (void) const
+\begin{DoxyCompactList}\small\item\em Obtiene la posición actual de la partícula. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classParticulaBrowniana_a7b69be9ab103f11082edf9a0b529b00b}{Get\+Velocidad}} (void) const
+\begin{DoxyCompactList}\small\item\em Obtiene la velocidad actual de la partícula. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classParticulaBrowniana_ada28fffff5e1af7b8c6bb310d3401c04}{Energia\+Cinetica}} (void) const
+\begin{DoxyCompactList}\small\item\em Calcula la energía cinética instantánea de la partícula. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classParticulaBrowniana_a83d5a02368ea5403ad4586ff89cfed61}{Imprimir\+Estado}} (std\+::ostream \&os) const
+\begin{DoxyCompactList}\small\item\em Imprime el estado actual de la partícula a un stream de salida. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classParticulaBrowniana_a0051d927d56cffb32098a3f8d4f35deb}{r}}
+\item 
+\mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classParticulaBrowniana_aac729048e66a10af3bd08718689ed493}{V}}
+\begin{DoxyCompactList}\small\item\em Vector de posición (r) y velocidad (V) de la partícula. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classParticulaBrowniana_a819b64e35411f83dd9aea2f032903565}{m}}
+\begin{DoxyCompactList}\small\item\em Masa de la partícula. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classParticulaBrowniana_a5060198d3effdf2c6ea850306c96f539}{gamma}}
+\begin{DoxyCompactList}\small\item\em Coeficiente de fricción o arrastre viscoso. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classParticulaBrowniana_ad54b014b320a2b49a302394c90e15839}{kT}}
+\begin{DoxyCompactList}\small\item\em Energía térmica (Constante de Boltzmann $\ast$ Temperatura). \end{DoxyCompactList}\item 
+std\+::mt19937 \mbox{\hyperlink{classParticulaBrowniana_a55de3deba601591d51b5258ed2ebaef8}{gen}}
+\begin{DoxyCompactList}\small\item\em Generador de números aleatorios (Mersenne Twister). \end{DoxyCompactList}\item 
+std\+::normal\+\_\+distribution \mbox{\hyperlink{classParticulaBrowniana_a7c9039f2b0d7ca47495a13e0f12c7773}{dist\+\_\+normal}}
+\begin{DoxyCompactList}\small\item\em Distribución normal estándar N(0,1). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Representa una partícula puntual que experimenta movimiento browniano. 
+
+Esta clase encapsula las propiedades físicas de una partícula (posición, velocidad, masa) y las fuerzas que actúan sobre ella (arrastre viscoso y fuerza estocástica). La evolución temporal se calcula mediante el método de Euler-\/\+Maruyama. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classParticulaBrowniana_a1dcd87a5e839e87dca2c9af11c69ed65}\label{classParticulaBrowniana_a1dcd87a5e839e87dca2c9af11c69ed65}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!ParticulaBrowniana@{ParticulaBrowniana}}
+\index{ParticulaBrowniana@{ParticulaBrowniana}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{ParticulaBrowniana()}{ParticulaBrowniana()}}
+{\footnotesize\ttfamily Particula\+Browniana\+::\+Particula\+Browniana (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructor por defecto. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classParticulaBrowniana_aaed24e5e27bf4fca0b5069c43512b24a}\label{classParticulaBrowniana_aaed24e5e27bf4fca0b5069c43512b24a}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!ActualizarPosicionEulerMaruyama@{ActualizarPosicionEulerMaruyama}}
+\index{ActualizarPosicionEulerMaruyama@{ActualizarPosicionEulerMaruyama}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{ActualizarPosicionEulerMaruyama()}{ActualizarPosicionEulerMaruyama()}}
+{\footnotesize\ttfamily void Particula\+Browniana\+::\+Actualizar\+Posicion\+Euler\+Maruyama (\begin{DoxyParamCaption}\item[{double}]{dt }\end{DoxyParamCaption})}
+
+
+
+Avanza la simulación un paso de tiempo usando el método de Euler-\/\+Maruyama. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dt} & El paso de tiempo para la integración. \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/d19/classParticulaBrowniana_aaed24e5e27bf4fca0b5069c43512b24a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classParticulaBrowniana_ada28fffff5e1af7b8c6bb310d3401c04}\label{classParticulaBrowniana_ada28fffff5e1af7b8c6bb310d3401c04}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!EnergiaCinetica@{EnergiaCinetica}}
+\index{EnergiaCinetica@{EnergiaCinetica}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{EnergiaCinetica()}{EnergiaCinetica()}}
+{\footnotesize\ttfamily double Particula\+Browniana\+::\+Energia\+Cinetica (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const}
+
+
+
+Calcula la energía cinética instantánea de la partícula. 
+
+\begin{DoxyReturn}{Returns}
+El valor de la energía cinética (0.\+5 $\ast$ m $\ast$ V$^\wedge$2). 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{db/d19/classParticulaBrowniana_ada28fffff5e1af7b8c6bb310d3401c04_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/d19/classParticulaBrowniana_ada28fffff5e1af7b8c6bb310d3401c04_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classParticulaBrowniana_ab66e3826ecb8cc8c06fe18aff385d339}\label{classParticulaBrowniana_ab66e3826ecb8cc8c06fe18aff385d339}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!GetPosicion@{GetPosicion}}
+\index{GetPosicion@{GetPosicion}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{GetPosicion()}{GetPosicion()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classVector3D}{Vector3D}} Particula\+Browniana\+::\+Get\+Posicion (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la posición actual de la partícula. 
+
+\begin{DoxyReturn}{Returns}
+Un \mbox{\hyperlink{classVector3D}{Vector3D}} con la posición (r). 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/d19/classParticulaBrowniana_ab66e3826ecb8cc8c06fe18aff385d339_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classParticulaBrowniana_a7b69be9ab103f11082edf9a0b529b00b}\label{classParticulaBrowniana_a7b69be9ab103f11082edf9a0b529b00b}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!GetVelocidad@{GetVelocidad}}
+\index{GetVelocidad@{GetVelocidad}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{GetVelocidad()}{GetVelocidad()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classVector3D}{Vector3D}} Particula\+Browniana\+::\+Get\+Velocidad (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Obtiene la velocidad actual de la partícula. 
+
+\begin{DoxyReturn}{Returns}
+Un \mbox{\hyperlink{classVector3D}{Vector3D}} con la velocidad (V). 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/d19/classParticulaBrowniana_a7b69be9ab103f11082edf9a0b529b00b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classParticulaBrowniana_a83d5a02368ea5403ad4586ff89cfed61}\label{classParticulaBrowniana_a83d5a02368ea5403ad4586ff89cfed61}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!ImprimirEstado@{ImprimirEstado}}
+\index{ImprimirEstado@{ImprimirEstado}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{ImprimirEstado()}{ImprimirEstado()}}
+{\footnotesize\ttfamily void Particula\+Browniana\+::\+Imprimir\+Estado (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os }\end{DoxyParamCaption}) const}
+
+
+
+Imprime el estado actual de la partícula a un stream de salida. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em os} & El stream de salida (ej. std\+::cout o un std\+::ofstream). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classParticulaBrowniana_a5837b78ebc1ba17268fd0f57c3fcaf18}\label{classParticulaBrowniana_a5837b78ebc1ba17268fd0f57c3fcaf18}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!Inicie@{Inicie}}
+\index{Inicie@{Inicie}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{Inicie()}{Inicie()}}
+{\footnotesize\ttfamily void Particula\+Browniana\+::\+Inicie (\begin{DoxyParamCaption}\item[{double}]{x0,  }\item[{double}]{y0,  }\item[{double}]{z0,  }\item[{double}]{Vx0,  }\item[{double}]{Vy0,  }\item[{double}]{Vz0,  }\item[{double}]{m0,  }\item[{double}]{gamma0,  }\item[{double}]{Temperatura\+\_\+K,  }\item[{unsigned int}]{semilla = {\ttfamily std\+:\+:random\+\_\+device\{\}()} }\end{DoxyParamCaption})}
+
+
+
+Inicializa el estado completo de la partícula. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x0} & Componente x de la posición inicial. \\
+\hline
+{\em y0} & Componente y de la posición inicial. \\
+\hline
+{\em z0} & Componente z de la posición inicial. \\
+\hline
+{\em Vx0} & Componente x de la velocidad inicial. \\
+\hline
+{\em Vy0} & Componente y de la velocidad inicial. \\
+\hline
+{\em Vz0} & Componente z de la velocidad inicial. \\
+\hline
+{\em m0} & Masa de la partícula. \\
+\hline
+{\em gamma0} & Coeficiente de arrastre. \\
+\hline
+{\em Temperatura\+\_\+K} & Temperatura del fluido en Kelvin. \\
+\hline
+{\em semilla} & Semilla para el generador de números aleatorios. \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=267pt]{db/d19/classParticulaBrowniana_a5837b78ebc1ba17268fd0f57c3fcaf18_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classParticulaBrowniana_a7c9039f2b0d7ca47495a13e0f12c7773}\label{classParticulaBrowniana_a7c9039f2b0d7ca47495a13e0f12c7773}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!dist\_normal@{dist\_normal}}
+\index{dist\_normal@{dist\_normal}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{dist\_normal}{dist\_normal}}
+{\footnotesize\ttfamily std\+::normal\+\_\+distribution Particula\+Browniana\+::dist\+\_\+normal\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Distribución normal estándar N(0,1). 
+
+\mbox{\Hypertarget{classParticulaBrowniana_a5060198d3effdf2c6ea850306c96f539}\label{classParticulaBrowniana_a5060198d3effdf2c6ea850306c96f539}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!gamma@{gamma}}
+\index{gamma@{gamma}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{gamma}{gamma}}
+{\footnotesize\ttfamily double Particula\+Browniana\+::gamma\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Coeficiente de fricción o arrastre viscoso. 
+
+\mbox{\Hypertarget{classParticulaBrowniana_a55de3deba601591d51b5258ed2ebaef8}\label{classParticulaBrowniana_a55de3deba601591d51b5258ed2ebaef8}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!gen@{gen}}
+\index{gen@{gen}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{gen}{gen}}
+{\footnotesize\ttfamily std\+::mt19937 Particula\+Browniana\+::gen\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Generador de números aleatorios (Mersenne Twister). 
+
+\mbox{\Hypertarget{classParticulaBrowniana_ad54b014b320a2b49a302394c90e15839}\label{classParticulaBrowniana_ad54b014b320a2b49a302394c90e15839}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!kT@{kT}}
+\index{kT@{kT}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{kT}{kT}}
+{\footnotesize\ttfamily double Particula\+Browniana\+::kT\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Energía térmica (Constante de Boltzmann $\ast$ Temperatura). 
+
+\mbox{\Hypertarget{classParticulaBrowniana_a819b64e35411f83dd9aea2f032903565}\label{classParticulaBrowniana_a819b64e35411f83dd9aea2f032903565}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!m@{m}}
+\index{m@{m}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{m}{m}}
+{\footnotesize\ttfamily double Particula\+Browniana\+::m\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Masa de la partícula. 
+
+\mbox{\Hypertarget{classParticulaBrowniana_a0051d927d56cffb32098a3f8d4f35deb}\label{classParticulaBrowniana_a0051d927d56cffb32098a3f8d4f35deb}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!r@{r}}
+\index{r@{r}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{r}{r}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classVector3D}{Vector3D}} Particula\+Browniana\+::r\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classParticulaBrowniana_aac729048e66a10af3bd08718689ed493}\label{classParticulaBrowniana_aac729048e66a10af3bd08718689ed493}} 
+\index{ParticulaBrowniana@{ParticulaBrowniana}!V@{V}}
+\index{V@{V}!ParticulaBrowniana@{ParticulaBrowniana}}
+\doxysubsubsection{\texorpdfstring{V}{V}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classVector3D}{Vector3D}} Particula\+Browniana\+::V\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Vector de posición (r) y velocidad (V) de la partícula. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{ParticulaBrowniana_8h}{Particula\+Browniana.\+h}}\item 
+src/\mbox{\hyperlink{ParticulaBrowniana_8cpp}{Particula\+Browniana.\+cpp}}\end{DoxyCompactItemize}

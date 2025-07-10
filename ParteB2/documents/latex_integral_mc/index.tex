@@ -1,0 +1,122 @@
+\label{index_md_ParteB2_README}%
+\Hypertarget{index_md_ParteB2_README}%
+ \hypertarget{index_autotoc_md1}{}\doxysection{Parte B2\+: Integración de e$^\wedge$(-\/x$^\wedge$2) por Monte Carlo}\label{index_autotoc_md1}
+Este directorio contiene el código y los artefactos para la Parte B2 del proyecto final de Física Computacional II, enfocada en la aplicación del método de Monte Carlo para la integración numérica.\hypertarget{index_autotoc_md2}{}\doxysubsection{Descripción}\label{index_autotoc_md2}
+Se implementa un programa para calcular la integral definida de la función \$f(x) = e$^\wedge$\{-\/x$^\wedge$2\}\$ en el intervalo \$\mbox{[}0, 1\mbox{]}\$ utilizando el método de Monte Carlo por muestreo simple. Se analiza la convergencia del valor estimado de la integral y su error en función del número de muestras utilizadas.
+
+El valor teórico de esta integral es \$\textbackslash{}frac\{\textbackslash{}sqrt\{\textbackslash{}pi\}\}\{2\}\textbackslash{}text\{erf\}(1) \textbackslash{}approx 0.\+74682413\$.\hypertarget{index_autotoc_md3}{}\doxysubsubsection{Clases Principales\+:}\label{index_autotoc_md3}
+
+\begin{DoxyItemize}
+\item {\ttfamily \mbox{\hyperlink{classIntegradorMonteCarlo}{Integrador\+Monte\+Carlo}}}\+: Clase que encapsula la lógica para realizar la integración por Monte Carlo de una función univariable dada.
+\end{DoxyItemize}\hypertarget{index_autotoc_md4}{}\doxysubsection{Estructura del Directorio $<$tt$>$\+Parte\+B2$<$/tt$>$}\label{index_autotoc_md4}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ParteB2/}
+\DoxyCodeLine{├── bin/}
+\DoxyCodeLine{│   └── integrador\_montecarlo    \# Ejecutable compilado}
+\DoxyCodeLine{├── include/}
+\DoxyCodeLine{│   └── IntegradorMonteCarlo.h}
+\DoxyCodeLine{├── src/}
+\DoxyCodeLine{│   ├── main\_montecarlo\_integral.cpp}
+\DoxyCodeLine{│   └── IntegradorMonteCarlo.cpp}
+\DoxyCodeLine{├── scripts/}
+\DoxyCodeLine{│   └── plot\_integral\_error.gp   \# Script Gnuplot para visualización}
+\DoxyCodeLine{├── results/}
+\DoxyCodeLine{│   ├── integral\_error\_Nmax\_1e7.dat \# Datos de convergencia (valor y error vs N)}
+\DoxyCodeLine{│   └── (*.png)                     \# Gráficas generadas}
+\DoxyCodeLine{├── documents/}
+\DoxyCodeLine{│   ├── integral\_mc\_informe.tex  \# Informe LaTeX específico para esta parte}
+\DoxyCodeLine{│   └── (html\_integral\_mc/ y latex\_integral\_mc/ de Doxygen)}
+\DoxyCodeLine{├── Makefile                       \# Makefile para compilar esta parte}
+\DoxyCodeLine{├── Doxyfile                       \# Configuración de Doxygen para esta parte}
+\DoxyCodeLine{└── README.md                      \# Este archivo}
+
+\end{DoxyCode}
+
+
+Adicionalmente, el documento {\ttfamily ../../documents/montecarlo\+\_\+fisica\+\_\+estadistica.tex} (en el directorio {\ttfamily documents} raíz del proyecto) contiene la investigación teórica asociada a esta parte.
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md6}{}\doxysubsection{Flujo de Trabajo Recomendado}\label{index_autotoc_md6}
+\hypertarget{index_autotoc_md7}{}\doxysubsubsection{1\textbackslash{}. Compilación}\label{index_autotoc_md7}
+Desde el directorio {\ttfamily Parte\+B2/}, compila el proyecto\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make}
+
+\end{DoxyCode}
+
+
+Esto generará el ejecutable {\ttfamily bin/integrador\+\_\+montecarlo}.
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Nota}}\+: El {\ttfamily Makefile} utiliza el estándar C++11. El código hace uso de {\ttfamily std\+::erf}, que es estándar a partir de C++17 pero suele estar disponible en compiladores modernos como una extensión.
+\end{DoxyItemize}
+
+Para limpiar los archivos compilados\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make clean}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md8}{}\doxysubsubsection{2\textbackslash{}. Ejecución de la Simulación}\label{index_autotoc_md8}
+La forma recomendada de ejecutar la simulación es usando el {\ttfamily Makefile}\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make run}
+
+\end{DoxyCode}
+
+
+Este comando se encarga de\+:
+
+
+\begin{DoxyEnumerate}
+\item Crear el directorio {\ttfamily results/} si no existe.
+\item Ejecutar la simulación con una semilla predeterminada.
+\item Guardar los datos de salida en {\ttfamily results/integral\+\_\+error\+\_\+\+Nmax\+\_\+1e7.\+dat}.
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md9}{}\doxysubsubsection{3\textbackslash{}. Visualización de Resultados}\label{index_autotoc_md9}
+Una vez generados los datos, crea las gráficas con\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make plot}
+
+\end{DoxyCode}
+
+
+Este comando invoca a Gnuplot con los parámetros correctos y guarda las tres gráficas ({\ttfamily .png}) en el directorio {\ttfamily results/}.
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md11}{}\doxysubsection{Opciones Avanzadas}\label{index_autotoc_md11}
+\hypertarget{index_autotoc_md12}{}\doxysubsubsection{Ejecución Manual}\label{index_autotoc_md12}
+Si deseas utilizar una semilla de generador de números aleatorios diferente, puedes ejecutar el programa manualmente. Desde el directorio {\ttfamily Parte\+B2/}\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\# Asegúrate de que el directorio de resultados exista}
+\DoxyCodeLine{mkdir -\/p results}
+\DoxyCodeLine{}
+\DoxyCodeLine{\# Ejecuta el programa con la semilla que elijas}
+\DoxyCodeLine{./bin/integrador\_montecarlo [semilla]}
+
+\end{DoxyCode}
+
+
+Ejemplo\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./bin/integrador\_montecarlo 42}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md13}{}\doxysubsubsection{Documentación}\label{index_autotoc_md13}
+
+\begin{DoxyItemize}
+\item {\bfseries{Informe La\+TeX\+:}} El informe detallado de esta parte se encuentra en {\ttfamily Parte\+B2/documents/integral\+\_\+mc\+\_\+informe.\+tex}. Para compilarlo\+: \`{}\`{}\`{}bash cd Parte\+B2/documents/ pdflatex integral\+\_\+mc\+\_\+informe.\+tex pdflatex integral\+\_\+mc\+\_\+informe.\+tex cd ../.. \`{}\`{}\`{}
+\item {\bfseries{Documentación Doxygen\+:}} Para generar la documentación del código\+: Desde el directorio {\ttfamily Parte\+B2/}\+: \`{}\`{}\`{}bash doxygen Doxyfile \`{}\`{}{\ttfamily  La salida HTML estará en}Parte\+B2/documents/html\+\_\+integral\+\_\+mc/\`{}. 
+\end{DoxyItemize}

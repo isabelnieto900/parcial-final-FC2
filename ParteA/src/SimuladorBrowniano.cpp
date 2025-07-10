@@ -1,100 +1,85 @@
-// SimuladorBrowniano.cpp
 #include "SimuladorBrowniano.h"
-#include <iostream> // Para std::cerr, std::endl
-#include <iomanip>  // Para std::fixed, std::setprecision
+#include <iostream>
+#include <iomanip>      // Para std::setprecision
+#include <filesystem>   // Para crear directorios
 
-SimuladorBrowniano::SimuladorBrowniano() : tiempo_actual(0.0), dt_simulacion(0.01) {
-    // El constructor por defecto. El archivo se abre en Inicializar.
+// Constructor
+SimuladorBrowniano::SimuladorBrowniano() : tiempo_total_sim(0.0), paso_tiempo(0.0) {
 }
 
+// Destructor: se asegura de que el archivo se cierre correctamente.
 SimuladorBrowniano::~SimuladorBrowniano() {
     if (archivo_salida.is_open()) {
         archivo_salida.close();
     }
 }
 
-void SimuladorBrowniano::AgregarParticula(const ParticulaBrowniana &nueva_particula) {
-    particulas.push_back(nueva_particula);
-}
+// Implementación de Inicializar
+void SimuladorBrowniano::Inicializar(double t_total, double dt, const ParticulaBrowniana& p_inicial, const std::string& nombre_base_archivo) {
+    this->tiempo_total_sim = t_total;
+    this->paso_tiempo = dt;
+    this->particula = p_inicial;
 
-void SimuladorBrowniano::Inicializar(double paso_tiempo, const std::string& _nombre_archivo_salida) {
-    dt_simulacion = paso_tiempo;
-    tiempo_actual = 0.0;
-    nombre_archivo_salida_str = _nombre_archivo_salida;
+    std::string nombre_archivo = "results/" + nombre_base_archivo + ".dat";
 
-    if (archivo_salida.is_open()) {
-        archivo_salida.close(); // Cerrar si ya estaba abierto por alguna razón
-    }
-    archivo_salida.open(nombre_archivo_salida_str);
-    if (!archivo_salida.is_open()) {
-        std::cerr << "Error: No se pudo abrir el archivo de salida: " << nombre_archivo_salida_str << std::endl;
-    } else {
-        // Escribir cabecera en el archivo de datos
-        // Formato: tiempo x1 y1 z1 vx1 vy1 vz1 x2 y2 z2 vx2 vy2 vz2 ...
-        archivo_salida << "# Tiempo";
-        for (size_t i = 0; i < particulas.size(); ++i) {
-            archivo_salida << " x" << i+1 << " y" << i+1 << " z" << i+1
-                           << " Vx" << i+1 << " Vy" << i+1 << " Vz" << i+1;
+    try {
+        std::filesystem::path dir_path("results");
+        if (!std::filesystem::exists(dir_path)) {
+            std::filesystem::create_directory(dir_path);
         }
-        archivo_salida << std::endl;
-        archivo_salida << std::fixed << std::setprecision(8); // Formato para los datos numéricos
+    } catch (const std::filesystem::filesystem_error& e) {
+        std::cerr << "Error creando el directorio 'results': " << e.what() << std::endl;
     }
-}
 
-void SimuladorBrowniano::IntegrarPaso() {
-    for (size_t i = 0; i < particulas.size(); ++i) {
-        // Para el movimiento Browniano, la "fuerza" (aleatoria y de arrastre)
-        // está incorporada en el método de actualización de la partícula.
-        particulas[i].ActualizarPosicionEulerMaruyama(dt_simulacion);
-    }
-    tiempo_actual += dt_simulacion;
-}
-
-void SimuladorBrowniano::GuardarEstadoSistema() {
+    archivo_salida.open(nombre_archivo);
     if (!archivo_salida.is_open()) {
+        std::cerr << "Error: No se pudo abrir el archivo de salida: " << nombre_archivo << std::endl;
         return;
     }
-    archivo_salida << tiempo_actual;
-    for (size_t i = 0; i < particulas.size(); ++i) {
-        archivo_salida << " ";
-        particulas[i].ImprimirEstado(archivo_salida);
-    }
-    archivo_salida << std::endl;
+
+    archivo_salida << "# t x y z Vx Vy Vz E_cinetica\n";
+    archivo_salida << std::fixed << std::setprecision(6);
 }
 
-void SimuladorBrowniano::Simular(double tiempo_total_simulacion, int pasos_entre_guardado) {
+// Implementación de CorrerSimulacion
+void SimuladorBrowniano::CorrerSimulacion() {
     if (!archivo_salida.is_open()) {
-        std::cerr << "Error: El archivo de salida no está inicializado. Llama a Inicializar() primero." << std::endl;
-        return;
-    }
-    if (particulas.empty()){
-        std::cerr << "Advertencia: No hay partículas en el simulador." << std::endl;
+        std::cerr << "Error: La simulación no puede correr. Llama a Inicializar() primero." << std::endl;
         return;
     }
 
-    // Si Inicializar no fue llamado después de agregar partículas, la cabecera podría ser incorrecta.
-    // Podríamos reabrir y reescribir cabecera aquí, o asegurar que Inicializar se llame después de agregar partículas.
-    // Por ahora, se asume que Inicializar se llama con el estado correcto de `particulas.size()`.
+    int pasos_totales = static_cast<int>(tiempo_total_sim / paso_tiempo);
+    int pasos_entre_guardado = 100;
 
-    long long pasos_simulacion_total = 0;
-    GuardarEstadoSistema(); // Guardar estado inicial en t=0
+    GuardarEstado(0.0);
 
-    while (tiempo_actual < tiempo_total_simulacion) {
-        IntegrarPaso();
-        pasos_simulacion_total++;
-        if (pasos_simulacion_total % pasos_entre_guardado == 0) {
-            GuardarEstadoSistema();
+    for (int i = 1; i <= pasos_totales; ++i) {
+        particula.ActualizarPosicionEulerMaruyama(paso_tiempo);
+
+        if (i % pasos_entre_guardado == 0) {
+            double tiempo_actual = i * paso_tiempo;
+            GuardarEstado(tiempo_actual);
         }
     }
 
-    // Asegurarse de guardar el último estado si no coincidió exactamente con un paso de guardado
-    // y si el tiempo actual es significativamente diferente del último guardado.
-    if ((pasos_simulacion_total % pasos_entre_guardado != 0) && tiempo_total_simulacion > 0) {
-         GuardarEstadoSistema();
+    if (pasos_totales % pasos_entre_guardado != 0) {
+        GuardarEstado(tiempo_total_sim);
     }
-
-    if (archivo_salida.is_open()) {
-        archivo_salida.close();
-    }
-    std::cout << "Simulación finalizada. Tiempo total simulado: " << tiempo_actual << " s. Pasos totales: " << pasos_simulacion_total << std::endl;
 }
+
+// --- FUNCIÓN CORREGIDA ---
+void SimuladorBrowniano::GuardarEstado(double tiempo) {
+    if (!archivo_salida.is_open()) return;
+
+    // Se obtiene el vector de posición completo
+    Vector3D r = particula.GetPosicion();
+    // Se obtiene el vector de velocidad completo
+    Vector3D V = particula.GetVelocidad();
+
+    // Se escriben los componentes de los vectores obtenidos
+    archivo_salida << tiempo << " "
+                   << r.x << " " << r.y << " " << r.z << " "
+                   << V.x << " " << V.y << " " << V.z << " "
+                   << particula.EnergiaCinetica() << "\n";
+}
+

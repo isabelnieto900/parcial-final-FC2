@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 
     IntegradorMonteCarlo integrador(funcion_a_integrar_exp_neg_x_cuadrado, limite_inferior, limite_superior, semilla);
 
-    std::string nombre_archivo_salida = "ParteB2/results/integral_error_Nmax_1e7.dat";
+    std::string nombre_archivo_salida = "results/integral_error_Nmax_1e7.dat";
     std::ofstream archivo_resultados(nombre_archivo_salida);
 
     if (!archivo_resultados.is_open()) {

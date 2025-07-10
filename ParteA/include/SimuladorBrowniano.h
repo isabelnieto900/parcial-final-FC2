@@ -1,41 +1,66 @@
-// SimuladorBrowniano.h
+/**
+ * @file SimuladorBrowniano.h
+ * @brief Declaración de la clase SimuladorBrowniano, que gestiona la simulación completa.
+ * @author Camilo Andres Huertas Archila
+ * @date 2025-07-09
+ */
+
 #ifndef SIMULADOR_BROWNIANO_H
 #define SIMULADOR_BROWNIANO_H
 
-#include "ParticulaBrowniana.h" // Asumiendo que está en el mismo directorio include o el Makefile lo resuelve
-#include <vector>
+#include "ParticulaBrowniana.h"
 #include <string>
 #include <fstream> // Para std::ofstream
 
+/**
+ * @class SimuladorBrowniano
+ * @brief Orquesta la simulación del movimiento browniano para una partícula.
+ *
+ * Esta clase se encarga de inicializar los parámetros de la simulación
+ * (tiempo, dt), manejar el archivo de salida de datos, y ejecutar el bucle
+ * principal que actualiza el estado de la partícula a lo largo del tiempo.
+ */
 class SimuladorBrowniano {
 private:
-    std::vector<ParticulaBrowniana> particulas;
-    double tiempo_actual;
-    double dt_simulacion;
-    std::ofstream archivo_salida; // Para guardar datos
-    std::string nombre_archivo_salida_str; // Para poder reabrir si es necesario o para referencia
+    ParticulaBrowniana particula; ///< La partícula que será simulada.
+    double tiempo_total_sim;      ///< Duración total de la simulación.
+    double paso_tiempo;           ///< Paso de tiempo (dt) para la integración.
+    std::ofstream archivo_salida; ///< Stream para escribir los datos en un archivo.
 
 public:
+    /**
+     * @brief Constructor por defecto.
+     */
     SimuladorBrowniano();
-    ~SimuladorBrowniano(); // Destructor para cerrar el archivo si está abierto
 
-    void AgregarParticula(const ParticulaBrowniana &nueva_particula);
+    /**
+     * @brief Destructor. Cierra el archivo de salida si está abierto.
+     */
+    ~SimuladorBrowniano();
 
-    // Inicializa el simulador, incluyendo la apertura del archivo de salida.
-    void Inicializar(double paso_tiempo, const std::string& _nombre_archivo_salida);
+    /**
+     * @brief Configura e inicializa la simulación.
+     * @param t_total Duración total de la simulación.
+     * @param dt Paso de tiempo para la integración.
+     * @param p_inicial La partícula ya configurada que se va a simular.
+     * @param nombre_base_archivo El nombre base para el archivo de datos de salida (sin extensión).
+     */
+    void Inicializar(double t_total, double dt, const ParticulaBrowniana& p_inicial, const std::string& nombre_base_archivo);
 
-    // Realiza un paso de integración para todas las partículas.
-    void IntegrarPaso();
+    /**
+     * @brief Ejecuta el bucle principal de la simulación.
+     * Itera desde t=0 hasta t=tiempo_total_sim, actualizando la partícula
+     * y guardando su estado periódicamente.
+     */
+    void CorrerSimulacion();
 
-    // Guarda el estado actual del sistema (tiempo y estado de cada partícula) en el archivo.
-    void GuardarEstadoSistema();
-
-    // Ejecuta la simulación completa.
-    // pasos_entre_guardado: frecuencia con la que se guardan los datos (cada N pasos).
-    void Simular(double tiempo_total_simulacion, int pasos_entre_guardado);
-
-    // Método para obtener una referencia al vector de partículas (útil para análisis post-simulación)
-    const std::vector<ParticulaBrowniana>& GetParticulas() const { return particulas; }
+private:
+    /**
+     * @brief Guarda el estado actual de la partícula en el archivo de datos.
+     * @param tiempo El tiempo actual de la simulación para registrar en la primera columna.
+     */
+    void GuardarEstado(double tiempo);
 };
 
 #endif // SIMULADOR_BROWNIANO_H
+

@@ -4,93 +4,91 @@ Este directorio contiene el código y los artefactos para la Parte A del proyect
 
 ## Descripción
 
-Se simula el movimiento de una partícula browniana inmersa en un medio viscoso utilizando la ecuación de Langevin. La integración numérica se realiza mediante el método de Euler-Maruyama.
+Se simula el movimiento de una partícula browniana inmersa en un medio viscoso utilizando la ecuación de Langevin. La integración numérica se realiza mediante el método de Euler-Maruyama. El proyecto está estructurado con Programación Orientada a Objetos en C++.
 
-El objetivo es observar la trayectoria característica de una partícula browniana y analizar su comportamiento difusivo, por ejemplo, calculando el desplazamiento cuadrático medio (MSD).
+El objetivo es observar la trayectoria característica de una partícula browniana y analizar su comportamiento difusivo.
 
 ### Clases Principales:
-*   `Vector3D`: Clase auxiliar para operaciones con vectores en 3D (ubicada en `../common/`).
-*   `ParticulaBrowniana`: Representa la partícula browniana, implementando la lógica de la ecuación de Langevin.
-*   `SimuladorBrowniano`: Gestiona la simulación, incluyendo una o más partículas, el paso del tiempo y el guardado de datos.
+* `Vector3D`: Clase auxiliar para operaciones con vectores en 3D.
+* `ParticulaBrowniana`: Representa la partícula, implementando la lógica de la ecuación de Langevin.
+* `SimuladorBrowniano`: Gestiona la simulación, el paso del tiempo y el guardado de datos.
 
-## Estructura del Directorio `ParteA`
+## Estructura del Directorio
 
-```
+La estructura del proyecto sigue las buenas prácticas para la organización de código C++.
+
+```text
 ParteA/
-├── bin/
-│   └── movimiento_browniano    # Ejecutable compilado
-├── include/
-│   ├── ParticulaBrowniana.h
-│   └── SimuladorBrowniano.h
-├── src/
-│   ├── main_browniano.cpp
-│   ├── ParticulaBrowniana.cpp
-│   └── SimuladorBrowniano.cpp
-├── scripts/
-│   └── plot_browniano.gp       # Script Gnuplot para visualización
-├── results/
-│   ├── browniano.dat           # Datos de salida de la simulación
-│   └── (gráficas .png)         # Gráficas generadas por el script
-├── documents/
-│   ├── browniano_informe.tex   # Informe LaTeX específico para esta parte
-│   └── (html_browniano/ y latex_browniano/ de Doxygen)
-├── Makefile                    # Makefile para compilar esta parte
-├── Doxyfile                    # Configuración de Doxygen para esta parte
-└── README.md                   # Este archivo
+|-- bin/
+|   `-- movimiento_browniano
+|-- include/
+|   |-- ParticulaBrowniana.h
+|   `-- SimuladorBrowniano.h
+|-- src/
+|   |-- main_browniano.cpp
+|   |-- ParticulaBrowniana.cpp
+|   |-- SimuladorBrowniano.cpp
+|   `-- Vector3D.cpp
+|-- scripts/
+|   `-- plot_browniano.gp
+|-- results/
+|   |-- browniano_sim.dat
+|   `-- (gráficas .png)
+|-- documents/
+|   |-- browniano_informe.tex
+|   `-- (html_browniano/ y latex_browniano/)
+|-- Makefile
+|-- Doxyfile
+`-- README.md
 ```
 
 ## Compilación
-Desde el directorio `ParteA/`:
+Desde el directorio `ParteA/`, ejecuta:
 ```bash
 make
 ```
-Esto generará el ejecutable `bin/movimiento_browniano`.
-
-Para limpiar los archivos compilados:
+Esto compilará todo el proyecto y creará el ejecutable `bin/movimiento_browniano`. Para una recompilación limpia:
 ```bash
-make clean
+make clean && make
 ```
 
 ## Ejecución
-Desde el directorio `ParteA/`:
-```bash
-./bin/movimiento_browniano [tiempo_total] [dt] [semilla] [temperatura_K] [radio_particula_um] [pasos_guardado]
-```
-Argumentos opcionales:
-*   `tiempo_total`: Duración total de la simulación en segundos (defecto: 10.0).
-*   `dt`: Paso de tiempo en segundos (defecto: 0.001).
-*   `semilla`: Semilla para el generador de números aleatorios (defecto: aleatoria).
-*   `temperatura_K`: Temperatura en Kelvin (defecto: 300).
-*   `radio_particula_um`: Radio de la partícula en micrómetros (defecto: 1.0).
-*   `pasos_guardado`: Frecuencia de guardado de datos (defecto: 100).
+Desde el directorio `ParteA/`, usa la regla `run` del Makefile o ejecuta el programa directamente.
 
+**Usando Makefile (recomendado):**
+```bash
+make run
+```
+Esto ejecutará la simulación con los parámetros por defecto definidos en el `Makefile`.
+
+**Ejecución directa:**
+```bash
+./bin/movimiento_browniano <tiempo_total> <dt> <semilla> [nombre_base_archivo]
+```
 Ejemplo:
 ```bash
-./bin/movimiento_browniano 20 0.0005 42
+./bin/movimiento_browniano 200.0 0.01 42 mi_simulacion
 ```
-Los datos de salida se guardarán en `ParteA/results/`. El nombre del archivo incluirá algunos de los parámetros de simulación.
+Los datos de salida se guardarán en `results/`.
 
 ## Visualización
-Después de ejecutar la simulación, los datos se pueden graficar usando Gnuplot:
-Desde el directorio `ParteA/scripts/`:
+Después de ejecutar la simulación, genera las gráficas con Gnuplot usando la regla del Makefile:
 ```bash
-gnuplot plot_browniano.gp
+make plot
 ```
-Esto utilizará el archivo de datos más reciente (o uno especificado) en `../results/` y generará gráficas (ej. trayectoria, X(t), Y(t)) en `../results/`.
-Es posible que necesites editar `plot_browniano.gp` para apuntar al archivo de datos correcto si cambiaste los parámetros de salida o el nombre.
+Esto buscará el archivo `results/browniano_sim.dat` y creará las gráficas correspondientes en la misma carpeta.
 
 ## Documentación
-*   **Informe LaTeX:** El informe detallado de esta parte se encuentra en `ParteA/documents/browniano_informe.tex`. Para compilarlo:
+El proyecto cuenta con dos formas de documentación:
+
+* **Informe Científico (LaTeX):** El informe detallado se encuentra en `documents/browniano_informe.tex`. Para compilarlo a PDF, necesitarás una distribución de LaTeX (como TeX Live o MiKTeX) y ejecutar desde `ParteA/documents/`:
     ```bash
-    cd ParteA/documents/
     pdflatex browniano_informe.tex
-    pdflatex browniano_informe.tex # Segunda vez para referencias
-    cd ../..
     ```
-*   **Documentación Doxygen:** Para generar la documentación del código de esta parte:
-    Desde el directorio `ParteA/`:
+* **Documentación del Código (Doxygen):** Para generar una página web navegable y un PDF con la documentación de todas las clases y funciones, usa las reglas del Makefile desde el directorio `ParteA/`:
     ```bash
-    doxygen Doxyfile
+    make doc  # Para generar solo el HTML
+    make pdf  # Para generar HTML y el PDF final
     ```
-    La salida HTML estará en `ParteA/documents/html_browniano/`.
-```
+    El HTML estará en `ParteA/documents/html_browniano/index.html` y el PDF en `ParteA/documents/latex_browniano/refman.pdf`.
+

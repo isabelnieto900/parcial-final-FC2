@@ -1,0 +1,47 @@
+\hypertarget{IntegradorMonteCarlo_8h_source}{}\doxysection{Integrador\+Monte\+Carlo.\+h}
+\label{IntegradorMonteCarlo_8h_source}\index{IntegradorMonteCarlo.h@{IntegradorMonteCarlo.h}}
+\mbox{\hyperlink{IntegradorMonteCarlo_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00001}00001 \textcolor{comment}{// IntegradorMonteCarlo.h}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00002}00002 \textcolor{preprocessor}{\#ifndef INTEGRADOR\_MONTE\_CARLO\_H}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00003}00003 \textcolor{preprocessor}{\#define INTEGRADOR\_MONTE\_CARLO\_H}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00005}00005 \textcolor{preprocessor}{\#include <functional>} \textcolor{comment}{// Para std::function}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00006}00006 \textcolor{preprocessor}{\#include <random>}     \textcolor{comment}{// Para generadores de números aleatorios}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00007}00007 \textcolor{preprocessor}{\#include <string>}     \textcolor{comment}{// Para std::string (aunque no se usa directamente en la interfaz aquí)}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00008}00008 }
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00009}\mbox{\hyperlink{classIntegradorMonteCarlo}{00009}} \textcolor{keyword}{class }\mbox{\hyperlink{classIntegradorMonteCarlo}{IntegradorMonteCarlo}} \{}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00010}00010 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00011}00011     \textcolor{comment}{// Typedef para la función a integrar (debe tomar un double y devolver un double)}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00012}\mbox{\hyperlink{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}{00012}}     \textcolor{keyword}{using }\mbox{\hyperlink{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}{FuncionUnivariable}} = std::function<double(\textcolor{keywordtype}{double})>;}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00013}00013 }
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00014}00014 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00015}\mbox{\hyperlink{classIntegradorMonteCarlo_ad25cebb7e85db13a1e777e7355da7ac9}{00015}}     \mbox{\hyperlink{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}{FuncionUnivariable}} \mbox{\hyperlink{classIntegradorMonteCarlo_ad25cebb7e85db13a1e777e7355da7ac9}{func\_a\_integrar}}; \textcolor{comment}{// La función f(x)}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00016}\mbox{\hyperlink{classIntegradorMonteCarlo_a8a3bb2c4be405faf29bacaa8dd694ed5}{00016}}     \textcolor{keywordtype}{double} \mbox{\hyperlink{classIntegradorMonteCarlo_a8a3bb2c4be405faf29bacaa8dd694ed5}{limite\_inferior}};             \textcolor{comment}{// Límite inferior de integración 'a'}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00017}\mbox{\hyperlink{classIntegradorMonteCarlo_a72a61878bcd403b50844dd54b6c8d5e9}{00017}}     \textcolor{keywordtype}{double} \mbox{\hyperlink{classIntegradorMonteCarlo_a72a61878bcd403b50844dd54b6c8d5e9}{limite\_superior}};             \textcolor{comment}{// Límite superior de integración 'b'}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00019}\mbox{\hyperlink{classIntegradorMonteCarlo_aaf0359956c0a1cc66c5db0cde761b3a3}{00019}}     std::mt19937 \mbox{\hyperlink{classIntegradorMonteCarlo_aaf0359956c0a1cc66c5db0cde761b3a3}{gen}}; \textcolor{comment}{// Generador de números aleatorios Mersenne Twister}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00020}\mbox{\hyperlink{classIntegradorMonteCarlo_a060e904b25a9e249019385f00a7e70b5}{00020}}     std::uniform\_real\_distribution<> \mbox{\hyperlink{classIntegradorMonteCarlo_a060e904b25a9e249019385f00a7e70b5}{distribucion\_uniforme}}; \textcolor{comment}{// Para generar x en [a, b)}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00022}00022 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00023}00023     \textcolor{comment}{// Constructor}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00024}00024     \textcolor{comment}{// func: la función f(x) a integrar.}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00025}00025     \textcolor{comment}{// a: límite inferior de integración.}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00026}00026     \textcolor{comment}{// b: límite superior de integración.}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00027}00027     \textcolor{comment}{// semilla: semilla para el generador de números aleatorios.}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00028}00028     \mbox{\hyperlink{classIntegradorMonteCarlo_a1fd3cb493b3ea24161e8b570e4005d29}{IntegradorMonteCarlo}}(\mbox{\hyperlink{classIntegradorMonteCarlo_a2c06d516e122964ee3fae6fa028f77da}{FuncionUnivariable}} func, \textcolor{keywordtype}{double} a, \textcolor{keywordtype}{double} b, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} semilla = std::random\_device\{\}());}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00030}00030     \textcolor{comment}{// Calcula la integral de func\_a\_integrar desde limite\_inferior hasta limite\_superior}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00031}00031     \textcolor{comment}{// utilizando el método de muestreo simple de Monte Carlo.}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00032}00032     \textcolor{comment}{// numero\_muestras: el número de puntos aleatorios (N) a generar.}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00033}00033     \textcolor{comment}{// error\_estimado: referencia a una variable donde se almacenará el error estándar de la media.}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00034}00034     \textcolor{comment}{// Devuelve el valor estimado de la integral.}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00035}00035     \textcolor{keywordtype}{double} \mbox{\hyperlink{classIntegradorMonteCarlo_ac6b3498e1282c2c3eb6cafec40c5e838}{CalcularIntegralSimple}}(\textcolor{keywordtype}{long} \textcolor{keywordtype}{long} numero\_muestras, \textcolor{keywordtype}{double}\& error\_estimado);}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00037}00037     \textcolor{comment}{// Podrían añadirse otros métodos de Monte Carlo aquí si fuera necesario,}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00038}00038     \textcolor{comment}{// como muestreo por importancia (importance sampling).}}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00039}00039 \};}
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{IntegradorMonteCarlo_8h_source_l00041}00041 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// INTEGRADOR\_MONTE\_CARLO\_H}}
+
+\end{DoxyCode}

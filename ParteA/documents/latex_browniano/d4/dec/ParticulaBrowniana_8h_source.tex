@@ -1,0 +1,46 @@
+\hypertarget{ParticulaBrowniana_8h_source}{}\doxysection{Particula\+Browniana.\+h}
+\label{ParticulaBrowniana_8h_source}\index{include/ParticulaBrowniana.h@{include/ParticulaBrowniana.h}}
+\mbox{\hyperlink{ParticulaBrowniana_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#ifndef PARTICULA\_BROWNIANA\_H}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define PARTICULA\_BROWNIANA\_H}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Vector3D_8h}{Vector3D.h}}"{}}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <random>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{25 \textcolor{keyword}{class }\mbox{\hyperlink{classParticulaBrowniana}{ParticulaBrowniana}} \{}
+\DoxyCodeLine{26 \textcolor{keyword}{private}:}
+\DoxyCodeLine{27     \mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classParticulaBrowniana_a0051d927d56cffb32098a3f8d4f35deb}{r}}, \mbox{\hyperlink{classParticulaBrowniana_aac729048e66a10af3bd08718689ed493}{V}}; }
+\DoxyCodeLine{28     \textcolor{keywordtype}{double} \mbox{\hyperlink{classParticulaBrowniana_a819b64e35411f83dd9aea2f032903565}{m}};      }
+\DoxyCodeLine{29     \textcolor{keywordtype}{double} \mbox{\hyperlink{classParticulaBrowniana_a5060198d3effdf2c6ea850306c96f539}{gamma}};  }
+\DoxyCodeLine{30     \textcolor{keywordtype}{double} \mbox{\hyperlink{classParticulaBrowniana_ad54b014b320a2b49a302394c90e15839}{kT}};     }
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32     std::mt19937 \mbox{\hyperlink{classParticulaBrowniana_a55de3deba601591d51b5258ed2ebaef8}{gen}}; }
+\DoxyCodeLine{33     std::normal\_distribution<> \mbox{\hyperlink{classParticulaBrowniana_a7c9039f2b0d7ca47495a13e0f12c7773}{dist\_normal}}; }
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{keyword}{public}:}
+\DoxyCodeLine{39     \mbox{\hyperlink{classParticulaBrowniana_a1dcd87a5e839e87dca2c9af11c69ed65}{ParticulaBrowniana}}();}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{54     \textcolor{keywordtype}{void} \mbox{\hyperlink{classParticulaBrowniana_a5837b78ebc1ba17268fd0f57c3fcaf18}{Inicie}}(\textcolor{keywordtype}{double} x0, \textcolor{keywordtype}{double} y0, \textcolor{keywordtype}{double} z0,}
+\DoxyCodeLine{55                 \textcolor{keywordtype}{double} Vx0, \textcolor{keywordtype}{double} Vy0, \textcolor{keywordtype}{double} Vz0,}
+\DoxyCodeLine{56                 \textcolor{keywordtype}{double} m0, \textcolor{keywordtype}{double} gamma0, \textcolor{keywordtype}{double} Temperatura\_K, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} semilla = std::random\_device\{\}());}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{62     \textcolor{keywordtype}{void} \mbox{\hyperlink{classParticulaBrowniana_aaed24e5e27bf4fca0b5069c43512b24a}{ActualizarPosicionEulerMaruyama}}(\textcolor{keywordtype}{double} dt);}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64     \textcolor{comment}{// -\/-\/-\/ Getters -\/-\/-\/}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{70     \mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classParticulaBrowniana_ab66e3826ecb8cc8c06fe18aff385d339}{GetPosicion}}(\textcolor{keywordtype}{void})\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classParticulaBrowniana_a0051d927d56cffb32098a3f8d4f35deb}{r}}; \}}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{76     \mbox{\hyperlink{classVector3D}{Vector3D}} \mbox{\hyperlink{classParticulaBrowniana_a7b69be9ab103f11082edf9a0b529b00b}{GetVelocidad}}(\textcolor{keywordtype}{void})\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classParticulaBrowniana_aac729048e66a10af3bd08718689ed493}{V}}; \}}
+\DoxyCodeLine{77     }
+\DoxyCodeLine{82     \textcolor{keywordtype}{double} \mbox{\hyperlink{classParticulaBrowniana_ada28fffff5e1af7b8c6bb310d3401c04}{EnergiaCinetica}}(\textcolor{keywordtype}{void}) \textcolor{keyword}{const};}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{88     \textcolor{keywordtype}{void} \mbox{\hyperlink{classParticulaBrowniana_a83d5a02368ea5403ad4586ff89cfed61}{ImprimirEstado}}(std::ostream\& os) \textcolor{keyword}{const};}
+\DoxyCodeLine{89 \};}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// PARTICULA\_BROWNIANA\_H}}
+\DoxyCodeLine{92 }
+
+\end{DoxyCode}

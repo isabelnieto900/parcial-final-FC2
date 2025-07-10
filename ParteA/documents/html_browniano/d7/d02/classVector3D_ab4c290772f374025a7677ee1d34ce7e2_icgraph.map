@@ -1,0 +1,9 @@
+<map id="Vector3D::norm2" name="Vector3D::norm2">
+<area shape="rect" id="node1" title=" " alt="" coords="719,42,849,69"/>
+<area shape="rect" id="node2" href="$db/d19/classParticulaBrowniana.html#ada28fffff5e1af7b8c6bb310d3401c04" title="Calcula la energía cinética instantánea de la partícula." alt="" coords="524,5,671,47"/>
+<area shape="rect" id="node6" href="$d7/d02/classVector3D.html#a176d25c8beea995c9cbf9fb4ad57b87a" title=" " alt="" coords="536,71,659,98"/>
+<area shape="rect" id="node3" href="$d5/d3b/classSimuladorBrowniano.html#acb1397319882477677b0cdc33cbf0db1" title="Guarda el estado actual de la partícula en el archivo de datos." alt="" coords="316,5,473,47"/>
+<area shape="rect" id="node4" href="$d5/d3b/classSimuladorBrowniano.html#a959ba721b2a85b9d7480a288721c69b4" title="Ejecuta el bucle principal de la simulación." alt="" coords="108,5,265,47"/>
+<area shape="rect" id="node5" href="$d8/d19/main__browniano_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,13,60,39"/>
+<area shape="rect" id="node7" href="$d7/d02/classVector3D.html#aac87aef508e65eb8ada23346b5e552c3" title=" " alt="" coords="313,71,476,98"/>
+</map>

@@ -1,0 +1,96 @@
+\label{index_md_README}%
+\Hypertarget{index_md_README}%
+ Este directorio contiene el código y los artefactos para la Parte A del proyecto final de Física Computacional II, enfocada en la simulación del movimiento Browniano.\hypertarget{index_autotoc_md1}{}\doxysection{Descripción}\label{index_autotoc_md1}
+Se simula el movimiento de una partícula browniana inmersa en un medio viscoso utilizando la ecuación de Langevin. La integración numérica se realiza mediante el método de Euler-\/\+Maruyama. El proyecto está estructurado con Programación Orientada a Objetos en C++.
+
+El objetivo es observar la trayectoria característica de una partícula browniana y analizar su comportamiento difusivo.\hypertarget{index_autotoc_md2}{}\doxysubsection{Clases Principales\+:}\label{index_autotoc_md2}
+
+\begin{DoxyItemize}
+\item {\ttfamily \mbox{\hyperlink{classVector3D}{Vector3D}}}\+: Clase auxiliar para operaciones con vectores en 3D.
+\item {\ttfamily \mbox{\hyperlink{classParticulaBrowniana}{Particula\+Browniana}}}\+: Representa la partícula, implementando la lógica de la ecuación de Langevin.
+\item {\ttfamily \mbox{\hyperlink{classSimuladorBrowniano}{Simulador\+Browniano}}}\+: Gestiona la simulación, el paso del tiempo y el guardado de datos.
+\end{DoxyItemize}\hypertarget{index_autotoc_md3}{}\doxysection{Estructura del Directorio}\label{index_autotoc_md3}
+La estructura del proyecto sigue las buenas prácticas para la organización de código C++.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ParteA/}
+\DoxyCodeLine{|-\/-\/ bin/}
+\DoxyCodeLine{|   `-\/-\/ movimiento\_browniano}
+\DoxyCodeLine{|-\/-\/ include/}
+\DoxyCodeLine{|   |-\/-\/ ParticulaBrowniana.h}
+\DoxyCodeLine{|   `-\/-\/ SimuladorBrowniano.h}
+\DoxyCodeLine{|-\/-\/ src/}
+\DoxyCodeLine{|   |-\/-\/ main\_browniano.cpp}
+\DoxyCodeLine{|   |-\/-\/ ParticulaBrowniana.cpp}
+\DoxyCodeLine{|   |-\/-\/ SimuladorBrowniano.cpp}
+\DoxyCodeLine{|   `-\/-\/ Vector3D.cpp}
+\DoxyCodeLine{|-\/-\/ scripts/}
+\DoxyCodeLine{|   `-\/-\/ plot\_browniano.gp}
+\DoxyCodeLine{|-\/-\/ results/}
+\DoxyCodeLine{|   |-\/-\/ browniano\_sim.dat}
+\DoxyCodeLine{|   `-\/-\/ (gráficas .png)}
+\DoxyCodeLine{|-\/-\/ documents/}
+\DoxyCodeLine{|   |-\/-\/ browniano\_informe.tex}
+\DoxyCodeLine{|   `-\/-\/ (html\_browniano/ y latex\_browniano/)}
+\DoxyCodeLine{|-\/-\/ Makefile}
+\DoxyCodeLine{|-\/-\/ Doxyfile}
+\DoxyCodeLine{`-\/-\/ README.md}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md4}{}\doxysection{Compilación}\label{index_autotoc_md4}
+Desde el directorio {\ttfamily Parte\+A/}, ejecuta\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make}
+
+\end{DoxyCode}
+ Esto compilará todo el proyecto y creará el ejecutable {\ttfamily bin/movimiento\+\_\+browniano}. Para una recompilación limpia\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make clean \&\& make}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md5}{}\doxysection{Ejecución}\label{index_autotoc_md5}
+Desde el directorio {\ttfamily Parte\+A/}, usa la regla {\ttfamily run} del Makefile o ejecuta el programa directamente.
+
+{\bfseries{Usando Makefile (recomendado)\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make run}
+
+\end{DoxyCode}
+ Esto ejecutará la simulación con los parámetros por defecto definidos en el {\ttfamily Makefile}.
+
+{\bfseries{Ejecución directa\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./bin/movimiento\_browniano <tiempo\_total> <dt> <semilla> [nombre\_base\_archivo]}
+
+\end{DoxyCode}
+ Ejemplo\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./bin/movimiento\_browniano 200.0 0.01 42 mi\_simulacion}
+
+\end{DoxyCode}
+ Los datos de salida se guardarán en {\ttfamily results/}.\hypertarget{index_autotoc_md6}{}\doxysection{Visualización}\label{index_autotoc_md6}
+Después de ejecutar la simulación, genera las gráficas con Gnuplot usando la regla del Makefile\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make plot}
+
+\end{DoxyCode}
+ Esto buscará el archivo {\ttfamily results/browniano\+\_\+sim.\+dat} y creará las gráficas correspondientes en la misma carpeta.\hypertarget{index_autotoc_md7}{}\doxysection{Documentación}\label{index_autotoc_md7}
+El proyecto cuenta con dos formas de documentación\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Informe Científico (La\+TeX)\+:}} El informe detallado se encuentra en {\ttfamily documents/browniano\+\_\+informe.\+tex}. Para compilarlo a PDF, necesitarás una distribución de La\+TeX (como TeX Live o Mi\+KTeX) y ejecutar desde {\ttfamily Parte\+A/documents/}\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pdflatex browniano\_informe.tex}
+
+\end{DoxyCode}
+
+\item {\bfseries{Documentación del Código (Doxygen)\+:}} Para generar una página web navegable y un PDF con la documentación de todas las clases y funciones, usa las reglas del Makefile desde el directorio {\ttfamily Parte\+A/}\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make doc  \# Para generar solo el HTML}
+\DoxyCodeLine{make pdf  \# Para generar HTML y el PDF final}
+
+\end{DoxyCode}
+ El HTML estará en {\ttfamily Parte\+A/documents/html\+\_\+browniano/index.\+html} y el PDF en {\ttfamily Parte\+A/documents/latex\+\_\+browniano/refman.\+pdf}. 
+\end{DoxyItemize}

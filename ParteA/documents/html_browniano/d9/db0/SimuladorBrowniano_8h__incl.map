@@ -1,0 +1,10 @@
+<map id="include/SimuladorBrowniano.h" name="include/SimuladorBrowniano.h">
+<area shape="rect" id="node1" title="Declaración de la clase SimuladorBrowniano, que gestiona la simulación completa." alt="" coords="153,5,373,32"/>
+<area shape="rect" id="node2" href="$d4/dec/ParticulaBrowniana_8h.html" title="Declaración de la clase ParticulaBrowniana, que modela una partícula sometida a la ecuación de Langev..." alt="" coords="50,80,209,107"/>
+<area shape="rect" id="node7" title=" " alt="" coords="233,80,292,107"/>
+<area shape="rect" id="node8" title=" " alt="" coords="317,80,390,107"/>
+<area shape="rect" id="node3" href="$d5/dd9/Vector3D_8h.html" title=" " alt="" coords="83,155,176,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,229,85,256"/>
+<area shape="rect" id="node6" title=" " alt="" coords="200,155,272,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="110,229,173,256"/>
+</map>

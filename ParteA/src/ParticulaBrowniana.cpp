@@ -1,4 +1,3 @@
-// ParticulaBrowniana.cpp
 #include "ParticulaBrowniana.h"
 #include <cmath> // Para std::sqrt
 
@@ -16,8 +15,8 @@ ParticulaBrowniana::ParticulaBrowniana()
 }
 
 void ParticulaBrowniana::Inicie(double x0, double y0, double z0,
-                                double Vx0, double Vy0, double Vz0,
-                                double m0, double gamma0, double Temperatura_K, unsigned int semilla) {
+                                  double Vx0, double Vy0, double Vz0,
+                                  double m0, double gamma0, double Temperatura_K, unsigned int semilla) {
     r = Vector3D(x0, y0, z0);
     V = Vector3D(Vx0, Vy0, Vz0);
     m = m0;
@@ -32,22 +31,12 @@ void ParticulaBrowniana::ActualizarPosicionEulerMaruyama(double dt) {
     // Fuerza de arrastre: F_drag = -gamma * V
     Vector3D F_drag = V * (-gamma);
 
-    // Término de la fuerza estocástica para la velocidad: (1/m) * sqrt(2*gamma*kT*dt) * N(0,1)
-    // Donde N(0,1) es un vector de 3 componentes aleatorias normales estándar.
-    // dW_i = N_i(0,1) * sqrt(dt)
-    // El término en dv es (sqrt(2*gamma*kT)/m) * dW
+    // --- ADVERTENCIA CORREGIDA ---
+    // La variable 'factor_estocastico' se calculaba aquí pero no se usaba.
+    // La lógica correcta ya está implementada en 'std_dev_fuerza_est_dt',
+    // por lo que la línea original fue eliminada.
 
-    double factor_estocastico = std::sqrt(2.0 * gamma * kT / dt); // Este es sigma para eta(t) tal que <eta(t)eta(t')> = sigma^2 delta(t-t')
-                                                              // Y la integral de eta(t)dt es sigma * N(0,1) * sqrt(dt)
-                                                              // O, si F_stocastic = sqrt(2*gamma*kT) * N(0,1)/sqrt(dt)
-                                                              // entonces V(t+dt) = V(t) + (F_drag/m)dt + (F_stocastic/m)dt
-
-    // Forma correcta para dv = (F_drag/m)dt + (1/m) * d(W_scaled)
-    // donde d(W_scaled) tiene varianza 2*gamma*kT*dt
     // V_{n+1} = V_n + (F_drag/m)*dt + sqrt(2*gamma*kT*dt)/m * N(0,1)
-    // V_{n+1} = V_n + (F_drag/m)*dt + sqrt(2*gamma*kT/(m*m*dt)) * (N(0,1)*dt) NO
-    // V_{n+1} = V_n + (F_drag/m)*dt + N(0, sqrt(2*gamma*kT*dt)/m )
-
     double std_dev_fuerza_est_dt = std::sqrt(2.0 * gamma * kT * dt) / m;
 
     Vector3D ruido(
@@ -64,8 +53,14 @@ void ParticulaBrowniana::ActualizarPosicionEulerMaruyama(double dt) {
     r = r + V * dt;
 }
 
+// --- ERROR DE REDEFINICIÓN CORREGIDO ---
+// Las siguientes funciones se eliminaron de este archivo .cpp porque ya estaban
+// completamente definidas (como 'inline') dentro de la declaración de la clase en el archivo .h.
+// Mantenerlas aquí causaba un error de "redefinición".
+/*
 Vector3D ParticulaBrowniana::GetPosicion(void) const { return r; }
 Vector3D ParticulaBrowniana::GetVelocidad(void) const { return V; }
+*/
 
 double ParticulaBrowniana::EnergiaCinetica(void) const {
     return 0.5 * m * V.norm2(); // V.norm2() es V.dot(V)
@@ -76,3 +71,4 @@ void ParticulaBrowniana::ImprimirEstado(std::ostream& os) const {
     os << r.x << " " << r.y << " " << r.z << " "
        << V.x << " " << V.y << " " << V.z;
 }
+

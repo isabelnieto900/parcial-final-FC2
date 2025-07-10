@@ -48,7 +48,13 @@ GENERATE_LATEX         = YES
 HTML_OUTPUT            = html_integral_mc
 LATEX_OUTPUT           = latex_integral_mc
 PAPER_TYPE             = a4
-USE_PDFLATEX           = YES
+
+# --- CONFIGURACIÓN PARA COMPILACIÓN PDF CON UNICODE ---
+# Se deshabilita el uso de pdflatex por defecto.
+USE_PDFLATEX           = NO 
+# Se especifica xelatex como el compilador a usar, que soporta Unicode (UTF-8).
+LATEX_CMD_NAME         = xelatex
+
 PDF_HYPERLINKS         = YES
 WARN_IF_UNDOCUMENTED   = YES
 WARN_NO_PARAMDOC       = YES
@@ -56,3 +62,4 @@ WARN_NO_PARAMDOC       = YES
 INCLUDE_PATH           = ./include
 
 SEARCHENGINE           = YES
+

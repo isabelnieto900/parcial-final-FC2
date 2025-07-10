@@ -1,0 +1,214 @@
+\hypertarget{classSimuladorBrowniano}{}\doxysection{Simulador\+Browniano Class Reference}
+\label{classSimuladorBrowniano}\index{SimuladorBrowniano@{SimuladorBrowniano}}
+
+
+Orquesta la simulación del movimiento browniano para una partícula.  
+
+
+
+
+{\ttfamily \#include $<$Simulador\+Browniano.\+h$>$}
+
+
+
+Collaboration diagram for Simulador\+Browniano\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{d0/d4c/classSimuladorBrowniano__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classSimuladorBrowniano_ad7ad44d672f074e2311a5f29e69d5783}{Simulador\+Browniano}} ()
+\begin{DoxyCompactList}\small\item\em Constructor por defecto. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classSimuladorBrowniano_a598978404ddc1b2654d7aaa42ec8e811}{$\sim$\+Simulador\+Browniano}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classSimuladorBrowniano_a52d654758418657927a31212ad7498db}{Inicializar}} (double t\+\_\+total, double dt, const \mbox{\hyperlink{classParticulaBrowniana}{Particula\+Browniana}} \&p\+\_\+inicial, const std\+::string \&nombre\+\_\+base\+\_\+archivo)
+\begin{DoxyCompactList}\small\item\em Configura e inicializa la simulación. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classSimuladorBrowniano_a959ba721b2a85b9d7480a288721c69b4}{Correr\+Simulacion}} ()
+\begin{DoxyCompactList}\small\item\em Ejecuta el bucle principal de la simulación. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classSimuladorBrowniano_acb1397319882477677b0cdc33cbf0db1}{Guardar\+Estado}} (double tiempo)
+\begin{DoxyCompactList}\small\item\em Guarda el estado actual de la partícula en el archivo de datos. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classParticulaBrowniana}{Particula\+Browniana}} \mbox{\hyperlink{classSimuladorBrowniano_a159d960264b8f1d58177692813aa5978}{particula}}
+\begin{DoxyCompactList}\small\item\em La partícula que será simulada. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classSimuladorBrowniano_a7e64ddc7bedc0ebfcbb28ec9caf03762}{tiempo\+\_\+total\+\_\+sim}}
+\begin{DoxyCompactList}\small\item\em Duración total de la simulación. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classSimuladorBrowniano_ad6253af218ca02e60798967314d24bc5}{paso\+\_\+tiempo}}
+\begin{DoxyCompactList}\small\item\em Paso de tiempo (dt) para la integración. \end{DoxyCompactList}\item 
+std\+::ofstream \mbox{\hyperlink{classSimuladorBrowniano_ae4d83234e2da811868714e3d9f5fa7b5}{archivo\+\_\+salida}}
+\begin{DoxyCompactList}\small\item\em Stream para escribir los datos en un archivo. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Orquesta la simulación del movimiento browniano para una partícula. 
+
+Esta clase se encarga de inicializar los parámetros de la simulación (tiempo, dt), manejar el archivo de salida de datos, y ejecutar el bucle principal que actualiza el estado de la partícula a lo largo del tiempo. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classSimuladorBrowniano_ad7ad44d672f074e2311a5f29e69d5783}\label{classSimuladorBrowniano_ad7ad44d672f074e2311a5f29e69d5783}} 
+\index{SimuladorBrowniano@{SimuladorBrowniano}!SimuladorBrowniano@{SimuladorBrowniano}}
+\index{SimuladorBrowniano@{SimuladorBrowniano}!SimuladorBrowniano@{SimuladorBrowniano}}
+\doxysubsubsection{\texorpdfstring{SimuladorBrowniano()}{SimuladorBrowniano()}}
+{\footnotesize\ttfamily Simulador\+Browniano\+::\+Simulador\+Browniano (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructor por defecto. 
+
+\mbox{\Hypertarget{classSimuladorBrowniano_a598978404ddc1b2654d7aaa42ec8e811}\label{classSimuladorBrowniano_a598978404ddc1b2654d7aaa42ec8e811}} 
+\index{SimuladorBrowniano@{SimuladorBrowniano}!````~SimuladorBrowniano@{$\sim$SimuladorBrowniano}}
+\index{````~SimuladorBrowniano@{$\sim$SimuladorBrowniano}!SimuladorBrowniano@{SimuladorBrowniano}}
+\doxysubsubsection{\texorpdfstring{$\sim$SimuladorBrowniano()}{~SimuladorBrowniano()}}
+{\footnotesize\ttfamily Simulador\+Browniano\+::$\sim$\+Simulador\+Browniano (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+Cierra el archivo de salida si está abierto. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classSimuladorBrowniano_a959ba721b2a85b9d7480a288721c69b4}\label{classSimuladorBrowniano_a959ba721b2a85b9d7480a288721c69b4}} 
+\index{SimuladorBrowniano@{SimuladorBrowniano}!CorrerSimulacion@{CorrerSimulacion}}
+\index{CorrerSimulacion@{CorrerSimulacion}!SimuladorBrowniano@{SimuladorBrowniano}}
+\doxysubsubsection{\texorpdfstring{CorrerSimulacion()}{CorrerSimulacion()}}
+{\footnotesize\ttfamily void Simulador\+Browniano\+::\+Correr\+Simulacion (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Ejecuta el bucle principal de la simulación. 
+
+Itera desde t=0 hasta t=tiempo\+\_\+total\+\_\+sim, actualizando la partícula y guardando su estado periódicamente. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d5/d3b/classSimuladorBrowniano_a959ba721b2a85b9d7480a288721c69b4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=275pt]{d5/d3b/classSimuladorBrowniano_a959ba721b2a85b9d7480a288721c69b4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classSimuladorBrowniano_acb1397319882477677b0cdc33cbf0db1}\label{classSimuladorBrowniano_acb1397319882477677b0cdc33cbf0db1}} 
+\index{SimuladorBrowniano@{SimuladorBrowniano}!GuardarEstado@{GuardarEstado}}
+\index{GuardarEstado@{GuardarEstado}!SimuladorBrowniano@{SimuladorBrowniano}}
+\doxysubsubsection{\texorpdfstring{GuardarEstado()}{GuardarEstado()}}
+{\footnotesize\ttfamily void Simulador\+Browniano\+::\+Guardar\+Estado (\begin{DoxyParamCaption}\item[{double}]{tiempo }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Guarda el estado actual de la partícula en el archivo de datos. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tiempo} & El tiempo actual de la simulación para registrar en la primera columna. \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d5/d3b/classSimuladorBrowniano_acb1397319882477677b0cdc33cbf0db1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d5/d3b/classSimuladorBrowniano_acb1397319882477677b0cdc33cbf0db1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classSimuladorBrowniano_a52d654758418657927a31212ad7498db}\label{classSimuladorBrowniano_a52d654758418657927a31212ad7498db}} 
+\index{SimuladorBrowniano@{SimuladorBrowniano}!Inicializar@{Inicializar}}
+\index{Inicializar@{Inicializar}!SimuladorBrowniano@{SimuladorBrowniano}}
+\doxysubsubsection{\texorpdfstring{Inicializar()}{Inicializar()}}
+{\footnotesize\ttfamily void Simulador\+Browniano\+::\+Inicializar (\begin{DoxyParamCaption}\item[{double}]{t\+\_\+total,  }\item[{double}]{dt,  }\item[{const \mbox{\hyperlink{classParticulaBrowniana}{Particula\+Browniana}} \&}]{p\+\_\+inicial,  }\item[{const std\+::string \&}]{nombre\+\_\+base\+\_\+archivo }\end{DoxyParamCaption})}
+
+
+
+Configura e inicializa la simulación. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t\+\_\+total} & Duración total de la simulación. \\
+\hline
+{\em dt} & Paso de tiempo para la integración. \\
+\hline
+{\em p\+\_\+inicial} & La partícula ya configurada que se va a simular. \\
+\hline
+{\em nombre\+\_\+base\+\_\+archivo} & El nombre base para el archivo de datos de salida (sin extensión). \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=275pt]{d5/d3b/classSimuladorBrowniano_a52d654758418657927a31212ad7498db_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classSimuladorBrowniano_ae4d83234e2da811868714e3d9f5fa7b5}\label{classSimuladorBrowniano_ae4d83234e2da811868714e3d9f5fa7b5}} 
+\index{SimuladorBrowniano@{SimuladorBrowniano}!archivo\_salida@{archivo\_salida}}
+\index{archivo\_salida@{archivo\_salida}!SimuladorBrowniano@{SimuladorBrowniano}}
+\doxysubsubsection{\texorpdfstring{archivo\_salida}{archivo\_salida}}
+{\footnotesize\ttfamily std\+::ofstream Simulador\+Browniano\+::archivo\+\_\+salida\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Stream para escribir los datos en un archivo. 
+
+\mbox{\Hypertarget{classSimuladorBrowniano_a159d960264b8f1d58177692813aa5978}\label{classSimuladorBrowniano_a159d960264b8f1d58177692813aa5978}} 
+\index{SimuladorBrowniano@{SimuladorBrowniano}!particula@{particula}}
+\index{particula@{particula}!SimuladorBrowniano@{SimuladorBrowniano}}
+\doxysubsubsection{\texorpdfstring{particula}{particula}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classParticulaBrowniana}{Particula\+Browniana}} Simulador\+Browniano\+::particula\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+La partícula que será simulada. 
+
+\mbox{\Hypertarget{classSimuladorBrowniano_ad6253af218ca02e60798967314d24bc5}\label{classSimuladorBrowniano_ad6253af218ca02e60798967314d24bc5}} 
+\index{SimuladorBrowniano@{SimuladorBrowniano}!paso\_tiempo@{paso\_tiempo}}
+\index{paso\_tiempo@{paso\_tiempo}!SimuladorBrowniano@{SimuladorBrowniano}}
+\doxysubsubsection{\texorpdfstring{paso\_tiempo}{paso\_tiempo}}
+{\footnotesize\ttfamily double Simulador\+Browniano\+::paso\+\_\+tiempo\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Paso de tiempo (dt) para la integración. 
+
+\mbox{\Hypertarget{classSimuladorBrowniano_a7e64ddc7bedc0ebfcbb28ec9caf03762}\label{classSimuladorBrowniano_a7e64ddc7bedc0ebfcbb28ec9caf03762}} 
+\index{SimuladorBrowniano@{SimuladorBrowniano}!tiempo\_total\_sim@{tiempo\_total\_sim}}
+\index{tiempo\_total\_sim@{tiempo\_total\_sim}!SimuladorBrowniano@{SimuladorBrowniano}}
+\doxysubsubsection{\texorpdfstring{tiempo\_total\_sim}{tiempo\_total\_sim}}
+{\footnotesize\ttfamily double Simulador\+Browniano\+::tiempo\+\_\+total\+\_\+sim\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Duración total de la simulación. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{SimuladorBrowniano_8h}{Simulador\+Browniano.\+h}}\item 
+src/\mbox{\hyperlink{SimuladorBrowniano_8cpp}{Simulador\+Browniano.\+cpp}}\end{DoxyCompactItemize}

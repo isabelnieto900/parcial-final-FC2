@@ -78,12 +78,15 @@ run: $(TARGET)
 
 # Generar gráficas
 plot:
-	@if [ -f results/browniano_sim.dat ]; then \
-		gnuplot -e "DATFILE='results/browniano_sim.dat'" -e "OUTFILE_BASE='results/browniano_sim_plot'" scripts/plot_browniano.gp; \
-		echo "Gráficas generadas en el directorio results/"; \
-	else \
-		echo "Archivo results/browniano_sim.dat no encontrado. Ejecuta 'make run' primero."; \
-	fi
+    @if [ -f results/browniano_sim.dat ]; then \
+        echo "Calculando MSD..."; \
+        python3 scripts/calculate_msd.py results/browniano_sim.dat; \
+        echo "Generando gráficas..."; \
+        gnuplot -e "DATFILE='results/browniano_sim.dat'" -e "OUTFILE_BASE='results/browniano_sim_plot'" scripts/plot_browniano.gp; \
+        echo "Gráficas generadas en el directorio results/"; \
+    else \
+        echo "Archivo results/browniano_sim.dat no encontrado. Ejecuta 'make run' primero."; \
+    fi
 
 .PHONY: all clean distclean run plot doc pdf
 

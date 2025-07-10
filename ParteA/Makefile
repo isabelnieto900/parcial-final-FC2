@@ -11,6 +11,7 @@ INCDIR = include
 BINDIR = bin
 DOCDIR = documents
 LATEX_DIR = $(DOCDIR)/latex_browniano
+RESULTS_DIR = results
 
 # Target ejecutable
 TARGET = $(BINDIR)/movimiento_browniano
@@ -63,12 +64,14 @@ clean:
 	@echo "Limpiando archivos compilados..."
 	rm -f $(SRCDIR)/*.o $(TARGET)
 	rm -rf $(BINDIR)
+	@echo "Limpiando archivos de resultados..."
+	rm -f $(RESULTS_DIR)/*
 
 # Limpieza profunda, incluyendo la documentación generada
 distclean: clean
 	@echo "Limpiando toda la documentación generada..."
 	rm -rf $(DOCDIR)/html_browniano $(DOCDIR)/latex_browniano
-
+	rm -rf $(DOCDIR)/
 # Ejecutar la simulación
 run: $(TARGET)
 	./$(TARGET) 100.0 0.01 12345

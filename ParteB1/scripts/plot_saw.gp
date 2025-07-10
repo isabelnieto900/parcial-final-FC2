@@ -1,88 +1,74 @@
-# Gnuplot script para graficar resultados de la Caminata Aleatoria Autoevitante (SAW)
+# Script de Gnuplot para visualizar los resultados de la simulación SAW
+# Versión final corregida para ser compatible con el ejecutable C++
 
-# Argumentos que se pueden pasar al script:
-# DATFILE_RESULTADOS: Nombre del archivo con los resultados de múltiples caminatas
-# DATFILE_CAMINO: Nombre del archivo con una trayectoria de ejemplo
-# OUTFILE_BASE: Nombre base para los archivos de imagen de salida (sin extensión)
-# N_PASOS: El N_max_pasos usado en la simulación (para títulos)
+# --- Parámetros ---
+# Se pasan desde la línea de comandos con 'make plot', ej: make plot N_STEPS=80
+if (!exists("N_PASOS")) N_PASOS = "80"
+if (!exists("NUM_SIMS")) NUM_SIMS = "20000"
 
-# Valores por defecto
-if (!exists("N_PASOS")) N_PASOS = "N" # Placeholder si no se pasa
-if (!exists("DATFILE_RESULTADOS")) DATFILE_RESULTADOS = '../results/saw_resultados_N'.N_PASOS.'_sim1000.dat' # Asume un nombre común
-if (!exists("DATFILE_CAMINO")) DATFILE_CAMINO = '../results/saw_camino_ejemplo_N'.N_PASOS.'.dat'
-if (!exists("OUTFILE_BASE")) OUTFILE_BASE = '../results/saw_plot_N'.N_PASOS
+# --- Nombres de archivos ---
+DATFILE_RESULTADOS = sprintf("results/saw_resultados_N%s_sim%s.dat", N_PASOS, NUM_SIMS)
+DATFILE_CAMINO = sprintf("results/saw_camino_ejemplo_N%s.dat", N_PASOS)
+OUTFILE_BASE = sprintf("results/saw_plot_N%s", N_PASOS)
 
-# --- Gráfica de una Trayectoria de Ejemplo (2D) ---
-set title "SAW - Trayectoria de Ejemplo (N=".N_PASOS.")"
-set xlabel "Posición X"
-set ylabel "Posición Y"
-set size square # Mismo tamaño para los ejes
+# --- Configuración general ---
+set terminal pngcairo enhanced font "Helvetica,12" size 1024,768
 set grid
-set key off
 
-# Salida a PNG
-set terminal pngcairo size 800,800 enhanced font 'Verdana,10'
-set output OUTFILE_BASE.'_trayectoria.png'
+# ===================================================================
+# Gráfico 1: Trayectoria de una caminata de ejemplo
+# ===================================================================
+set output OUTFILE_BASE . "_trayectoria.png"
+set title sprintf("Ejemplo de Caminata Aleatoria Autoevitante (N=%s)", N_PASOS)
+set xlabel "Coordenada X"
+set ylabel "Coordenada Y"
+set size square # Mantener la proporción de aspecto 1:1 para ver la forma real
 
-# Formato esperado en DATFILE_CAMINO: x y (una línea por paso)
-plot DATFILE_CAMINO using 1:2 with linespoints pt 7 ps 0.5 title "Camino SAW"
+# Graficar el camino, destacando el inicio y el final
+plot DATFILE_CAMINO using 1:2 with lines lw 2 lc "gray" title "Camino", \
+     '' using 1:2:(0) every ::0::0 with points pt 7 ps 2 lc "green" title "Inicio (0,0)", \
+     '' using 1:2:(0) every ::-1::-1 with points pt 7 ps 2 lc "red" title "Final"
 
-# --- Histograma de Longitudes Reales de Caminatas ---
-set title "Histograma de Longitudes Reales de Caminatas (Objetivo N=".N_PASOS.")"
-set xlabel "Longitud Real Alcanzada"
+# ===================================================================
+# Gráfico 2: Histograma de longitudes de las caminatas
+# ===================================================================
+set output OUTFILE_BASE . "_histograma_longitudes.png"
+set title sprintf("Histograma de Longitudes Finales (N_{max}=%s, %s simulaciones)", N_PASOS, NUM_SIMS)
+set xlabel "Longitud de la Caminata"
 set ylabel "Frecuencia"
-set style fill solid 0.5
+set style fill solid 0.6 border -1
 set boxwidth 0.9 relative
-set grid
-set key off
+unset size # Volver a la proporción por defecto
 
-set output OUTFILE_BASE.'_longitudes_hist.png'
+# --- Extraer estadísticas del encabezado del archivo para mostrarlas en el gráfico ---
+# CORRECCIÓN FINAL: Se ajustaron los números de columna ($8, $9, $7) para que apunten a los valores numéricos correctos.
+longitud_promedio_str = system(sprintf("awk '/# Longitud promedio de todas las caminatas:/{print $8}' %s", DATFILE_RESULTADOS))
+caminos_exitosos_str = system(sprintf("awk '/# Numero de caminatas exitosas/{print $9}' %s", DATFILE_RESULTADOS))
+R2_promedio_str = system(sprintf("awk '/# R.2 promedio para caminatas exitosas:/{print $7}' %s", DATFILE_RESULTADOS))
 
-# Asumiendo DATFILE_RESULTADOS: # N_objetivo Longitud_Real R2 Exito(1_o_0)
-# Necesitamos calcular el ancho del bin. Si N_PASOS es pequeño, binwidth=1.
-# Si N_PASOS es grande, podríamos necesitar agrupar.
-# Gnuplot puede hacer histogramas simples.
-# bin_width = 1
-# bin_column = 2 # Columna de Longitud_Real
-# bin_start(x) = floor(x/bin_width)*bin_width
-# plot DATFILE_RESULTADOS using (bin_start(column(bin_column))):(1.0) smooth freq with boxes title "Distribución de Longitudes"
-# Para un histograma más directo y controlable, Python/Matplotlib es mejor.
-# Este es un intento simple:
-plot DATFILE_RESULTADOS using 2:(1.0) smooth frequency with boxes title "Frecuencia de Longitudes"
+# Convertir los strings leídos a números para poder formatearlos
+longitud_promedio = real(longitud_promedio_str)
+R2_promedio = real(R2_promedio_str)
 
+# Colocar las etiquetas con las estadísticas en el gráfico
+set label 1 sprintf("Longitud promedio: %.2f", longitud_promedio) at graph 0.65, graph 0.9 font ",10"
+set label 2 sprintf("Caminatas exitosas (N=%s): %s", N_PASOS, caminos_exitosos_str) at graph 0.65, graph 0.85 font ",10"
+set label 3 sprintf("<R^2> para exitosas: %.2f", R2_promedio) at graph 0.65, graph 0.80 font ",10"
 
-# --- Gráfica de R^2 vs Longitud Real (para caminatas exitosas) ---
-set title "<R^2> vs Longitud de Caminata (N=".N_PASOS.")"
-set xlabel "Longitud Real de Caminata (N)"
-set ylabel "R^2 (Desplazamiento Cuadrático Medio)"
-unset logscale x
-unset logscale y
-set grid
-set key top left
+# --- Graficar el histograma ---
+binwidth=1
+bin(x,width)=width*floor(x/width)
+plot DATFILE_RESULTADOS using (bin($1,binwidth)):(1.0) smooth freq with boxes lc "blue" title "Distribución de Longitudes"
 
-set output OUTFILE_BASE.'_R2_vs_N.png'
+# Limpiar las etiquetas para futuros gráficos
+unset label 1
+unset label 2
+unset label 3
 
-# DATFILE_RESULTADOS: # N_objetivo Longitud_Real R2 Exito(1_o_0)
-# Filtramos para caminatas exitosas (columna 4 == 1)
-# Y graficamos R2 (columna 3) vs Longitud_Real (columna 2)
-# Esto será un scatter plot si no se promedian los datos antes.
-# Para <R^2> vs N real, se necesitaría un script de preprocesamiento.
-plot DATFILE_RESULTADOS using ($4==1 ? $2 : 1/0):($4==1 ? $3 : 1/0) with points pt 7 ps 0.5 title "R^2 (caminatas exitosas)"
+# --- Mensajes finales en la consola ---
+print "--- Gráficas generadas ---"
+print "Trayectoria: ", OUTFILE_BASE . "_trayectoria.png"
+print "Histograma:  ", OUTFILE_BASE . "_histograma_longitudes.png"
+print "--------------------------"
+print "¡Proceso completado!"
 
-# Podríamos intentar un ajuste si hay suficientes datos y una tendencia clara.
-# Por ejemplo, para SAW, se espera R^2 ~ A * N^(2*nu), con nu ~ 0.588 (para d=3) o nu=0.75 (para d=2)
-# f(x) = a * x**(2*0.75) # Para 2D
-# fit f(x) DATFILE_RESULTADOS using ($4==1 ? $2 : 1/0):($4==1 ? $3 : 1/0) via a
-# plot DATFILE_RESULTADOS using ($4==1 ? $2 : 1/0):($4==1 ? $3 : 1/0) with points title "R^2", \
-#      f(x) title sprintf("Ajuste A*N^{1.5} (A=%.2f)", a)
-
-
-print "Script 'plot_saw.gp' ejecutado."
-print "Se generaron (o se intentó generar) gráficas en el directorio '../results/' con base '".OUTFILE_BASE."'"
-print "Asegúrate que los archivos de datos existan:"
-print "  ".DATFILE_RESULTADOS
-print "  ".DATFILE_CAMINO
-print "El histograma de longitudes y el ajuste de R^2 son ejemplos básicos y podrían necesitar adaptación o pre-procesamiento de datos."
-
-unset output
-# pause -1 "Presiona Enter para salir."

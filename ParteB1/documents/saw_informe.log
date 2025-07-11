@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.10)  10 JUL 2025 20:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.10)  10 JUL 2025 21:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -574,27 +574,23 @@ LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 4
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
-<../results/saw_plot_N80_trayectoria.png, id=73, 1027.84pt x 770.88pt>
+<../results/saw_plot_N80_trayectoria.png, id=111, 1027.84pt x 770.88pt>
 File: ../results/saw_plot_N80_trayectoria.png Graphic file (type png)
 <use ../results/saw_plot_N80_trayectoria.png>
 Package pdftex.def Info: ../results/saw_plot_N80_trayectoria.png  used on input
  line 81.
 (pdftex.def)             Requested size: 318.66948pt x 239.00562pt.
  [2]
-
-LaTeX Warning: Reference `fig:saw_histograma' on page 3 undefined on input line
- 87.
-
-<../results/saw_plot_N80_histograma_longitudes.png, id=89, 1027.84pt x 770.88pt
->
+<../results/saw_plot_N80_histograma_longitudes.png, id=129, 1027.84pt x 770.88p
+t>
 File: ../results/saw_plot_N80_histograma_longitudes.png Graphic file (type png)
 
 <use ../results/saw_plot_N80_histograma_longitudes.png>
 Package pdftex.def Info: ../results/saw_plot_N80_histograma_longitudes.png  use
 d on input line 91.
 (pdftex.def)             Requested size: 318.66948pt x 239.00562pt.
-[3 <../results/saw_plot_N80_trayectoria.png> <../results/saw_plot_N80_histogram
-a_longitudes.png>]
+ [3 <../results/saw_plot_N80_trayectoria.png> <../results/saw_plot_N80_histogra
+ma_longitudes.png>]
 
 LaTeX Warning: Command \' invalid in math mode on input line 110.
 
@@ -607,27 +603,14 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `saw_informe.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `saw_informe.out':
-(rerunfilecheck)             Before: 542A140C377667A6879B0816BE7753C0;2176
-(rerunfilecheck)             After:  95B5A57E4C10CE34B550374A9DBC94E1;3254.
+Package rerunfilecheck Info: File `saw_informe.out' has not changed.
+(rerunfilecheck)             Checksum: 95B5A57E4C10CE34B550374A9DBC94E1;3254.
  ) 
 Here is how much of TeX's memory you used:
- 19062 strings out of 476047
- 354426 string characters out of 5792075
- 1934975 words of memory out of 5000000
- 40837 multiletter control sequences out of 15000+600000
+ 19069 strings out of 476047
+ 354532 string characters out of 5792075
+ 1935975 words of memory out of 5000000
+ 40844 multiletter control sequences out of 15000+600000
  571509 words of font info for 70 fonts, out of 8000000 for 9000
  85 hyphenation exceptions out of 8191
  79i,6n,93p,364b,982s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -645,10 +628,10 @@ ec/ecrm1728.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
 usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on saw_informe.pdf (5 pages, 217976 bytes).
+Output written on saw_informe.pdf (5 pages, 216774 bytes).
 PDF statistics:
- 485 PDF objects out of 1000 (max. 8388607)
- 172 compressed objects within 2 object streams
+ 512 PDF objects out of 1000 (max. 8388607)
+ 205 compressed objects within 3 object streams
  50 named destinations out of 1000 (max. 500000)
- 99 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 163 words of extra memory for PDF output out of 10000 (max. 10000000)
 

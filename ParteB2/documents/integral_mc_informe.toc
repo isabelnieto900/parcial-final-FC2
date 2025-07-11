@@ -1,0 +1,22 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introducción}{2}{section.1}%
+\contentsline {section}{\numberline {2}Fundamento Teórico}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Integración por Monte Carlo (Muestreo Simple)}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Estimación del Error}{2}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}La Integral Específica}{3}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Implementación Computacional}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Arquitectura de Software}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Programa Principal}{3}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Resultados y Análisis}{3}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Convergencia del Valor de la Integral}{3}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Convergencia del Error Estimado}{3}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Diferencia Absoluta con el Valor Teórico}{3}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Archivos Generados}{4}{section.5}%
+\contentsline {section}{\numberline {6}Validación y Verificación}{5}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Precisión Numérica}{5}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Reproducibilidad}{5}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Conclusiones}{5}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Logros Técnicos}{5}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Resultados Físicos}{6}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Relevancia Computacional}{6}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Aplicaciones y Extensiones}{6}{subsection.7.4}%

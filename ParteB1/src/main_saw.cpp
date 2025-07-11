@@ -150,6 +150,6 @@ int main(int argc, char *argv[]) {
     }
     std::cout << "Simulación completada.\n";
 
-    return 0; // Indica que el programa terminó exitosamente.
+    return 0; 
 }
 

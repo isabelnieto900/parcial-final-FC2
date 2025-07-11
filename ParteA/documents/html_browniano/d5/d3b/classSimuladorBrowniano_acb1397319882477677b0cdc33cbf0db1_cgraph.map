@@ -1,7 +1,0 @@
-<map id="SimuladorBrowniano::GuardarEstado" name="SimuladorBrowniano::GuardarEstado">
-<area shape="rect" id="node1" title="Guarda el estado actual de la partícula en el archivo de datos." alt="" coords="5,71,163,112"/>
-<area shape="rect" id="node2" href="$db/d19/classParticulaBrowniana.html#ada28fffff5e1af7b8c6bb310d3401c04" title="Calcula la energía cinética instantánea de la partícula." alt="" coords="211,5,357,47"/>
-<area shape="rect" id="node4" href="$db/d19/classParticulaBrowniana.html#ab66e3826ecb8cc8c06fe18aff385d339" title="Obtiene la posición actual de la partícula." alt="" coords="211,71,357,112"/>
-<area shape="rect" id="node5" href="$db/d19/classParticulaBrowniana.html#a7b69be9ab103f11082edf9a0b529b00b" title="Obtiene la velocidad actual de la partícula." alt="" coords="211,136,357,177"/>
-<area shape="rect" id="node3" href="$d7/d02/classVector3D.html#ab4c290772f374025a7677ee1d34ce7e2" title=" " alt="" coords="405,13,536,39"/>
-</map>

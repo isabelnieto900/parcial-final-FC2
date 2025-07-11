@@ -1,5 +1,0 @@
-<map id="SimuladorBrowniano" name="SimuladorBrowniano">
-<area shape="rect" id="node1" title="Orquesta la simulación del movimiento browniano para una partícula." alt="" coords="43,593,237,759"/>
-<area shape="rect" id="node2" href="$db/d19/classParticulaBrowniana.html" title="Representa una partícula puntual que experimenta movimiento browniano." alt="" coords="5,307,275,531"/>
-<area shape="rect" id="node3" href="$d7/d02/classVector3D.html" title=" " alt="" coords="80,5,200,229"/>
-</map>

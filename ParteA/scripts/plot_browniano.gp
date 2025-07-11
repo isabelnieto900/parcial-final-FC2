@@ -84,7 +84,6 @@ print "Se generaron (o se intentó generar):"
 print "- ".OUTFILE_BASE."_trayectoria_xy.png"
 print "- ".OUTFILE_BASE."_x_vs_t.png"
 print "- ".OUTFILE_BASE."_y_vs_t.png"
-print "Para el MSD, se necesitaría un archivo ".MSD_DATA_FILE." generado por un script de análisis."
 
 unset output
 # Para salir si se ejecuta interactivamente:

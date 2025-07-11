@@ -1,9 +1,0 @@
-<map id="SimuladorBrowniano::CorrerSimulacion" name="SimuladorBrowniano::CorrerSimulacion">
-<area shape="rect" id="node1" title="Ejecuta el bucle principal de la simulación." alt="" coords="5,39,163,80"/>
-<area shape="rect" id="node2" href="$db/d19/classParticulaBrowniana.html#aaed24e5e27bf4fca0b5069c43512b24a" title="Avanza la simulación un paso de tiempo usando el método de Euler&#45;Maruyama." alt="" coords="211,5,463,47"/>
-<area shape="rect" id="node3" href="$d5/d3b/classSimuladorBrowniano.html#acb1397319882477677b0cdc33cbf0db1" title="Guarda el estado actual de la partícula en el archivo de datos." alt="" coords="258,71,415,112"/>
-<area shape="rect" id="node4" href="$db/d19/classParticulaBrowniana.html#ada28fffff5e1af7b8c6bb310d3401c04" title="Calcula la energía cinética instantánea de la partícula." alt="" coords="511,5,657,47"/>
-<area shape="rect" id="node6" href="$db/d19/classParticulaBrowniana.html#ab66e3826ecb8cc8c06fe18aff385d339" title="Obtiene la posición actual de la partícula." alt="" coords="511,71,657,112"/>
-<area shape="rect" id="node7" href="$db/d19/classParticulaBrowniana.html#a7b69be9ab103f11082edf9a0b529b00b" title="Obtiene la velocidad actual de la partícula." alt="" coords="511,136,657,177"/>
-<area shape="rect" id="node5" href="$d7/d02/classVector3D.html#ab4c290772f374025a7677ee1d34ce7e2" title=" " alt="" coords="705,13,836,39"/>
-</map>

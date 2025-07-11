@@ -1,6 +1,0 @@
-<map id="ParticulaBrowniana::GetPosicion" name="ParticulaBrowniana::GetPosicion">
-<area shape="rect" id="node1" title="Obtiene la posición actual de la partícula." alt="" coords="519,5,665,47"/>
-<area shape="rect" id="node2" href="$d5/d3b/classSimuladorBrowniano.html#acb1397319882477677b0cdc33cbf0db1" title="Guarda el estado actual de la partícula en el archivo de datos." alt="" coords="313,5,471,47"/>
-<area shape="rect" id="node3" href="$d5/d3b/classSimuladorBrowniano.html#a959ba721b2a85b9d7480a288721c69b4" title="Ejecuta el bucle principal de la simulación." alt="" coords="108,5,265,47"/>
-<area shape="rect" id="node4" href="$d8/d19/main__browniano_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="5,13,60,39"/>
-</map>

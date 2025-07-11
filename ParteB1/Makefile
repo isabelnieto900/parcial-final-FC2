@@ -15,6 +15,8 @@ INCDIR = include
 BINDIR = bin
 RESULTSDIR = results
 SCRIPTSDIR = scripts
+DOCDIR = documents
+LATEX_DIR = $(DOCDIR)/latex_saw
 
 # ---------------------------------------------------------------------------
 # 2. ARCHIVOS FUENTE Y OBJETIVO
@@ -65,6 +67,17 @@ $(SRCDIR)/%.o: $(SRCDIR)/%.cpp
 run: $(TARGET)
 	@echo "-> Ejecutando simulación con N=$(N_STEPS), Sims=$(N_SIMS), Seed=$(SEED)..."
 	./$(TARGET) $(N_STEPS) $(N_SIMS) $(SEED)
+doc:
+	@echo "Generando documentación con Doxygen..."
+	doxygen Doxyfile
+	@echo "Documentación HTML generada. Abre '$(DOCDIR)/html_browniano/index.html'."
+
+# Genera el PDF a partir de los fuentes LaTeX
+pdf: doc
+	@echo "Compilando la documentación LaTeX a PDF..."
+	$(MAKE) -C $(LATEX_DIR)
+	@echo "PDF generado en $(LATEX_DIR)/refman.pdf"
+
 
 # Regla para generar las gráficas con Gnuplot
 # Asume que los datos ya fueron generados por 'make run'
@@ -81,15 +94,17 @@ plot:
 
 # Regla para limpiar solo los archivos generados por la compilación
 clean:
-	@echo "-> Limpiando archivos compilados (.o) y ejecutables..."
-	rm -f $(SRCDIR)/*.o
-	rm -f $(TARGET)
+	@echo "Limpiando archivos compilados..."
+	rm -f $(SRCDIR)/*.o $(TARGET)
+	rm -rf $(BINDIR)
+	@echo "Limpiando archivos de resultados..."
+	rm -f $(RESULTSDIR)/*
 
 # Regla para una limpieza total, borrando también los resultados
 distclean: clean
-	@echo "-> Limpiando todo: compilados, binarios y resultados..."
-	rm -rf $(BINDIR) $(RESULTSDIR)
-
+	@echo "Limpiando toda la documentación generada..."
+	rm -rf $(DOCDIR)/html_saw $(DOCDIR)/latex_saw
+	rm -f $(DOCDIR)/*.pdf $(DOCDIR)/*.log $(DOCDIR)/*.aux $(DOCDIR)/*.toc $(DOCDIR)/*.out
 # Declaración de reglas que no son archivos para evitar conflictos
-.PHONY: all run plot clean distclean
+.PHONY: all run plot clean distclean doc pdf
 

@@ -1,0 +1,20 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introducción}{2}{section.1}%
+\contentsline {section}{\numberline {2}Metodología}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Algoritmo de Crecimiento Simple}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Implementación Computacional}{2}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Resultados Experimentales}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Parámetros de Simulación}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Trayectoria de Ejemplo}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Distribución de Longitudes}{3}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Análisis de Eficiencia del Algoritmo}{4}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Propiedades Físicas Medidas}{4}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Limitaciones del Algoritmo Simple}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Problemas Fundamentales}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Algoritmos Más Eficientes}{4}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Archivos de Salida}{5}{section.5}%
+\contentsline {section}{\numberline {6}Conclusiones}{5}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Logros del Trabajo}{5}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Limitaciones Observadas}{5}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Trabajo Futuro}{5}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Relevancia Física}{5}{subsection.6.4}%

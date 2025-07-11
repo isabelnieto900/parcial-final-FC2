@@ -20,7 +20,7 @@
 \usepackage{physics} % Para notación física como \vb (vector bold), \expval, \pdv
 
 \title{Informe Parte A: Simulación del Movimiento Browniano}
-\author{Física Computacional II - Grupo [Número/Nombre del Grupo]}
+\author{Física Computacional II - Isabel Nieto y Camilo Huertas}
 \date{\today}
 
 \begin{document}
@@ -72,7 +72,7 @@ donde $d$ es la dimensionalidad del movimiento y $D$ es el coeficiente de difusi
 \section{Implementación Computacional}
 
 \subsection{Arquitectura Orientada a Objetos}
-La implementación utiliza tres clases principales:
+La implementación utiliza tres clases principales basadas en los archivos del directorio \texttt{include/}:
 
 \begin{itemize}
     \item \textbf{Vector3D}: Clase auxiliar para manejar vectores tridimensionales y sus operaciones básicas (suma, resta, producto escalar, norma)
@@ -88,26 +88,33 @@ Para integrar numéricamente la ecuación de Langevin (Ecuación \ref{eq:langevi
     \vb{r}_{n+1} &= \vb{r}_n + \vb{V}_{n+1} \Delta t
 \end{align}
 
-donde $\vb{N}_n(0,1)$ es un vector tridimensional de números aleatorios con distribución normal estándar, generados usando el algoritmo Box-Muller implementado en la clase `ParticulaBrowniana`.
+donde $\vb{N}_n(0,1)$ es un vector tridimensional de números aleatorios con distribución normal estándar, generados usando el algoritmo Box-Muller implementado en la clase \texttt{ParticulaBrowniana}.
 
 \subsection{Generación de Números Aleatorios}
-La implementación utiliza:
+La implementación utiliza (según \texttt{ParticulaBrowniana.cpp}):
 \begin{itemize}
     \item \texttt{std::mt19937}: Generador Mersenne Twister para alta calidad estadística
-    \item Algoritmo Box-Muller para transformar distribución uniforme a normal
+    \item \texttt{std::normal\_distribution}: Distribución normal estándar de la biblioteca estándar
     \item Semilla configurable para reproducibilidad de resultados
 \end{itemize}
 
+\subsection{Programa Principal}
+El programa principal (\texttt{main\_browniano.cpp}) acepta argumentos de línea de comandos:
+\begin{lstlisting}[language=bash]
+./movimiento_browniano <tiempo_total> <dt> <semilla> [nombre_archivo_base]
+Ejemplo: ./movimiento_browniano 100.0 0.01 12345 browniano_sim
+\end{lstlisting}
+
 \section{Parámetros de Simulación}
 
-Para garantizar la estabilidad numérica y facilitar la validación del algoritmo, se utilizaron parámetros adimensionales:
+Para garantizar la estabilidad numérica y facilitar la validación del algoritmo, se utilizaron parámetros adimensionales por defecto (según el \texttt{Makefile}):
 
 \begin{itemize}
     \item Masa de la partícula ($m$): $1.0$
     \item Coeficiente de fricción ($\gamma$): $0.1$
     \item Energía térmica ($k_B T$): $1.0$
     \item Paso de tiempo ($\Delta t$): $0.01$
-    \item Tiempo total de simulación: $200.0$ (por defecto en Makefile)
+    \item Tiempo total de simulación: Variable (200.0 típico)
     \item Coeficiente de difusión teórico: $D = k_B T / \gamma = 10.0$
 \end{itemize}
 
@@ -161,9 +168,20 @@ Por tanto: $D_{exp} = \text{Pendiente}/6$
 
 Comparando con el valor teórico $D_{teórico} = 10.0$, se puede evaluar la precisión de la simulación.
 
-\section{Archivos Generados}
+\section{Flujo de Trabajo Automatizado}
 
-El programa genera automáticamente los siguientes archivos en el directorio `results/`:
+\subsection{Sistema de Compilación}
+El \texttt{Makefile} proporciona las siguientes funcionalidades:
+\begin{itemize}
+    \item \texttt{make all}: Compila el ejecutable principal
+    \item \texttt{make run}: Ejecuta la simulación con parámetros por defecto
+    \item \texttt{make plot}: Genera las gráficas automáticamente
+    \item \texttt{make doc}: Genera documentación con Doxygen
+    \item \texttt{make clean}: Limpia archivos temporales
+\end{itemize}
+
+\subsection{Archivos Generados}
+El programa genera automáticamente los siguientes archivos en el directorio \texttt{results/}:
 
 \begin{itemize}
     \item \texttt{browniano\_sim.dat}: Datos de la simulación (tiempo, posición, velocidad)
@@ -174,15 +192,36 @@ El programa genera automáticamente los siguientes archivos en el directorio `re
 \section{Herramientas de Análisis}
 
 \subsection{Script de Cálculo MSD}
-El script `calculate_msd.py` procesa los datos de salida para calcular el desplazamiento cuadrático medio:
+El script \texttt{calculate\_msd.py} procesa los datos de salida para calcular el desplazamiento cuadrático medio:
 \begin{itemize}
-    \item Lee los datos de trayectoria desde `browniano_sim.dat`
+    \item Lee los datos de trayectoria desde \texttt{browniano\_sim.dat}
     \item Calcula $MSD(t) = \langle |\vb{r}(t) - \vb{r}(0)|^2 \rangle$
     \item Guarda los resultados en formato compatible con Gnuplot
 \end{itemize}
 
 \subsection{Visualización con Gnuplot}
-El script `plot_browniano.gp` genera automáticamente todas las gráficas de análisis, incluyendo ajustes lineales para la verificación cuantitativa del comportamiento difusivo.
+Los scripts de Gnuplot generan automáticamente todas las gráficas de análisis, incluyendo ajustes lineales para la verificación cuantitativa del comportamiento difusivo.
+
+\section{Documentación y Mantenibilidad}
+
+\subsection{Documentación con Doxygen}
+El proyecto incluye un \texttt{Doxyfile} configurado para generar:
+\begin{itemize}
+    \item Documentación HTML completa de todas las clases y métodos
+    \item Diagramas de dependencias y jerarquías de clases
+    \item Documentación LaTeX adicional
+\end{itemize}
+
+\subsection{Estructura de Directorios}
+La organización del proyecto sigue las mejores prácticas de C++:
+\begin{itemize}
+    \item \texttt{include/}: Archivos de cabecera (.h)
+    \item \texttt{src/}: Archivos de implementación (.cpp)
+    \item \texttt{bin/}: Ejecutable compilado
+    \item \texttt{results/}: Datos y gráficas de salida
+    \item \texttt{documents/}: Documentación e informes
+    \item \texttt{scripts/}: Scripts auxiliares de análisis
+\end{itemize}
 
 \section{Validación del Algoritmo}
 
@@ -202,6 +241,30 @@ El paso de tiempo $\Delta t = 0.01$ fue elegido para garantizar:
     \item Tiempo de cómputo razonable para simulaciones largas
 \end{itemize}
 
+\subsection{Control de Calidad}
+\begin{itemize}
+    \item Uso de flags de compilación estrictos (\texttt{-Wall -g})
+    \item Validación de argumentos de entrada
+    \item Manejo de errores en operaciones de archivo
+    \item Documentación completa del código fuente
+\end{itemize}
+
+\section{Análisis de Rendimiento}
+
+\subsection{Complejidad Computacional}
+\begin{itemize}
+    \item Complejidad temporal: $O(N)$ donde $N$ es el número de pasos temporales
+    \item Complejidad espacial: $O(N)$ para almacenar la trayectoria completa
+    \item Escalamiento lineal con el tiempo de simulación
+\end{itemize}
+
+\subsection{Optimizaciones Implementadas}
+\begin{itemize}
+    \item Uso de generadores de números aleatorios eficientes
+    \item Minimización de operaciones de E/S durante la simulación
+    \item Aprovechamiento de optimizaciones del compilador C++17
+\end{itemize}
+
 \section{Conclusiones}
 
 \subsection{Logros Técnicos}
@@ -210,6 +273,7 @@ El paso de tiempo $\Delta t = 0.01$ fue elegido para garantizar:
     \item El método de Euler-Maruyama reproduce correctamente la dinámica estocástica
     \item Las visualizaciones confirman el comportamiento cualitativo esperado
     \item El análisis cuantitativo del MSD valida la relación de Einstein
+    \item El flujo de trabajo automatizado facilita la reproducibilidad
 \end{enumerate}
 
 \subsection{Resultados Físicos}
@@ -219,26 +283,5 @@ El paso de tiempo $\Delta t = 0.01$ fue elegido para garantizar:
     \item Las trayectorias exhiben la morfología característica de caminatas aleatorias
     \item La isotropía del movimiento es consistente con la teoría
 \end{enumerate}
-
-\subsection{Relevancia Computacional}
-Este trabajo demuestra:
-\begin{itemize}
-    \item La efectividad de la programación orientada a objetos para simulaciones físicas
-    \item La importancia de la integración estocástica en sistemas con ruido
-    \item El uso de herramientas automatizadas (Makefile, scripts) para flujos de trabajo eficientes
-    \item La validación cuantitativa como componente esencial del método científico computacional
-\end{itemize}
-
-\subsection{Aplicaciones y Extensiones}
-El simulador desarrollado puede extenderse para estudiar:
-\begin{itemize}
-    \item Movimiento browniano en potenciales externos
-    \item Efectos de confinamiento y fronteras
-    \item Sistemas de múltiples partículas con interacciones
-    \item Transiciones de fase y fenómenos críticos
-\end{itemize}
-
-El código base proporciona una plataforma sólida para investigaciones más avanzadas en física estadística y mecánica estadística computacional.
-
 \end{document}
 

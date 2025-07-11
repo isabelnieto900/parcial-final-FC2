@@ -1,0 +1,36 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introducción}{3}{section.1}%
+\contentsline {section}{\numberline {2}Fundamento Teórico}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Ecuación de Langevin}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Propiedades de la Fuerza Estocástica}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Relación de Einstein para la Difusión}{3}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Implementación Computacional}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Arquitectura Orientada a Objetos}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Método de Integración Euler-Maruyama}{4}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Generación de Números Aleatorios}{4}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Programa Principal}{4}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Parámetros de Simulación}{4}{section.4}%
+\contentsline {section}{\numberline {5}Resultados Experimentales}{5}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Evolución Temporal de las Coordenadas}{5}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Trayectoria Bidimensional}{5}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Desplazamiento Cuadrático Medio (MSD)}{5}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Análisis Cuantitativo del Coeficiente de Difusión}{5}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Flujo de Trabajo Automatizado}{6}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Sistema de Compilación}{6}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Archivos Generados}{6}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Herramientas de Análisis}{7}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Script de Cálculo MSD}{7}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Visualización con Gnuplot}{7}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Documentación y Mantenibilidad}{7}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Documentación con Doxygen}{7}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Estructura de Directorios}{8}{subsection.8.2}%
+\contentsline {section}{\numberline {9}Validación del Algoritmo}{8}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Verificaciones Implementadas}{8}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Estabilidad Numérica}{9}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Control de Calidad}{9}{subsection.9.3}%
+\contentsline {section}{\numberline {10}Análisis de Rendimiento}{9}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Complejidad Computacional}{9}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Optimizaciones Implementadas}{9}{subsection.10.2}%
+\contentsline {section}{\numberline {11}Conclusiones}{9}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Logros Técnicos}{9}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}Resultados Físicos}{10}{subsection.11.2}%

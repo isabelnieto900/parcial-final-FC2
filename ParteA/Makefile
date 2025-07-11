@@ -71,14 +71,14 @@ clean:
 distclean: clean
 	@echo "Limpiando toda la documentación generada..."
 	rm -rf $(DOCDIR)/html_browniano $(DOCDIR)/latex_browniano
-	rm -rf $(DOCDIR)/
+	rm -f $(DOCDIR)/*.pdf $(DOCDIR)/*.log $(DOCDIR)/*.aux $(DOCDIR)/*.toc $(DOCDIR)/*.out
 # Ejecutar la simulación
 run: $(TARGET)
 	./$(TARGET) 100.0 0.01 12345
 
 # Generar gráficas
 plot:
-    @if [ -f results/browniano_sim.dat ]; then \
+	@if [ -f results/browniano_sim.dat ]; then \
         echo "Calculando MSD..."; \
         python3 scripts/calculate_msd.py results/browniano_sim.dat; \
         echo "Generando gráficas..."; \

@@ -67,7 +67,7 @@ void SimuladorBrowniano::CorrerSimulacion() {
     }
 }
 
-// --- FUNCIÓN CORREGIDA ---
+
 void SimuladorBrowniano::GuardarEstado(double tiempo) {
     if (!archivo_salida.is_open()) return;
 

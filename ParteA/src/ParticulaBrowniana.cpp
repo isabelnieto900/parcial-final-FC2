@@ -31,11 +31,6 @@ void ParticulaBrowniana::ActualizarPosicionEulerMaruyama(double dt) {
     // Fuerza de arrastre: F_drag = -gamma * V
     Vector3D F_drag = V * (-gamma);
 
-    // --- ADVERTENCIA CORREGIDA ---
-    // La variable 'factor_estocastico' se calculaba aquí pero no se usaba.
-    // La lógica correcta ya está implementada en 'std_dev_fuerza_est_dt',
-    // por lo que la línea original fue eliminada.
-
     // V_{n+1} = V_n + (F_drag/m)*dt + sqrt(2*gamma*kT*dt)/m * N(0,1)
     double std_dev_fuerza_est_dt = std::sqrt(2.0 * gamma * kT * dt) / m;
 
@@ -52,15 +47,6 @@ void ParticulaBrowniana::ActualizarPosicionEulerMaruyama(double dt) {
     // Actualizar posición: r(t+dt) = r(t) + V(t+dt)*dt
     r = r + V * dt;
 }
-
-// --- ERROR DE REDEFINICIÓN CORREGIDO ---
-// Las siguientes funciones se eliminaron de este archivo .cpp porque ya estaban
-// completamente definidas (como 'inline') dentro de la declaración de la clase en el archivo .h.
-// Mantenerlas aquí causaba un error de "redefinición".
-/*
-Vector3D ParticulaBrowniana::GetPosicion(void) const { return r; }
-Vector3D ParticulaBrowniana::GetVelocidad(void) const { return V; }
-*/
 
 double ParticulaBrowniana::EnergiaCinetica(void) const {
     return 0.5 * m * V.norm2(); // V.norm2() es V.dot(V)
